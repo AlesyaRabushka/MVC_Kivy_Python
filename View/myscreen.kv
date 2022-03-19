@@ -1,0 +1,84 @@
+<MyField@TextInput>
+    size_hint: None, None
+    size: "200sp", "40sp"
+    #input_filter: "int"
+    #pos_hint: {"center_y": .5}
+
+
+<MyLabel@Label>
+    pos_hint: {"center_y": .5}
+
+<BackgroundColor@Label>
+    background_color: 'FFCCFF'
+
+
+
+<MainScreen>
+
+    BoxLayout:
+        orientation: "vertical"
+        adaptive_size: True
+        #spacing: "12dp"
+        #padding: "12dp"
+        #radius: [10, ]
+        #pos_hint: {"center_x": .5, "center_y": .5}
+        #md_bg_color: app.theme_cls.disabled_hint_text_color
+
+        Label:
+            text: "[color=FFCCFF]Введите ваши данные[/color]"
+            markup: True
+            #font_size: "H6"
+            pos_hint: {"center_x": .5}
+            #adaptive_size: True
+
+        # имя пациента
+        MyField
+            id: number_1
+            multiline: False
+            on_text: root.set_pet_name(self.text)
+
+        # дата рождения
+#        MyField:
+#            id: birth_date
+#            #on_text: root.set_birth(self.text)
+#            on_text: root.choose_birth_date()
+#            on_release: root.set()
+
+        Button:
+            id: birth_date
+            size_hint: None, None
+            size: "200sp", "40sp"
+            on_press: root.choose_birth_date()
+            on_release: root.set1()
+            text: str(root.return_birth_date())
+
+
+
+        # дата последнего приема
+#        MyField:
+#
+#            on_text: root.set_last_appointment_date(self.text)
+        Button:
+            size_hint: None, None
+            size: "200sp", "40sp"
+            on_press: root.choose_last_appointment_date()
+
+        # имя врача
+        MyField:
+            id: result
+            on_text: root.set_vet_name(self.text)
+
+        # название болезни
+        MyField:
+            on_text: root.set_disease(self.text)
+
+        Button:
+            on_press: root.record_patient_info()
+            #on_press: root.info()
+        Button:
+            text: 'search'
+            #on_press: root.search_name_birth('alesya', '22.10.2002')
+            #on_press: root.choose_date()
+            #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
+            on_release: root.info()
+            #on_release: root.show_dialog()
