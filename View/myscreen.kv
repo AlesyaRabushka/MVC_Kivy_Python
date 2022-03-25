@@ -38,47 +38,56 @@
             on_text: root.set_pet_name(self.text)
 
         # дата рождения
-#        MyField:
-#            id: birth_date
-#            #on_text: root.set_birth(self.text)
-#            on_text: root.choose_birth_date()
-#            on_release: root.set()
+        MyField:
+            id: birth_date_input
 
         Button:
-            id: birth_date
             size_hint: None, None
             size: "200sp", "40sp"
             on_press: root.choose_birth_date()
-            on_release: root.set1()
-            text: str(root.return_birth_date())
 
+        # дата рождения
+        MyField:
+            id: last_appointment_date_input
 
-
-        # дата последнего приема
-#        MyField:
-#
-#            on_text: root.set_last_appointment_date(self.text)
         Button:
             size_hint: None, None
             size: "200sp", "40sp"
             on_press: root.choose_last_appointment_date()
 
+
+#        MyField:
+#            id: disease
+#            on_text: root.set_birth(self.text)
+#            multiline: False
+#
+#        MyField:
+#            id: disease
+#            on_text: root.set_last_appointment_date(self.text)
+#            multiline: False
+
         # имя врача
         MyField:
-            id: result
+            id: vet_name
             on_text: root.set_vet_name(self.text)
+            multiline: False
 
         # название болезни
         MyField:
+            id: disease
             on_text: root.set_disease(self.text)
+            multiline: False
+
+
 
         Button:
             on_press: root.record_patient_info()
             #on_press: root.info()
         Button:
             text: 'search'
-            #on_press: root.search_name_birth('alesya', '22.10.2002')
+            #on_release: root.search_name_birth('alesya', '2002-22-10')
             #on_press: root.choose_date()
             #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
-            on_release: root.info()
-            #on_release: root.show_dialog()
+            on_press: root.info()
+            #on_release: root.clear()
+            on_release: root.show_dialog()

@@ -14,7 +14,7 @@ from Model.sax_parser import PetElement
 
 from kivymd.uix.picker import MDDatePicker
 
-from Kivy_MVC_Template.View.myscreen import MainScreen
+from View.myscreen import MainScreen
 
 
 class Model:

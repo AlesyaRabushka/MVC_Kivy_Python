@@ -9,6 +9,8 @@ class PetElement(xml.sax.ContentHandler):
         self.vet_name = False
         self.disease = False
 
+        self.count = 0
+
 
     def startElement(self, name, attrs):
         self.current_data = name
@@ -36,29 +38,36 @@ class PetElement(xml.sax.ContentHandler):
 
     def endElement(self, tag):
         if tag == 'pet':
-            self.pets_list.append(self.pet)
-            self.pet = {}
+            if self.count == 5:
+                self.pets_list.append(self.pet)
+                self.pet = {}
+                self.count=0
 
     def characters(self, content):
         if self.pet_name:
             #self.pet_name = content
             self.pet['pet_name'] = content
             self.pet_name = False
+            self.count += 1
         elif self.birth_date:
             self.pet['birth_date'] = content
             self.birth_date = False
+            self.count += 1
             #self.birth_data = content
         elif self.last_appointment_date:
             self.pet['last_appointment_date'] = content
             self.last_appointment_date = False
+            self.count += 1
             #self.last_appointment_date = content
         elif self.vet_name:
             self.pet['vet_name'] = content
             self.vet_name = False
+            self.count += 1
             #self.vet_name = content
         elif self.disease:
             self.pet['disease'] = content
             self.disease = False
+            self.count += 1
            #self.disease = content
 
     def return_pets_list(self):
