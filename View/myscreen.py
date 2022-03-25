@@ -8,6 +8,7 @@ from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 
 from kivymd.uix.screen import MDScreen
+from kivymd.uix.picker import MDDatePicker
 from kivy.uix.screenmanager import Screen
 
 #from Kivy_MVC_Template.Utility.observer import Observer
@@ -72,22 +73,38 @@ class MainScreen(MDScreen):
     def info(self):
         return self.controller.show_patient_info()
 
+
+
+    # установка даты рождения
     def choose_birth_date(self):
-        self.controller.choose_birth_date()
+        date_dialog = MDDatePicker(min_year=1990, max_year=2022)
+        date_dialog.bind(on_save=self.set_birth_date)
+        date_dialog.open()
+    def set_birth_date(self, instance, value, date_range):
+        self.set_birth(str(value))
+        self.ids.birth_date_input.text = str(value)
 
 
+    # установка даты последнего посещения
     def choose_last_appointment_date(self):
-        self.controller.choose_last_appointment_date()
+        date_dialog = MDDatePicker(min_year=2000, max_year=2022)
+        date_dialog.bind(on_save=self.set_last_appointment_date_calendar)
+        date_dialog.open()
+
+    def set_last_appointment_date_calendar(self, instance, value, date_range):
+        self.ids.last_appointment_date_input.text = str(value)
+        self.set_last_appointment_date(str(value))
 
     def return_birth_date(self):
         return self.controller.return_birth_date()
 
-    def set1(self):
-        #self.ids.birth_date.text = str(k)
-        #потому что нет объекта, поэтому не ставит(
-        self.ids.birth_date = 'hel'
-        #print('k',k)
-        return 'he'
+    def clear_pet_info_input(self):
+        self.ids.pet_name_input.text = ''
+        self.ids.birth_date_input.text = ''
+        self.ids.last_appointment_date_input.text=''
+        self.ids.vet_name_input.text=''
+        self.ids.disease_input.text=''
+
 
     # поиск по фразе из диагноза
     def search_disease(self, world):

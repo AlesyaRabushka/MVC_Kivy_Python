@@ -30,11 +30,13 @@ class Model:
 
     def __init__(self):
         self._pet_name = ''
-        self._birth = datetime.date(2002, 12, 5)
-        self._last_appointment_date = datetime.date(2022, 2, 14)
+        self._birth = ''
+        self._last_appointment_date = ''
         self._vet_name =''
         self._disease=''
         self.val = ''
+
+        self.view = MainScreen()
 
 
         # список классов наблюдателя
@@ -52,7 +54,7 @@ class Model:
         return self._birth
 
     @property
-    def las_appointment_date(self):
+    def last_appointment_date(self):
         return self._last_appointment_date
 
     @property
@@ -72,7 +74,7 @@ class Model:
     def birth(self, birth):
         self._birth = birth
 
-    @las_appointment_date.setter
+    @last_appointment_date.setter
     def last_appointment_date(self, app):
         self._last_appointment_date = app
 
@@ -96,6 +98,13 @@ class Model:
         # добавляю эту запись ко всем остальным записям
         self._pets_list.append(self._patients)
 
+        self._pet_name=''
+        self._birth=''
+        self._vet_name=''
+        self._last_appointment_date=''
+        self._disease=''
+
+
     # запись информации о животном в файлик
     def record_patient_info(self):
         # добавляю все записи в один список
@@ -115,10 +124,10 @@ class Model:
             pet_name.appendChild(doc.createTextNode(item['pet_name']))
 
             birth_date = doc.createElement('birth_date')
-            birth_date.appendChild(doc.createTextNode(item['birth_date']))
+            birth_date.appendChild(doc.createTextNode(str(item['birth_date'])))
 
             last_appointment = doc.createElement('last_appointment_date')
-            last_appointment.appendChild(doc.createTextNode(item['last_appointment_date']))
+            last_appointment.appendChild(doc.createTextNode(str(item['last_appointment_date'])))
 
             vet_name = doc.createElement('vet_name')
             vet_name.appendChild(doc.createTextNode(item['vet_name']))
@@ -193,22 +202,9 @@ class Model:
 
 
 
-    # установка даты рождения
-    def choose_birth_date(self):
-        date_dialog = MDDatePicker(min_year = 1990, max_year = 2022)
-        date_dialog.bind(on_save = self.set_birth_date)
-        date_dialog.open()
-    def set_birth_date(self, instance, value, date_range):
-        self.birth = str(value)
-        print(self._birth)
 
-    # установка даты последнего посещения
-    def choose_last_appointment_date(self):
-        date_dialog = MDDatePicker(min_year=2000, max_year=2022)
-        date_dialog.bind(on_save=self.set_last_appointment_date)
-        date_dialog.open()
-    def set_last_appointment_date(self, instance, value, date_range):
-        self.last_appointment_date = str(value)
+
+
 
 
     def return_birth_date(self):

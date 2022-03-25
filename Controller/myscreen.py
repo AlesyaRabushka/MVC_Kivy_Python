@@ -53,8 +53,7 @@ class Controller:
     def choose_birth_date(self):
         self.model.choose_birth_date()
 
-    def choose_last_appointment_date(self):
-        self.model.choose_last_appointment_date()
+
 
     def return_birth_date(self):
         return self.model.return_birth_date()
