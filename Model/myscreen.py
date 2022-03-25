@@ -12,7 +12,7 @@ import xml.sax as sax
 
 from Model.sax_parser import PetElement
 
-from kivymd.uix.pickers import MDDatePicker
+from kivymd.uix.picker import MDDatePicker
 
 from Kivy_MVC_Template.View.myscreen import MainScreen
 

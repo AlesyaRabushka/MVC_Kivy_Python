@@ -28,6 +28,7 @@ class Controller:
     def set_disease(self, disease):
         self.model._disease = disease
 
+
     # запись данных о пациенте
     def record_patient_info(self):
         self.model.record_patient_info()
