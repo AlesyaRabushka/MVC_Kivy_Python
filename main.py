@@ -14,4 +14,5 @@ class MyApp(MDApp):
     def build(self):
         return self.controller.get_screen()
 
+
 MyApp().run()
