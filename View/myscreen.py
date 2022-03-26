@@ -26,16 +26,15 @@ class MainScreen(MDScreen):
     controller = ObjectProperty() # специальный подкласс
     # объект модели
     model = ObjectProperty()
-    dialog = None
 
     def __init__(self, **kw):
         super().__init__(**kw)
+        self.dialog=None
         #self.dialog = None
         #self.model.add_observer(self)  # register the view as an observer
 
-
     def set_pet_name(self, name):
-        return self.controller.set_pet_name(name)
+        self.controller.set_pet_name(name)
 
     def set_birth(self, birth):
         self.controller.set_birth(birth)
@@ -111,15 +110,21 @@ class MainScreen(MDScreen):
         self.controller.find_disease(world)
 
     def show_dialog(self):
-        if not self.dialog:
-            self.dialog = MDDialog(
-                title = 'hello gues',
-                text = 'hi hi',
-                buttons =[
-                    MDFlatButton(text='click')
-                ]
-            )
+
+        self.dialog = MDDialog(
+            title = 'Добавление',
+            text = 'Запись зарегистрирована',
+            #size_hint=(0.5,0.5),
+            buttons =[
+                MDFlatButton(text='Ok', on_release=self.closed)
+            ]
+        )
         self.dialog.open()
+        self.clear_pet_info_input()
+
+    def closed(self, text):
+        self.dialog.dismiss()
+
 
     def model_is_changed(self):
         """

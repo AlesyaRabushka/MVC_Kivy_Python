@@ -14,6 +14,8 @@ class Controller:
         self.view = MainScreen(controller=self, model=self.model)
 
     def set_pet_name(self, name: str):
+        if name=='':
+            print('no')
         self.model.pet_name = name
 
     def set_birth(self, birth):

@@ -108,7 +108,9 @@ class Model:
     # запись информации о животном в файлик
     def record_patient_info(self):
         # добавляю все записи в один список
+        self.show_patient_info()
         self.add_info()
+
 
         print(self._pets_list)
 
@@ -144,7 +146,7 @@ class Model:
             list.appendChild(pet)
 
         file = open('pet.xml', 'w')
-        doc.writexml(file, encoding='utf-8')
+        doc.writexml(file, encoding='windows-1251')
         file.close()
 
     # считывание данных о пациенте
