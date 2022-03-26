@@ -36,7 +36,7 @@ class MainScreen(MDScreen):
     def set_pet_name(self, name):
         self.controller.set_pet_name(name)
 
-    def set_birth(self, birth):
+    def set_birth_date(self, birth):
         self.controller.set_birth(birth)
 
     def set_last_appointment_date(self, app):
@@ -77,10 +77,10 @@ class MainScreen(MDScreen):
     # установка даты рождения
     def choose_birth_date(self):
         date_dialog = MDDatePicker(min_year=1990, max_year=2022)
-        date_dialog.bind(on_save=self.set_birth_date)
+        date_dialog.bind(on_save=self.set_birth_date_calendar)
         date_dialog.open()
-    def set_birth_date(self, instance, value, date_range):
-        self.set_birth(str(value))
+    def set_birth_date_calendar(self, instance, value, date_range):
+        self.set_birth_date(str(value))
         self.ids.birth_date_input.text = str(value)
 
 

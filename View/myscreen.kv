@@ -1,6 +1,11 @@
-<MyField@TextInput>
-    size_hint: None, None
-    size: "200sp", "40sp"
+<MyField@MDTextField>
+    size_hint_x: None
+    width: '200'
+    text_color: "000000"
+    required: True
+    helper_text: "This field is required"
+    helper_text_mode: "on_error"
+    multiline: False
     #input_filter: "int"
     #pos_hint: {"center_y": .5}
 
@@ -34,21 +39,27 @@
         # имя пациента
         MyField
             id: pet_name_input
-            multiline: False
+            hint_text: 'pet name'
             on_text: root.set_pet_name(self.text)
 
         # дата рождения
         MyField:
             id: birth_date_input
+            hint_text: 'YYYY-MM-DD'
+            max_text_length: 10
+            on_text: root.set_birth_date(self.text)
 
         Button:
             size_hint: None, None
             size: "200sp", "40sp"
             on_press: root.choose_birth_date()
 
-        # дата рождения
+        # дата последнего приёма
         MyField:
             id: last_appointment_date_input
+            hint_text: 'YYYY-MM-DD'
+            max_text_length: 10
+            on_text: root.set_last_appointment_date(self.text)
 
         Button:
             size_hint: None, None
@@ -82,7 +93,7 @@
 
         Button:
             on_press: root.record_patient_info()
-            #on_release: root.show_dialog()
+            on_release: root.show_dialog()
             #on_press: root.info()
         Button:
             text: 'search'

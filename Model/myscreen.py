@@ -92,6 +92,7 @@ class Model:
         self._patients = {}
         self._patients['pet_name'] = self._pet_name
         self._patients['birth_date'] = self._birth
+        print(self._birth)
         self._patients['last_appointment_date'] = self._last_appointment_date
         self._patients['vet_name'] = self._vet_name
         self._patients['disease'] = self._disease

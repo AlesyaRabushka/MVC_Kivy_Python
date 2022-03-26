@@ -2,6 +2,7 @@
 # вызывает методы модели и представления
 
 from View.myscreen import MainScreen
+from kivy.properties import StringProperty
 
 
 class Controller:
@@ -13,26 +14,77 @@ class Controller:
         # создаем объект представления
         self.view = MainScreen(controller=self, model=self.model)
 
-    def set_pet_name(self, name: str):
-        if name=='':
-            print('no')
-        self.model.pet_name = name
+        self.pet_name = ''
+        self.birth_date = ''
+        self.last_appointment_date = ''
+        self.vet_name = ''
+        self.disease = ''
+
+    def set_pet_name(self, name):
+        self.pet_name = str(name)
 
     def set_birth(self, birth):
-        self.model.birth = birth
+        self.birth_date = birth
 
     def set_last_appointment_date(self, app):
-        self.model.last_appointment_date = app
+        self.last_appointment_date = app
 
     def set_vet_name(self, name: str):
-        self.model.vet_name = name
+        self.vet_name = name
 
     def set_disease(self, disease):
-        self.model._disease = disease
+        self.disease = disease
+
+    # передача модели всей инфы о pet
+    # только если вся инфа соответствует требованиям
+    def set_all_pet_info(self):
+        if self.is_string(self.pet_name) and not self.is_empty(self.pet_name):
+            self.model.pet_name = self.pet_name
+        if self.is_correct_date(self.birth_date) and not self.is_empty(self.pet_name):
+            self.model.birth = self.birth_date
+        if self.is_correct_date(self.birth_date) and not self.is_empty(self.pet_name):
+            self.model.last_appointment_date = self.last_appointment_date
+        if self.is_string(self.vet_name)and not self.is_empty(self.vet_name):
+            self.model.vet_name = self.vet_name
+        if self.is_string(self.disease)and not self.is_empty(self.disease):
+            self.model.disease = self.disease
+
+    # returns True if str, False if it is not
+    def is_string(self, string):
+        numbers='1234567890'
+        for i in string:
+            for j in numbers:
+                if i == j:
+                    return False
+        return True
+
+    # returns True if empty, False if it is not
+    def is_empty(self, string):
+        if len(string) == 0:
+            return True
+        else:
+            return False
+
+    #returns True if correct. False if there is ane
+    def is_correct_date(self, date):
+        count=0
+        for i in date:
+            if i == '-':
+                count+= 1
+        if len(date) != 10:
+            print('wrong length')
+            return False
+        elif count != 2:
+            print('wrong -')
+            return False
+        elif date[4] == '-' and date[7] == '-':
+            print('wrong place -')
+            return True
 
 
     # запись данных о пациенте
     def record_patient_info(self):
+        self.set_all_pet_info()
         self.model.record_patient_info()
 
     def search_name_birth(self, pet_name, birth_date):
