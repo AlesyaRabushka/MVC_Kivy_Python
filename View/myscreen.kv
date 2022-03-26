@@ -92,8 +92,9 @@
 
 
         Button:
+            #disabled: True if root.everything() else False
             on_press: root.record_patient_info()
-            on_release: root.show_dialog()
+            on_release: root.show_dialog() if root.ever() else root.show_no_dialog()
             #on_press: root.info()
         Button:
             text: 'search'

@@ -92,7 +92,6 @@ class Model:
         self._patients = {}
         self._patients['pet_name'] = self._pet_name
         self._patients['birth_date'] = self._birth
-        print(self._birth)
         self._patients['last_appointment_date'] = self._last_appointment_date
         self._patients['vet_name'] = self._vet_name
         self._patients['disease'] = self._disease
@@ -112,7 +111,6 @@ class Model:
         self.show_patient_info()
         self.add_info()
 
-        print(self._pets_list)
 
         # добавляю записи в файлик
         doc = md.Document()
@@ -158,9 +156,9 @@ class Model:
         parser.parse('pet.xml')
 
         self._pets_list = handler.return_pets_list()
-        print('SAX:')
-        for item in self._pets_list:
-            print(item)
+        # print('SAX:')
+        # for item in self._pets_list:
+        #     print(item)
 
     # поиск по имени и дате рождения
     def search_name_birth(self, pet_name, birth_date):

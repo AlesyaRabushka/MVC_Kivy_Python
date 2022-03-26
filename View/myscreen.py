@@ -30,6 +30,7 @@ class MainScreen(MDScreen):
     def __init__(self, **kw):
         super().__init__(**kw)
         self.dialog=None
+        self.ready = False
         #self.dialog = None
         #self.model.add_observer(self)  # register the view as an observer
 
@@ -120,10 +121,28 @@ class MainScreen(MDScreen):
             ]
         )
         self.dialog.open()
-        self.clear_pet_info_input()
+        #self.clear_pet_info_input()
+
+    def show_no_dialog(self):
+
+        self.dialog = MDDialog(
+            title = 'xy',
+            text = 'Все поля должны быть заполнены',
+            #size_hint=(0.5,0.5),
+            buttons =[
+                MDFlatButton(text='Ok', on_release=self.closed)
+            ]
+        )
+        self.dialog.open()
 
     def closed(self, text):
         self.dialog.dismiss()
+
+    def everything_is_ready(self, rez):
+        self.ready = rez
+
+    def ever(self):
+        return self.ready
 
 
     def model_is_changed(self):
