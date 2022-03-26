@@ -111,7 +111,6 @@ class Model:
         self.show_patient_info()
         self.add_info()
 
-
         print(self._pets_list)
 
         # добавляю записи в файлик
