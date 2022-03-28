@@ -1,7 +1,7 @@
 # отслеживает все события, которые происходят на экране
 # вызывает методы модели и представления
 
-from View.myscreen import MainScreen
+from View.myscreen import MainScreen, MyPopup
 from kivy.properties import StringProperty
 
 
@@ -23,6 +23,7 @@ class Controller:
         self.all_is_ready_to_be_a_patient_info = 5
 
     def set_pet_name(self, name):
+        print('con', name)
         self.pet_name = str(name)
 
     def set_birth(self, birth):
@@ -90,20 +91,17 @@ class Controller:
         else:
             return False
 
-    #returns True if correct. False if there is ane
+    #returns True if correct False if there is ane
     def is_correct_date(self, date):
         count=0
         for i in date:
             if i == '-':
                 count+= 1
         if len(date) != 10:
-            print('wrong length')
             return False
         elif count != 2:
-            print('wrong -')
             return False
         elif date[4] == '-' and date[7] == '-':
-            print('it is okey')
             return True
 
 

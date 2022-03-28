@@ -1,5 +1,5 @@
 import os
-
+import datetime
 
 from kivymd.uix.dialog import MDDialog
 
@@ -11,10 +11,38 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.picker import MDDatePicker
 from kivy.uix.screenmanager import Screen
 
+from kivy.uix.popup import Popup
+from kivy.factory import Factory
+from kivy.core.window import Window
+
+from kivy.uix.widget import Widget
+
 #from Kivy_MVC_Template.Utility.observer import Observer
 
 from kivymd.uix.button import MDFlatButton
 
+class MyPopup(Popup, Widget):
+    model = ObjectProperty()
+    controller = ObjectProperty()
+    def __init__(self, model, controller, **kwargs):
+        super().__init__(**kwargs)
+        self.model = model
+        self.controller = controller
+
+    def set_pet_name(self, name):
+        self.controller.set_pet_name(name)
+
+    def set_birth_date(self, birth):
+        self.controller.set_birth(birth)
+
+    def set_last_appointment_date(self, app):
+        self.controller.set_last_appointment_date(app)
+
+    def set_vet_name(self, name):
+        self.controller.set_vet_name(name)
+
+    def set_disease(self, disease):
+        self.controller.set_disease(disease)
 
 class MainScreen(MDScreen):
     """"
@@ -33,6 +61,11 @@ class MainScreen(MDScreen):
         self.ready = False
         #self.dialog = None
         #self.model.add_observer(self)  # register the view as an observer
+
+    def r_m(self):
+        return self.model
+    def r_c(self):
+        return self.controller
 
     def set_pet_name(self, name):
         self.controller.set_pet_name(name)
@@ -77,12 +110,27 @@ class MainScreen(MDScreen):
 
     # установка даты рождения
     def choose_birth_date(self):
-        date_dialog = MDDatePicker(min_year=1990, max_year=2022)
+        min_date = datetime.datetime.strptime("2022:02:15", '%Y:%m:%d').date()
+        max_date = datetime.datetime.strptime("2022:05:30", '%Y:%m:%d').date()
+        print(min_date)
+        date_dialog = MDDatePicker(min_year=2010, max_year=2022)
         date_dialog.bind(on_save=self.set_birth_date_calendar)
         date_dialog.open()
     def set_birth_date_calendar(self, instance, value, date_range):
-        self.set_birth_date(str(value))
-        self.ids.birth_date_input.text = str(value)
+        date_part=''
+
+        for i in value:
+            if i != '-':
+                date_part += i
+            else:
+                pass
+
+
+        today = datetime.date.today()
+        print('today = ', today)
+        if today == str(value):
+            self.set_birth_date(str(value))
+            self.ids.birth_date_input.text = str(value)
 
 
     # установка даты последнего посещения

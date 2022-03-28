@@ -156,9 +156,9 @@ class Model:
         parser.parse('pet.xml')
 
         self._pets_list = handler.return_pets_list()
-        # print('SAX:')
-        # for item in self._pets_list:
-        #     print(item)
+        print('SAX:')
+        for item in self._pets_list:
+            print(item)
 
     # поиск по имени и дате рождения
     def search_name_birth(self, pet_name, birth_date):
