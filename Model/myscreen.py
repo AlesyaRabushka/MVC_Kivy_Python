@@ -14,7 +14,7 @@ from Model.sax_parser import PetElement
 
 from kivymd.uix.picker import MDDatePicker
 
-from View.myscreen import MainScreen, MyPopup
+from View.myscreen import MainScreen, AddPopup
 
 
 class Model:
@@ -37,7 +37,7 @@ class Model:
         self.val = ''
 
         self.main_view = MainScreen()
-        self.view = MyPopup(self.main_view.r_m(), self.main_view.r_c())
+        self.view = AddPopup(self.main_view.r_m(), self.main_view.r_c())
 
 
         # список классов наблюдателя

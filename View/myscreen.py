@@ -22,16 +22,17 @@ from kivy.uix.widget import Widget
 from kivymd.uix.button import MDFlatButton
 
 # popup window for pet data input
-class MyPopup(Popup, Widget):
+class AddPopup(Popup, Widget):
     model = ObjectProperty()
     controller = ObjectProperty()
+    ready = BooleanProperty()
 
     def __init__(self, model, controller, **kwargs):
         super().__init__(**kwargs)
         self.model = model
         self.controller = controller
         self.dialog = None
-        self.ready = False
+        #self.ready = False
 
 
     def set_pet_name(self, name):
@@ -107,8 +108,8 @@ class MyPopup(Popup, Widget):
     def search_disease(self, world):
         self.controller.find_disease(world)
 
+    # is called when the pet information is successfully added
     def show_dialog(self):
-
         self.dialog = MDDialog(
             title='Регистрация',
             text='Запись добавлена!',
@@ -120,11 +121,11 @@ class MyPopup(Popup, Widget):
         self.dialog.open()
         # self.clear_pet_info_input()
 
+    # is called when there is wrong pet information
     def show_no_dialog(self):
-
         self.dialog = MDDialog(
             title='Ошибка регистрации',
-            text='Все поля должны быть заполнены!\n Пожалуйста, перепроверьте введенные вами данные',
+            text='Все поля должны быть заполнены!',
             # size_hint=(0.5,0.5),
             buttons=[
                 MDFlatButton(text='Ok', on_release=self.closed)
@@ -136,25 +137,14 @@ class MyPopup(Popup, Widget):
         self.dialog.dismiss()
 
     # is called after controller checked the input data
-    def everything_is_ready(self, ready):
+    def dialogs(self, right_info):
         # if all the fields are fuul
-        if ready == True:
+        if right_info == True:
             self.show_dialog()
         # if even one field is empty
-        elif ready == False:
+        elif right_info == False:
             self.show_no_dialog()
 
-    # @property
-    # def set_ready(self):
-    #     return self._ready
-    # @set_ready.setter
-    # def set_ready(self, ready):
-    #     self._ready = ready
-    #     print('setter ', self._ready)
-
-    def ever(self):
-        print(self.ready)
-        return self.ready
 
 
 

@@ -13,7 +13,7 @@
     background_normal:''
     #input_filter: "int"
     #pos_hint: {"center_y": .5}
-<MyPopup@Popup>
+<AddPopup@Popup>
     title: 'HI BICHE$'
     separator_color: (1, 0, 0, 1)
 
@@ -95,10 +95,12 @@
             text: 'add info'
             #disabled: True if root.everything() else False
             on_press: root.record_patient_info()
+
+            #on_release: root.dialogs()
             #on_press: root.info()
 
         Button:
-            text: 'вернуться в главное'
+            text: 'вернуться в главное меню'
             #disabled: True if root.everything() else False
             on_press: root.dismiss()
             #on_press: root.info()
@@ -125,7 +127,7 @@
         #md_bg_color: app.theme_cls.disabled_hint_text_color
 
         Label:
-            text: "[color=FFCCFF]ГЛАВНОЕ ОКНО[/color]"
+            text: "[color=FF00FF]ГЛАВНОЕ ОКНО[/color]"
             markup: True
             #font_size: "H6"
             pos_hint: {"center_x": .5}
@@ -198,6 +200,6 @@
             #on_release: root.search_name_birth('alesya', '2002-22-10')
             #on_press: root.choose_date()
             #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
-            on_release: Factory.MyPopup(root.r_m(), root.r_c()).open()
+            on_release: Factory.AddPopup(root.r_m(), root.r_c()).open()
             #on_release: root.clear()
             #on_release: root.show_dialog()

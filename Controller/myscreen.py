@@ -1,7 +1,7 @@
 # отслеживает все события, которые происходят на экране
 # вызывает методы модели и представления
 
-from View.myscreen import MainScreen, MyPopup
+from View.myscreen import MainScreen, AddPopup
 from kivy.properties import StringProperty
 
 
@@ -13,7 +13,7 @@ class Controller:
         self.model = model
         # создаем объект представления
         self.main_view = MainScreen(controller=self, model=self.model)
-        self.view = MyPopup(controller=self, model=self.model)
+        self.view = AddPopup(controller=self, model=self.model)
 
         self.pet_name = ''
         self.birth_date = ''
@@ -41,36 +41,36 @@ class Controller:
     # передача модели всей инфы о pet
     # только если вся инфа соответствует требованиям
     def set_all_pet_info(self):
-        self.ready=0
+        self.ready_=0
         if self.is_string(self.pet_name) and not self.is_empty(self.pet_name):
 
-            self.ready+=1
+            self.ready_+=1
         if self.is_correct_date(self.birth_date) and not self.is_empty(self.birth_date):
 
-            self.ready+=1
+            self.ready_+=1
         if self.is_correct_date(self.last_appointment_date) and not self.is_empty(self.last_appointment_date):
 
-            self.ready+=1
+            self.ready_+=1
         if self.is_string(self.vet_name)and not self.is_empty(self.vet_name):
 
-            self.ready+=1
+            self.ready_+=1
         if self.is_string(self.disease) and not self.is_empty(self.disease):
 
-            self.ready+=1
+            self.ready_+=1
 
         # if all input fields are ready
-        if self.all_is_ready_to_be_a_patient_info == self.ready:
-            self.view.everything_is_ready(True)
+        if self.all_is_ready_to_be_a_patient_info == self.ready_:
             self.model.pet_name = self.pet_name
             self.model.birth = self.birth_date
             self.model.last_appointment_date = self.last_appointment_date
             self.model.vet_name = self.vet_name
             self.model.disease = self.disease
+
             return True
 
         # if even one field is empty
-        elif self.all_is_ready_to_be_a_patient_info != self.ready:
-            self.view.everything_is_ready(False)
+        elif self.all_is_ready_to_be_a_patient_info != self.ready_:
+
             return False
 
 
@@ -107,8 +107,12 @@ class Controller:
 
     # запись данных о пациенте
     def record_patient_info(self):
-        if self.set_all_pet_info():
+        b = self.set_all_pet_info()
+        if b == True:
+            self.view.dialogs(True)
             self.model.record_patient_info()
+        elif b == False:
+            self.view.dialogs(False)
 
     def search_name_birth(self, pet_name, birth_date):
         self.model.search_name_birth(pet_name, birth_date)
