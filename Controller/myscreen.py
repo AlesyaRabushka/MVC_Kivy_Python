@@ -12,7 +12,8 @@ class Controller:
         # объект модели
         self.model = model
         # создаем объект представления
-        self.view = MainScreen(controller=self, model=self.model)
+        self.main_view = MainScreen(controller=self, model=self.model)
+        self.view = MyPopup(controller=self, model=self.model)
 
         self.pet_name = ''
         self.birth_date = ''
@@ -23,7 +24,6 @@ class Controller:
         self.all_is_ready_to_be_a_patient_info = 5
 
     def set_pet_name(self, name):
-        print('con', name)
         self.pet_name = str(name)
 
     def set_birth(self, birth):
@@ -142,4 +142,4 @@ class Controller:
         self.model.find_disease(world)
 
     def get_screen(self):
-        return self.view
+        return self.main_view

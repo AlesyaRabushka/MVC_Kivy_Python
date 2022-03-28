@@ -64,8 +64,6 @@
             on_text: root.set_birth_date(self.text)
 
         Button:
-            background_color: (1, 1, 1)
-            background_normal: ''
             size_hint: None, None
             size: "200sp", "40sp"
             on_press: root.choose_birth_date()
@@ -93,7 +91,12 @@
             on_text: root.set_disease(self.text)
             multiline: False
 
-
+        Button:
+            text: 'add info'
+            #disabled: True if root.everything() else False
+            on_press: root.record_patient_info()
+            on_release: root.show_dialog() if root.ever() else root.show_no_dialog()
+            #on_press: root.info()
 
         Button:
             text: 'вернуться в главное'
