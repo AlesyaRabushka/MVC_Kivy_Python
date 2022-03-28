@@ -14,7 +14,7 @@ from Model.sax_parser import PetElement
 
 from kivymd.uix.picker import MDDatePicker
 
-from View.myscreen import MainScreen
+from View.myscreen import MainScreen, MyPopup
 
 
 class Model:
@@ -36,7 +36,8 @@ class Model:
         self._disease=''
         self.val = ''
 
-        self.view = MainScreen()
+        self.main_view = MainScreen()
+        self.view = MyPopup(self.main_view.r_m(), self.main_view.r_c())
 
 
         # список классов наблюдателя
@@ -108,7 +109,7 @@ class Model:
     # запись информации о животном в файлик
     def record_patient_info(self):
         # добавляю все записи в один список
-        self.show_patient_info()
+        self.set_previous_patient_info()
         self.add_info()
 
 
@@ -148,7 +149,7 @@ class Model:
         file.close()
 
     # считывание данных о пациенте
-    def show_patient_info(self):
+    def set_previous_patient_info(self):
         parser = sax.make_parser()  # creating an XMLReader
         parser.setFeature(sax.handler.feature_namespaces, 0)  # turning off namespaces
         handler = PetElement()
@@ -156,9 +157,7 @@ class Model:
         parser.parse('pet.xml')
 
         self._pets_list = handler.return_pets_list()
-        print('SAX:')
-        for item in self._pets_list:
-            print(item)
+
 
     # поиск по имени и дате рождения
     def search_name_birth(self, pet_name, birth_date):

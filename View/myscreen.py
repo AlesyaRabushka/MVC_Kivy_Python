@@ -5,7 +5,7 @@ from kivymd.uix.dialog import MDDialog
 
 
 from kivy.lang import Builder
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, BooleanProperty
 
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.picker import MDDatePicker
@@ -110,8 +110,8 @@ class MyPopup(Popup, Widget):
     def show_dialog(self):
 
         self.dialog = MDDialog(
-            title='Добавление',
-            text='Запись зарегистрирована',
+            title='Регистрация',
+            text='Запись добавлена!',
             # size_hint=(0.5,0.5),
             buttons=[
                 MDFlatButton(text='Ok', on_release=self.closed)
@@ -123,8 +123,8 @@ class MyPopup(Popup, Widget):
     def show_no_dialog(self):
 
         self.dialog = MDDialog(
-            title='xy',
-            text='Все поля должны быть заполнены',
+            title='Ошибка регистрации',
+            text='Все поля должны быть заполнены!\n Пожалуйста, перепроверьте введенные вами данные',
             # size_hint=(0.5,0.5),
             buttons=[
                 MDFlatButton(text='Ok', on_release=self.closed)
@@ -135,11 +135,29 @@ class MyPopup(Popup, Widget):
     def closed(self, text):
         self.dialog.dismiss()
 
-    def everything_is_ready(self, rez):
-        self.ready = rez
+    # is called after controller checked the input data
+    def everything_is_ready(self, ready):
+        # if all the fields are fuul
+        if ready == True:
+            self.show_dialog()
+        # if even one field is empty
+        elif ready == False:
+            self.show_no_dialog()
+
+    # @property
+    # def set_ready(self):
+    #     return self._ready
+    # @set_ready.setter
+    # def set_ready(self, ready):
+    #     self._ready = ready
+    #     print('setter ', self._ready)
 
     def ever(self):
+        print(self.ready)
         return self.ready
+
+
+
 
 class MainScreen(MDScreen):
     """"
@@ -155,7 +173,7 @@ class MainScreen(MDScreen):
     def __init__(self, **kw):
         super().__init__(**kw)
         self.dialog=None
-        self.ready = False
+        #self.ready = False
         #self.dialog = None
         #self.model.add_observer(self)  # register the view as an observer
 

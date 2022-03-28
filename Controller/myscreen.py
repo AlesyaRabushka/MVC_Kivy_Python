@@ -69,7 +69,7 @@ class Controller:
             return True
 
         # if even one field is empty
-        else:
+        elif self.all_is_ready_to_be_a_patient_info != self.ready:
             self.view.everything_is_ready(False)
             return False
 
