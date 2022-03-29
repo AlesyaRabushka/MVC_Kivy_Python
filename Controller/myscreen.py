@@ -109,7 +109,6 @@ class Controller:
         # check the right year, month and date values
         if len(date) != 10:
             return False
-
         elif count != 2:
             return False
         elif date[4] == '-' and date[7] == '-':

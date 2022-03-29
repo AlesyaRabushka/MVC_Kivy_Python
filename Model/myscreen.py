@@ -197,6 +197,7 @@ class Model:
         doc.writexml(file, encoding='windows-1251')
         file.close()
 
+
     # считывание данных о пациенте
     def set_previous_patient_info(self):
         parser = sax.make_parser()  # creating an XMLReader
