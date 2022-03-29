@@ -16,7 +16,7 @@ from Model.sax_parser import PetElement
 
 from kivymd.uix.picker import MDDatePicker
 
-from View.myscreen import MainScreen, AddPopup, SearchPopup
+from View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
 
 
 class Model:
@@ -41,6 +41,7 @@ class Model:
         self.main_view = MainScreen()
         self.view = AddPopup(self.main_view.r_c(), self.main_view.r_m())
         self.search_view = SearchPopup(self.main_view.r_c(), self.main_view.r_m())
+        self.delete_view = DeletePopup(self.main_view.r_c(), self.main_view.r_m())
 
 
         # список классов наблюдателя
@@ -211,53 +212,69 @@ class Model:
 
     # поиск по имени и дате рождения
     def search_name_birth(self, pet_name, birth_date):
-        count = 0
+        amount_of_found_items = 0
         for item in self._pets_list:
             if item['pet_name'] == pet_name and item['birth_date'] == birth_date:
-                print(item)
-                count += 1
-        self.return_count(count)
+                amount_of_found_items += 1
+        self.return_searched_amount(amount_of_found_items)
 
-    def return_count(self, count):
-        self.search_view.return_search_count(count)
+    def return_searched_amount(self, count):
+        self.search_view.return_searched_amount(count)
 
     # поиск по врачу и дате псоледнего посещения
-    def search_last_appointment_vet_name(self, vet_name, last_appointment_date):
+    def search_last_appointment_vet_name(self, last_appointment_date, vet_name):
+        amount_of_found_items = 0
         for item in self._pets_list:
             if item['vet_name'] == vet_name and item['last_appointment_date'] == last_appointment_date:
-                print(item)
+                amount_of_found_items += 1
+        self.search_view.return_searched_amount(amount_of_found_items)
 
-    # поиск по фразе из диагноза
-    def find_disease(self, world):
+    # search by the disease phrase
+    def search_disease_phrase(self, world):
+        amount_of_found_items = 0
         for item in self._pets_list:
             if item['disease'].find(world) != -1:
-                print('found')
+                amount_of_found_items += 1
+        self.return_searched_amount(amount_of_found_items)
+
+
 
     # удаление по имени и дате рождения
     def delete_pet_name_birth_date(self, pet_name, birth_date):
-        amount_of_deleted_pets = 0
+        amount_of_deleted_items = 0
         for item in self._pets_list:
             if item['pet_name'] == pet_name and item['birth_date'] == birth_date:
-                amount_of_deleted_pets += 1
+                amount_of_deleted_items += 1
                 self._pets_list.remove(item)
-        if amount_of_deleted_pets == 0:
-            print('there no records then suit the condition')
 
         self.upload_patient_info()
-
+        self.return_deleted_amount(amount_of_deleted_items)
 
     # удаление по имени и дате рождения
     def delete_vet_name_last_appointment_date(self, vet_name, last_appointment_date):
-        amount_of_deleted_pets = 0
+        amount_of_deleted_items = 0
         for item in self._pets_list:
             if item['vet_name'] == vet_name and item['last_appointment_date'] == last_appointment_date:
-                amount_of_deleted_pets += 1
+                amount_of_deleted_items += 1
                 self._pets_list.remove(item)
-                print(self._pets_list, amount_of_deleted_pets)
-            if amount_of_deleted_pets == 0:
-                print('there no records then suit the condition')
 
+        self.upload_patient_info()
+        self.return_deleted_amount(amount_of_deleted_items)
 
+    # delete by the disease phrase
+    def delete_disease_phrase(self, phrase):
+        amount_of_deleted_items = 0
+        for item in self._pets_list:
+            if item['disease'].find(phrase) != -1:
+                amount_of_deleted_items += 1
+                self._pets_list.remove(item)
+
+        self.upload_patient_info()
+        self.return_deleted_amount(amount_of_deleted_items)
+
+    # returns the amount of deleted records
+    def return_deleted_amount(self, amount):
+        self.delete_view.return_deleted_amount(amount)
 
 
 

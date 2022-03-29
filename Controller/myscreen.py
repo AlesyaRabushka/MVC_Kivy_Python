@@ -167,8 +167,12 @@ class Controller:
     def search_name_birth(self, pet_name, birth_date):
         self.model.search_name_birth(pet_name, birth_date)
 
-    def search_last_appointment_vet_name(self, vet_name, last_appointment_date):
-        self.model.search_last_appointment_vet_name(vet_name, last_appointment_date)
+    def search_last_appointment_vet_name(self, last_appointment_date, vet_name):
+        self.model.search_last_appointment_vet_name(last_appointment_date, vet_name)
+
+    # поиск по фразе из диагноза
+    def search_disease_phrase(self, phrase):
+        self.model.search_disease_phrase(phrase)
 
     def delete_pet_name_birth_date(self, pet_name, birth_date):
         self.model.delete_pet_name_birth_date(pet_name, birth_date)
@@ -176,6 +180,9 @@ class Controller:
     # удаление по имени врача и дате последнего посещения
     def delete_vet_name_last_appointment_date(self, vet_name, last_appointment_date):
         self.model.delete_vet_name_last_appointment_date(vet_name, last_appointment_date)
+
+    def delete_disease_phrase(self, phrase):
+        self.model.delete_disease_phrase(phrase)
 
     # считывание данных о пациенте
     def show_patient_info(self):
@@ -191,9 +198,7 @@ class Controller:
 
     def set(self):
         return self.model.set()
-    # поиск по фразе из диагноза
-    def find_disease(self, world):
-        self.model.find_disease(world)
+
 
     def get_screen(self):
         return self.main_view

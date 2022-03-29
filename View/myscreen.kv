@@ -95,7 +95,6 @@
             text: 'add info'
             #disabled: True if root.everything() else False
             on_press: root.record_patient_info()
-
             #on_release: root.dialogs()
             #on_press: root.info()
 
@@ -136,11 +135,31 @@
             on_text: root.set_search_birth_date(self.text)
             multiline: False
 
+        MyField:
+            id: pet_name
+            hint_text: 'имя врача'
+            on_text: root.set_vet_name(self.text)
+            multiline: False
+
+        MyField:
+            id: vet_name
+            hint_text: 'дата последнего приема'
+            on_text: root.set_last_appointment_date(self.text)
+            multiline: False
+
+        MyField:
+            id: vet_name
+            hint_text: 'фраза из диагноза'
+            on_text: root.set_disease_phrase(self.text)
+            multiline: False
+
 
         Button:
             text: 'поиск'
             #disabled: True if root.everything() else False
-            on_press: root.search_name_birth()
+            #on_press: root.search_name_birth()
+            #on_press: root.serach_last_appointment_date_vet_name()
+            on_press: root.search_disease_phrase()
 
         Button:
             text: 'вернуться в главное меню'
@@ -178,10 +197,30 @@
             on_text: root.set_birth_date(self.text)
             #on_text: root.set_last_appointment_date(self.text)
 
+        MyField:
+            id: pet_name
+            hint_text: 'имя врача'
+            on_text: root.set_vet_name(self.text)
+            multiline: False
+
+        MyField:
+            id: vet_name
+            hint_text: 'дата последнего приема'
+            on_text: root.set_last_appointment_date(self.text)
+            multiline: False
+
+        MyField:
+            id: vet_name
+            hint_text: 'фраза из диагноза'
+            on_text: root.set_disease_phrase(self.text)
+            multiline: False
+
         Button:
             text: 'вернуться в главное меню'
             #disabled: True if root.everything() else False
-            on_press: root.delete_pet_name_birth_date()
+            #on_press: root.delete_pet_name_birth_date()
+            #on_press: root.delete_vet_name_last_appointment_date()
+            on_press: root.delete_disease_phrase()
 
         Button:
             text: 'вернуться в главное меню'

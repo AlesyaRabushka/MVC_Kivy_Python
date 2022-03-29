@@ -1,6 +1,7 @@
 import os
 import datetime
 
+import setuptools.extern
 from kivymd.uix.dialog import MDDialog
 
 
@@ -32,7 +33,7 @@ class AddPopup(Popup, Widget):
         self.model = model
         self.controller = controller
         self.dialog = None
-        #self.ready = False
+        self.ready = False
 
 
     def set_pet_name(self, name):
@@ -128,12 +129,20 @@ class AddPopup(Popup, Widget):
             text='Перепроверьте введенные вами данные!',
             # size_hint=(0.5,0.5),
             buttons=[
-                MDFlatButton(text='Ok', on_release=self.closed)
+                MDFlatButton(text='Ok', on_release=self.no_closed)
             ]
         )
         self.dialog.open()
 
     def closed(self, text):
+        self.dialog.dismiss()
+        self.ready = True
+
+    def ret(self):
+        print(self.ready)
+        return self.ready
+
+    def no_closed(self, text):
         self.dialog.dismiss()
 
     # is called after controller checked the input data
@@ -157,6 +166,9 @@ class SearchPopup(Popup, Widget):
 
         self.pet_name=''
         self.birth_date=''
+        self.last_appointment_date=''
+        self.vet_name = ''
+        self.disease = ''
 
 
     def set_search_pet_name(self, pet_name):
@@ -165,21 +177,33 @@ class SearchPopup(Popup, Widget):
     def set_search_birth_date(self, birth_date):
         self.birth_date = str(birth_date)
 
+    def set_last_appointment_date(self, last_app_date):
+        self.last_appointment_date = last_app_date
+
+    def set_vet_name(self, vet_name):
+        self.vet_name = vet_name
+
+    def set_disease_phrase(self, phrase):
+        self.disease = phrase
+
     # serch for pet with the given PET NAME and DATE BIRTH
     def search_name_birth(self):
         self.controller.search_name_birth(self.pet_name, self.birth_date)
+    def serach_last_appointment_date_vet_name(self):
+        self.controller.search_last_appointment_vet_name(self.last_appointment_date, self.vet_name)
+    def search_disease_phrase(self):
+        self.controller.search_disease_phrase(self.disease)
 
 
     # returns the amount of notes that have been found
     # and call the dialog
-    def return_search_count(self, count):
+    def return_searched_amount(self, count):
         self.show_dialog(count)
 
     def show_dialog(self, count):
         self.dialog = MDDialog(
             title='Поиск',
             text=f'Найдено записей: {count}',
-            # size_hint=(0.5,0.5),
             buttons=[
                 MDFlatButton(text='Ok', on_release=self.closed)
             ]
@@ -201,15 +225,51 @@ class DeletePopup(Popup, Widget):
 
         self.pet_name = ''
         self.birth_date = ''
+        self.last_appointment_date = ''
+        self.vet_name = ''
+        self.disease = ''
 
-    def set_pet_name(self, pet_name):
-        self.pet_name = pet_name
+    def set_search_pet_name(self, pet_name):
+        self.pet_name = str(pet_name)
 
-    def set_birth_date(self, birth_date):
-        self.birth_date = birth_date
+    def set_search_birth_date(self, birth_date):
+        self.birth_date = str(birth_date)
+
+    def set_last_appointment_date(self, last_app_date):
+        self.last_appointment_date = last_app_date
+
+    def set_vet_name(self, vet_name):
+        self.vet_name = vet_name
+
+    def set_disease_phrase(self, phrase):
+        self.disease = phrase
 
     def delete_pet_name_birth_date(self):
         self.controller.delete_pet_name_birth_date(self.pet_name, self.birth_date)
+
+    def delete_vet_name_last_appointment_date(self):
+        self.controller.delete_vet_name_last_appointment_date(self.vet_name, self.last_appointment_date)
+
+    def delete_disease_phrase(self):
+        self.controller.delete_disease_phrase(self.disease)
+
+    def return_deleted_amount(self, amount):
+        self.show_dialog(amount)
+
+    # shows how many records have been deleted
+    def show_dialog(self, amount):
+        self.dialog = MDDialog(
+            title='Удаление',
+            text=f'Удалено записей: {amount}',
+            # size_hint=(0.5,0.5),
+            buttons=[
+                MDFlatButton(text='Ok', on_release=self.closed)
+            ]
+        )
+        self.dialog.open()
+
+    def closed(self, text):
+        self.dialog.dismiss()
 
 class MainScreen(MDScreen):
     """"
