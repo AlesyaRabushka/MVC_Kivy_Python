@@ -10,11 +10,13 @@ import datetime
 import xml.dom.minidom as md
 import xml.sax as sax
 
+from os import path
+
 from Model.sax_parser import PetElement
 
 from kivymd.uix.picker import MDDatePicker
 
-from View.myscreen import MainScreen, AddPopup
+from View.myscreen import MainScreen, AddPopup, SearchPopup
 
 
 class Model:
@@ -38,12 +40,17 @@ class Model:
 
         self.main_view = MainScreen()
         self.view = AddPopup(self.main_view.r_c(), self.main_view.r_m())
+        self.search_view = SearchPopup(self.main_view.r_c(), self.main_view.r_m())
 
 
         # список классов наблюдателя
         self._observers = []
         # список всех пациентов
         self._pets_list = []
+
+
+        # reading info from the file with the start of the program
+        self.set_previous_patient_info()
 
 
     @property
@@ -109,10 +116,52 @@ class Model:
     # запись информации о животном в файлик
     def record_patient_info(self):
         # добавляю все записи в один список
-        self.set_previous_patient_info()
-        self.add_info()
+        # if the file exists
+        if path.exists('pet.xml'):
+            self.set_previous_patient_info()
+            self.add_info()
+        # if not
+        else:
+            self.add_info()
 
 
+        # добавляю записи в файлик
+        doc = md.Document()
+        list = doc.createElement('pets_list')
+        doc.appendChild(list)
+
+        for item in self._pets_list:
+            pet = doc.createElement('pet')
+
+            pet_name = doc.createElement('pet_name')
+            pet_name.appendChild(doc.createTextNode(item['pet_name']))
+
+            birth_date = doc.createElement('birth_date')
+            birth_date.appendChild(doc.createTextNode(str(item['birth_date'])))
+
+            last_appointment = doc.createElement('last_appointment_date')
+            last_appointment.appendChild(doc.createTextNode(str(item['last_appointment_date'])))
+
+            vet_name = doc.createElement('vet_name')
+            vet_name.appendChild(doc.createTextNode(item['vet_name']))
+
+            disease = doc.createElement('disease')
+            disease.appendChild(doc.createTextNode(item['disease']))
+
+            pet.appendChild(pet_name)
+            pet.appendChild(birth_date)
+            pet.appendChild(last_appointment)
+            pet.appendChild(vet_name)
+            pet.appendChild(disease)
+
+            list.appendChild(pet)
+
+        file = open('pet.xml', 'w')
+        doc.writexml(file, encoding='windows-1251')
+        file.close()
+
+    # updates info in the file after deleting the record/s
+    def upload_patient_info(self):
         # добавляю записи в файлик
         doc = md.Document()
         list = doc.createElement('pets_list')
@@ -161,9 +210,15 @@ class Model:
 
     # поиск по имени и дате рождения
     def search_name_birth(self, pet_name, birth_date):
+        count = 0
         for item in self._pets_list:
             if item['pet_name'] == pet_name and item['birth_date'] == birth_date:
                 print(item)
+                count += 1
+        self.return_count(count)
+
+    def return_count(self, count):
+        self.search_view.return_search_count(count)
 
     # поиск по врачу и дате псоледнего посещения
     def search_last_appointment_vet_name(self, vet_name, last_appointment_date):
@@ -184,9 +239,11 @@ class Model:
             if item['pet_name'] == pet_name and item['birth_date'] == birth_date:
                 amount_of_deleted_pets += 1
                 self._pets_list.remove(item)
-                print(self._pets_list)
-            if amount_of_deleted_pets == 0:
-                print('there no records then suit the condition')
+        if amount_of_deleted_pets == 0:
+            print('there no records then suit the condition')
+
+        self.upload_patient_info()
+
 
     # удаление по имени и дате рождения
     def delete_vet_name_last_appointment_date(self, vet_name, last_appointment_date):

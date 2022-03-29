@@ -147,16 +147,69 @@ class AddPopup(Popup, Widget):
 
 # popup window to search info
 class SearchPopup(Popup, Widget):
+    model = ObjectProperty()
+    controller = ObjectProperty()
+    dialog = None
     def __init__(self, controller, model, **kwargs):
         super().__init__(**kwargs)
         self.model = model
         self.controller = controller
+
+        self.pet_name=''
+        self.birth_date=''
+
+
+    def set_search_pet_name(self, pet_name):
+        self.pet_name = str(pet_name)
+
+    def set_search_birth_date(self, birth_date):
+        self.birth_date = str(birth_date)
+
+    # serch for pet with the given PET NAME and DATE BIRTH
+    def search_name_birth(self):
+        self.controller.search_name_birth(self.pet_name, self.birth_date)
+
+
+    # returns the amount of notes that have been found
+    # and call the dialog
+    def return_search_count(self, count):
+        self.show_dialog(count)
+
+    def show_dialog(self, count):
+        self.dialog = MDDialog(
+            title='Поиск',
+            text=f'Найдено записей: {count}',
+            # size_hint=(0.5,0.5),
+            buttons=[
+                MDFlatButton(text='Ok', on_release=self.closed)
+            ]
+        )
+        self.dialog.open()
+
+    def closed(self, text):
+        self.dialog.dismiss()
+
+
+
+
 
 class DeletePopup(Popup, Widget):
     def __init__(self, controller, model, **kwargs):
         super().__init__(**kwargs)
         self.model = model
         self.controller = controller
+
+        self.pet_name = ''
+        self.birth_date = ''
+
+    def set_pet_name(self, pet_name):
+        self.pet_name = pet_name
+
+    def set_birth_date(self, birth_date):
+        self.birth_date = birth_date
+
+    def delete_pet_name_birth_date(self):
+        self.controller.delete_pet_name_birth_date(self.pet_name, self.birth_date)
 
 class MainScreen(MDScreen):
     """"

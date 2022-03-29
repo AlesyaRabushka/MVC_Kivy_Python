@@ -75,8 +75,6 @@ class Controller:
 
             return False
 
-
-
     # returns True if str, False if it is not
     def is_string(self, string):
         numbers='1234567890'
@@ -140,7 +138,7 @@ class Controller:
 
 
 
-            elif int(full_date[1]) % 2 == 1:
+            elif int(full_date[1]) % 2 == 0:
                 if int(full_date[2]) > 30:
                     full_date.clear()
                     return False

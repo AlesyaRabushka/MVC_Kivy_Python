@@ -126,15 +126,21 @@
 
         MyField:
             id: pet_name
-            hint_text: имя
-            on_text: root.set_disease(self.text)
+            hint_text: 'имя'
+            on_text: root.set_search_pet_name(self.text)
             multiline: False
 
         MyField:
             id: vet_name
-            hint_text: имя врача
-            on_text: root.set_disease(self.text)
+            hint_text: 'birth date'
+            on_text: root.set_search_birth_date(self.text)
             multiline: False
+
+
+        Button:
+            text: 'поиск'
+            #disabled: True if root.everything() else False
+            on_press: root.search_name_birth()
 
         Button:
             text: 'вернуться в главное меню'
@@ -163,7 +169,19 @@
             id: p
             hint_text: 'pet name'
             max_text_length: 10
+            on_text: root.set_pet_name(self.text)
+
+        MyField:
+            id: p
+            hint_text: 'date birth'
+            max_text_length: 10
+            on_text: root.set_birth_date(self.text)
             #on_text: root.set_last_appointment_date(self.text)
+
+        Button:
+            text: 'вернуться в главное меню'
+            #disabled: True if root.everything() else False
+            on_press: root.delete_pet_name_birth_date()
 
         Button:
             text: 'вернуться в главное меню'
