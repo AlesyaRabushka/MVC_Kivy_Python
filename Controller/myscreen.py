@@ -40,8 +40,7 @@ class Controller:
     def set_disease(self, disease):
         self.disease = disease
 
-    # передача модели всей инфы о pet
-    # только если вся инфа соответствует требованиям
+
     def set_all_pet_info(self):
         self.ready_=0
         if self.is_string(self.pet_name) and not self.is_empty(self.pet_name):
@@ -91,7 +90,7 @@ class Controller:
         else:
             return False
 
-    #returns True if correct False if there is ane
+    # returns True if correct False if it is not
     def is_correct_date(self, date):
         #
         count = 0
@@ -155,7 +154,8 @@ class Controller:
 
 
 
-    # запись данных о пациенте
+    # if info is correct -> to the model
+    # else -> dialog
     def record_patient_info(self):
         b = self.set_all_pet_info()
         if b == True:
@@ -164,41 +164,33 @@ class Controller:
         elif b == False:
             self.view.dialogs(False)
 
+    def show_patient_info(self):
+        return self.model.show_patient_info()
+
+
     def search_name_birth(self, pet_name, birth_date):
         self.model.search_name_birth(pet_name, birth_date)
 
     def search_last_appointment_vet_name(self, last_appointment_date, vet_name):
         self.model.search_last_appointment_vet_name(last_appointment_date, vet_name)
 
-    # поиск по фразе из диагноза
     def search_disease_phrase(self, phrase):
         self.model.search_disease_phrase(phrase)
+
 
     def delete_pet_name_birth_date(self, pet_name, birth_date):
         self.model.delete_pet_name_birth_date(pet_name, birth_date)
 
-    # удаление по имени врача и дате последнего посещения
     def delete_vet_name_last_appointment_date(self, vet_name, last_appointment_date):
         self.model.delete_vet_name_last_appointment_date(vet_name, last_appointment_date)
 
     def delete_disease_phrase(self, phrase):
         self.model.delete_disease_phrase(phrase)
 
-    # считывание данных о пациенте
-    def show_patient_info(self):
-        return self.model.show_patient_info()
-
-    def choose_birth_date(self):
-        self.model.choose_birth_date()
 
 
 
-    def return_birth_date(self):
-        return self.model.return_birth_date()
-
-    def set(self):
-        return self.model.set()
-
-
+    # DO NOT TOUCH
+    # returns the main  screen
     def get_screen(self):
         return self.main_view

@@ -22,8 +22,12 @@ from kivy.uix.widget import Widget
 
 from kivymd.uix.button import MDFlatButton
 
+
 # popup window for pet data input
 class AddPopup(Popup, Widget):
+    """
+    Is used for apply new pet
+    """
     model = ObjectProperty()
     controller = ObjectProperty()
     ready = BooleanProperty()
@@ -154,8 +158,12 @@ class AddPopup(Popup, Widget):
         elif right_info == False:
             self.show_no_dialog()
 
+
 # popup window to search info
 class SearchPopup(Popup, Widget):
+    """
+    Is used for search for particular pets records
+    """
     model = ObjectProperty()
     controller = ObjectProperty()
     dialog = None
@@ -214,10 +222,11 @@ class SearchPopup(Popup, Widget):
         self.dialog.dismiss()
 
 
-
-
-
+# popup window to delete info
 class DeletePopup(Popup, Widget):
+    """
+        Is used for delete particular pets records
+    """
     def __init__(self, controller, model, **kwargs):
         super().__init__(**kwargs)
         self.model = model
@@ -229,6 +238,7 @@ class DeletePopup(Popup, Widget):
         self.vet_name = ''
         self.disease = ''
 
+    # setters for deleted items
     def set_search_pet_name(self, pet_name):
         self.pet_name = str(pet_name)
 
@@ -244,6 +254,7 @@ class DeletePopup(Popup, Widget):
     def set_disease_phrase(self, phrase):
         self.disease = phrase
 
+    # calls for delete
     def delete_pet_name_birth_date(self):
         self.controller.delete_pet_name_birth_date(self.pet_name, self.birth_date)
 
@@ -253,8 +264,10 @@ class DeletePopup(Popup, Widget):
     def delete_disease_phrase(self):
         self.controller.delete_disease_phrase(self.disease)
 
+    # returns the amount of deleted items
     def return_deleted_amount(self, amount):
         self.show_dialog(amount)
+
 
     # shows how many records have been deleted
     def show_dialog(self, amount):
@@ -271,9 +284,10 @@ class DeletePopup(Popup, Widget):
     def closed(self, text):
         self.dialog.dismiss()
 
+
 class MainScreen(MDScreen):
     """"
-    A class that implements the visual presentation `MyScreenModel`.
+    The first (main) window of the program
 
     """
 

@@ -20,15 +20,6 @@ from View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
 
 
 class Model:
-    """
-    The MyScreenModel class is a data model implementation. The model stores
-    the values of the variables `c`, `d` and their sum. The model provides an
-    interface through which to work with stored values. The model contains
-    methods for registration, deletion and notification observers.
-
-    The model is (primarily) responsible for the logic of the application.
-    MyScreenModel class task is to add two numbers.
-    """
 
     def __init__(self):
         self._pet_name = ''
@@ -95,16 +86,15 @@ class Model:
     def disease(self, disease):
         self._disease = disease
 
-    # добавляю все записи в один список
+    # adds pet record to the other ones
     def add_info(self):
-        # создаю отдельную запись для пациента
         self._patients = {}
         self._patients['pet_name'] = self._pet_name
         self._patients['birth_date'] = self._birth
         self._patients['last_appointment_date'] = self._last_appointment_date
         self._patients['vet_name'] = self._vet_name
         self._patients['disease'] = self._disease
-        # добавляю эту запись ко всем остальным записям
+
         self._pets_list.append(self._patients)
 
         self._pet_name=''
@@ -113,10 +103,8 @@ class Model:
         self._last_appointment_date=''
         self._disease=''
 
-
-    # запись информации о животном в файлик
+    # adds info into the file
     def record_patient_info(self):
-        # добавляю все записи в один список
         # if the file exists
         if path.exists('pet.xml'):
             self.set_previous_patient_info()
@@ -163,7 +151,6 @@ class Model:
 
     # updates info in the file after deleting the record/s
     def upload_patient_info(self):
-        # добавляю записи в файлик
         doc = md.Document()
         list = doc.createElement('pets_list')
         doc.appendChild(list)
@@ -199,7 +186,7 @@ class Model:
         file.close()
 
 
-    # считывание данных о пациенте
+    # takes the info from the file
     def set_previous_patient_info(self):
         parser = sax.make_parser()  # creating an XMLReader
         parser.setFeature(sax.handler.feature_namespaces, 0)  # turning off namespaces
@@ -210,7 +197,7 @@ class Model:
         self._pets_list = handler.return_pets_list()
 
 
-    # поиск по имени и дате рождения
+    # search for particular records by the given pet name and birth date
     def search_name_birth(self, pet_name, birth_date):
         amount_of_found_items = 0
         for item in self._pets_list:
@@ -218,10 +205,7 @@ class Model:
                 amount_of_found_items += 1
         self.return_searched_amount(amount_of_found_items)
 
-    def return_searched_amount(self, count):
-        self.search_view.return_searched_amount(count)
-
-    # поиск по врачу и дате псоледнего посещения
+    # search for particular records by the given vet name and last appointment date
     def search_last_appointment_vet_name(self, last_appointment_date, vet_name):
         amount_of_found_items = 0
         for item in self._pets_list:
@@ -229,7 +213,7 @@ class Model:
                 amount_of_found_items += 1
         self.search_view.return_searched_amount(amount_of_found_items)
 
-    # search by the disease phrase
+    # search for particular records by the given disease phrase
     def search_disease_phrase(self, world):
         amount_of_found_items = 0
         for item in self._pets_list:
@@ -237,9 +221,13 @@ class Model:
                 amount_of_found_items += 1
         self.return_searched_amount(amount_of_found_items)
 
+    # returns the amount of found pet records
+    def return_searched_amount(self, count):
+        self.search_view.return_searched_amount(count)
 
 
-    # удаление по имени и дате рождения
+
+    # delete particular records by the given parameters of pet name and birth date
     def delete_pet_name_birth_date(self, pet_name, birth_date):
         amount_of_deleted_items = 0
         for item in self._pets_list:
@@ -250,7 +238,7 @@ class Model:
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)
 
-    # удаление по имени и дате рождения
+    # delete particular records by given parameters of vet name and last appointment date
     def delete_vet_name_last_appointment_date(self, vet_name, last_appointment_date):
         amount_of_deleted_items = 0
         for item in self._pets_list:
@@ -261,7 +249,7 @@ class Model:
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)
 
-    # delete by the disease phrase
+    # delete the particular records by the given disease phrase
     def delete_disease_phrase(self, phrase):
         amount_of_deleted_items = 0
         for item in self._pets_list:
@@ -278,11 +266,6 @@ class Model:
 
 
 
-
-
-
-    def return_birth_date(self):
-        return str(self._birth)
 
 
     # # добавление наблюдателей
