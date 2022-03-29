@@ -37,7 +37,7 @@ class Model:
         self.val = ''
 
         self.main_view = MainScreen()
-        self.view = AddPopup(self.main_view.r_m(), self.main_view.r_c())
+        self.view = AddPopup(self.main_view.r_c(), self.main_view.r_m())
 
 
         # список классов наблюдателя

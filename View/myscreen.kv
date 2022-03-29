@@ -14,11 +14,11 @@
     #input_filter: "int"
     #pos_hint: {"center_y": .5}
 <AddPopup@Popup>
-    title: 'HI BICHE$'
+    title: 'Регистрация'
     separator_color: (1, 0, 0, 1)
 
     BoxLayout:
-        # делает цвет белым
+        # background color
         canvas.before:
             Color:
                 rgb: (1,1,1)
@@ -106,6 +106,69 @@
             #on_press: root.info()
 
 
+<SearchPopup@Popup>
+    title: 'Поиск'
+    separator_color: (1, 0, 0, 1)
+
+    BoxLayout:
+        # background color
+        canvas.before:
+            Color:
+                rgb: (1,1,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+
+        orientation: "vertical"
+        adaptive_size: True
+
+        MyField:
+            id: pet_name
+            hint_text: имя
+            on_text: root.set_disease(self.text)
+            multiline: False
+
+        MyField:
+            id: vet_name
+            hint_text: имя врача
+            on_text: root.set_disease(self.text)
+            multiline: False
+
+        Button:
+            text: 'вернуться в главное меню'
+            #disabled: True if root.everything() else False
+            on_press: root.dismiss()
+
+
+<DeletePopup@Popup>
+    title: 'Удаление'
+    separator_color: (1, 0, 0, 1)
+
+    BoxLayout:
+        # background color
+        canvas.before:
+            Color:
+                rgb: (1,1,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+        orientation: "vertical"
+        adaptive_size: True
+
+        MyField:
+            id: p
+            hint_text: 'pet name'
+            max_text_length: 10
+            #on_text: root.set_last_appointment_date(self.text)
+
+        Button:
+            text: 'вернуться в главное меню'
+            #disabled: True if root.everything() else False
+            on_press: root.dismiss()
 
 <MyLabel@Label>
     pos_hint: {"center_y": .5}
@@ -126,6 +189,11 @@
         #pos_hint: {"center_x": .5, "center_y": .5}
         #md_bg_color: app.theme_cls.disabled_hint_text_color
 
+        MDToolbar:
+            title: 'Menu'
+            md_bg_color: 1, 0, 1, 1
+            left_action_items: [["menu", lambda x: x]]
+
         Label:
             text: "[color=FF00FF]ГЛАВНОЕ ОКНО[/color]"
             markup: True
@@ -133,73 +201,25 @@
             pos_hint: {"center_x": .5}
             #adaptive_size: True
 
-        # имя пациента
-#        MyField
-#            id: pet_name_input
-#            hint_text: 'pet name'
-#            on_text: root.set_pet_name(self.text)
-#
-#        # дата рождения
-#        MyField:
-#            id: birth_date_input
-#            hint_text: 'YYYY-MM-DD'
-#            max_text_length: 10
-#            on_text: root.set_birth_date(self.text)
-#
-#        Button:
-#            size_hint: None, None
-#            size: "200sp", "40sp"
-#            on_press: root.choose_birth_date()
-#
-#        # дата последнего приёма
-#        MyField:
-#            id: last_appointment_date_input
-#            hint_text: 'YYYY-MM-DD'
-#            max_text_length: 10
-#            on_text: root.set_last_appointment_date(self.text)
-#
-#        Button:
-#            size_hint: None, None
-#            size: "200sp", "40sp"
-#            on_press: root.choose_last_appointment_date()
-#
-#
-#
-#
-##        MyField:
-##            id: disease
-##            on_text: root.set_birth(self.text)
-##            multiline: False
-##
-##        MyField:
-##            id: disease
-##            on_text: root.set_last_appointment_date(self.text)
-##            multiline: False
-#
-#        # имя врача
-#        MyField:
-#            id: vet_name_input
-#            on_text: root.set_vet_name(self.text)
-#            multiline: False
-#
-#        # название болезни
-#        MyField:
-#            id: disease_input
-#            on_text: root.set_disease(self.text)
-#            multiline: False
-#
-#
-#
-#        Button:
-#            #disabled: True if root.everything() else False
-#            on_press: root.record_patient_info()
-#            on_release: root.show_dialog() if root.ever() else root.show_no_dialog()
-            #on_press: root.info()
-        Button:
-            text: 'открыть окно для добавления'
-            #on_release: root.search_name_birth('alesya', '2002-22-10')
-            #on_press: root.choose_date()
-            #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
-            on_release: Factory.AddPopup(root.r_m(), root.r_c()).open()
-            #on_release: root.clear()
-            #on_release: root.show_dialog()
+        GridLayout:
+            cols: 3
+            Button:
+                text: 'открыть окно для добавления'
+                #on_release: root.search_name_birth('alesya', '2002-22-10')
+                #on_press: root.choose_date()
+                #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
+                on_release: Factory.AddPopup(root.r_c(), root.r_m()).open()
+                #on_release: root.clear()
+                #on_release: root.show_dialog()
+            Button:
+                text: 'открыть окно для поиска'
+                #on_release: root.search_name_birth('alesya', '2002-22-10')
+                #on_press: root.choose_date()
+                #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
+                on_release: Factory.SearchPopup(root.r_c(), root.r_m()).open()
+            Button:
+                text: 'открыть окно для удаления'
+                #on_release: root.search_name_birth('alesya', '2002-22-10')
+                #on_press: root.choose_date()
+                #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
+                on_release: Factory.DeletePopup(root.r_c(), root.r_m()).open()

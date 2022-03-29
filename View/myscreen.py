@@ -27,7 +27,7 @@ class AddPopup(Popup, Widget):
     controller = ObjectProperty()
     ready = BooleanProperty()
 
-    def __init__(self, model, controller, **kwargs):
+    def __init__(self, controller, model, **kwargs):
         super().__init__(**kwargs)
         self.model = model
         self.controller = controller
@@ -125,7 +125,7 @@ class AddPopup(Popup, Widget):
     def show_no_dialog(self):
         self.dialog = MDDialog(
             title='Ошибка регистрации',
-            text='Все поля должны быть заполнены!',
+            text='Перепроверьте введенные вами данные!',
             # size_hint=(0.5,0.5),
             buttons=[
                 MDFlatButton(text='Ok', on_release=self.closed)
@@ -145,9 +145,18 @@ class AddPopup(Popup, Widget):
         elif right_info == False:
             self.show_no_dialog()
 
+# popup window to search info
+class SearchPopup(Popup, Widget):
+    def __init__(self, controller, model, **kwargs):
+        super().__init__(**kwargs)
+        self.model = model
+        self.controller = controller
 
-
-
+class DeletePopup(Popup, Widget):
+    def __init__(self, controller, model, **kwargs):
+        super().__init__(**kwargs)
+        self.model = model
+        self.controller = controller
 
 class MainScreen(MDScreen):
     """"
@@ -166,6 +175,7 @@ class MainScreen(MDScreen):
         #self.ready = False
         #self.dialog = None
         #self.model.add_observer(self)  # register the view as an observer
+
 
     def r_m(self):
         return self.model

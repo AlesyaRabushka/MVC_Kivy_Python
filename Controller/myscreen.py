@@ -1,7 +1,7 @@
 # отслеживает все события, которые происходят на экране
 # вызывает методы модели и представления
 
-from View.myscreen import MainScreen, AddPopup
+from View.myscreen import MainScreen, AddPopup, SearchPopup
 from kivy.properties import StringProperty
 
 
@@ -9,11 +9,13 @@ class Controller:
     """координирует работу модели и представления"""
 
     def __init__(self, model):
-        # объект модели
+        # model
         self.model = model
-        # создаем объект представления
+
+        # сview screens
         self.main_view = MainScreen(controller=self, model=self.model)
         self.view = AddPopup(controller=self, model=self.model)
+        self.search_view = SearchPopup(controller=self, model=self.model)
 
         self.pet_name = ''
         self.birth_date = ''
@@ -93,16 +95,67 @@ class Controller:
 
     #returns True if correct False if there is ane
     def is_correct_date(self, date):
-        count=0
+        #
+        count = 0
+        full_date = []
+        item = ''
         for i in date:
             if i == '-':
-                count+= 1
+                count += 1
+                full_date.append(item)
+                item = ''
+            else:
+                item += i
+        full_date.append(item)
+
+        # check the right year, month and date values
         if len(date) != 10:
             return False
+
         elif count != 2:
             return False
         elif date[4] == '-' and date[7] == '-':
-            return True
+
+            if int(full_date[0]) > 2022 or int(full_date[0]) < 0:
+                full_date.clear()
+                return False
+            elif int(full_date[1]) > 12 or int(full_date[1]) < 0:
+                full_date.clear()
+                return False
+            elif int(full_date[1]) == 2:
+                if int(full_date[0]) % 4 == 0 and int(full_date[0]) % 100 != 0 or int(full_date[0]) % 400 == 0:
+                    if int(full_date[2]) > 29:
+                        full_date.clear()
+                        return False
+                    else:
+                        full_date.clear()
+                        return True
+                else:
+                    if int(full_date[2]) > 28:
+                        full_date.clear()
+                        return False
+                    else:
+                        full_date.clear()
+                        return True
+
+
+
+            elif int(full_date[1]) % 2 == 1:
+                if int(full_date[2]) > 30:
+                    full_date.clear()
+                    return False
+                else:
+                    full_date.clear()
+                    return True
+            elif int(full_date[1]) % 2 == 1:
+                if int(full_date[2]) > 31:
+                    full_date.clear()
+                    return False
+                else:
+                    full_date.clear()
+                    return True
+
+
 
 
     # запись данных о пациенте
