@@ -95,7 +95,7 @@
             text: 'add info'
             #disabled: True if root.everything() else False
             on_press: root.record_patient_info()
-            #on_release: root.dialogs()
+            on_release: root.dismiss() if root.ready == 'True' else root.nothing()
             #on_press: root.info()
 
         Button:
@@ -123,43 +123,90 @@
         orientation: "vertical"
         adaptive_size: True
 
-        MyField:
-            id: pet_name
-            hint_text: 'имя'
-            on_text: root.set_search_pet_name(self.text)
-            multiline: False
 
-        MyField:
-            id: vet_name
-            hint_text: 'birth date'
-            on_text: root.set_search_birth_date(self.text)
-            multiline: False
+        GridLayout:
+            cols: 2
+            rows: 2
+            padding: 20
+            spacing: 50
+            MyField:
+                id: pet_name
+                hint_text: 'имя'
+                on_text: root.set_search_pet_name(self.text)
+                multiline: False
+            CheckBox:
+                color: '330000'
+                size_hint: None, None
+                height: 60
+                width: 200
+                on_active: root.set_properties(self, self.active, 'pet_name', 'birth_date')
+        GridLayout:
+            cols: 2
+            rows: 2
+            padding: 20
+            spacing: 50
+            MyField:
+                id: birth_date
+                hint_text: 'birth date'
+                on_text: root.set_search_birth_date(self.text)
+                multiline: False
 
-        MyField:
-            id: pet_name
-            hint_text: 'имя врача'
-            on_text: root.set_vet_name(self.text)
-            multiline: False
 
-        MyField:
-            id: vet_name
-            hint_text: 'дата последнего приема'
-            on_text: root.set_last_appointment_date(self.text)
-            multiline: False
+        GridLayout:
+            cols: 2
+            rows: 2
+            padding: 20
+            spacing: 50
 
-        MyField:
-            id: vet_name
-            hint_text: 'фраза из диагноза'
-            on_text: root.set_disease_phrase(self.text)
-            multiline: False
+            MyField:
+                id: vet_name
+                hint_text: 'имя врача'
+                on_text: root.set_vet_name(self.text)
+                multiline: False
+            CheckBox:
+                color: '330000'
+                size_hint: None, None
+                height: 60
+                width: 200
+                on_active: root.set_properties(self, self.active, 'vet_name', 'last_appointment_date')
+        GridLayout:
+            cols: 1
+            padding: 20
+            spacing: 50
+            MyField:
+                id: last_appointment_date
+                hint_text: 'дата последнего приема'
+                on_text: root.set_last_appointment_date(self.text)
+                multiline: False
+
+
+
+        GridLayout:
+            cols: 2
+            padding: 20
+            spacing: 50
+
+            MyField:
+                id: disease
+                hint_text: 'фраза из диагноза'
+                on_text: root.set_disease_phrase(self.text)
+                multiline: False
+
+            CheckBox:
+                color: '330000'
+                size_hint: None, None
+                height: 60
+                width: 200
+                on_active: root.set_properties(self, self.active, 'disease', '')
 
 
         Button:
             text: 'поиск'
             #disabled: True if root.everything() else False
             #on_press: root.search_name_birth()
-            #on_press: root.serach_last_appointment_date_vet_name()
-            on_press: root.search_disease_phrase()
+            #on_press: root.search_last_appointment_date_vet_name()
+            #on_press: root.search_disease_phrase()
+            on_press: root.search()
 
         Button:
             text: 'вернуться в главное меню'

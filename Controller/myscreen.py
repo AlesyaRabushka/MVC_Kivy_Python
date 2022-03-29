@@ -157,21 +157,21 @@ class Controller:
     # if info is correct -> to the model
     # else -> dialog
     def record_patient_info(self):
-    #     b = self.set_all_pet_info()
-    #     if b == True:
-    #         self.view.dialogs(True)
-    #         self.model.record_patient_info()
-    #     elif b == False:
-    #         self.view.dialogs(False)
+        b = self.set_all_pet_info()
+        if b == True:
+            self.view.dialogs(True)
+            self.model.record_patient_info()
+        elif b == False:
+            self.view.dialogs(False)
 
 
         # IS USED ONLY IN PURPOSE OF MAKING INCORRECT RECORDS
-        self.model.pet_name = self.pet_name
-        self.model.birth = self.birth_date
-        self.model.last_appointment_date = self.last_appointment_date
-        self.model.vet_name = self.vet_name
-        self.model.disease = self.disease
-        self.model.record_patient_info()
+        # self.model.pet_name = self.pet_name
+        # self.model.birth = self.birth_date
+        # self.model.last_appointment_date = self.last_appointment_date
+        # self.model.vet_name = self.vet_name
+        # self.model.disease = self.disease
+        # self.model.record_patient_info()
 
     def show_patient_info(self):
         return self.model.show_patient_info()
