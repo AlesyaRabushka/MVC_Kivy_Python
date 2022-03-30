@@ -15,8 +15,13 @@
 
 
 <AddPopup@Popup>
+    auto_dismiss:False
     title: 'Регистрация'
-    separator_color: (1, 0, 0, 1)
+    separator_color: (192/256,110/256,240/256,1)
+    size_hint:None,None
+    size:(400,500)
+#    background_color:'CC99FF'
+#    background_normal:''
 
     BoxLayout:
         # background color
@@ -31,88 +36,140 @@
 
         orientation: "vertical"
         adaptive_size: True
+
         #spacing: "12dp"
         #padding: "12dp"
         #radius: [10, ]
         #pos_hint: {"center_x": .5, "center_y": .5}
 
         Label:
-            text: "[color=FFCCFF]Введите ваши данные[/color]"
+            text: "[color=c06ef0]Sign Up[/color]"
             markup: True
-            #font_size: "H6"
+            font_size: 20
+            size_hint: None, None
+#            size_x: 50
+#            size_y: 50
+            height:50
+            width:50
+
             pos_hint: {"center_x": .5}
             #adaptive_size: True
-#            background_color: (1,1,1)
+            background_color: (1,0,0, 1)
 #            canvas.before:
 #                Color:
-#                    rgb: self.background_color
+#                    rgba: self.background_color
 #                Rectangle:
 #                    size: self.size
 #                    pos: self.pos
 
-
         # имя пациента
         MyField
             id: pet_name_input
-            hint_text: 'pet name'
+            hint_text: 'Имя пациента'
             on_text: root.set_pet_name(self.text)
+            pos_hint: {"center_x": .46}
+        GridLayout:
+            cols:2
+            padding:75,0,0,0
+            spacing:20
 
         # дата рождения
-        MyField:
-            id: birth_date_input
-            hint_text: 'YYYY-MM-DD'
-            max_text_length: 10
-            on_text: root.set_birth_date(self.text)
+            MyField:
+                id: birth_date_input
+                hint_text: 'YYYY-MM-DD'
+                max_text_length: 10
+                on_text: root.set_birth_date(self.text)
 
-        Button:
-            size_hint: None, None
-            size: "200sp", "40sp"
-            on_press: root.choose_birth_date()
+            Button:
+                size_hint:None,None
+#            text:'Дата рождения'
+#            front_size:32
+                size: "40sp", "40sp"
+                on_press: root.choose_birth_date()
+                background_color:0,0,0,0
 
-        GridLayout:
-            cols: 2
-            padding: 200, 0, 0, 0
+                Image:
+                    source:'i.jpg'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
+
             # дата последнего приёма
             MyField:
                 id: last_appointment_date_input
                 hint_text: 'YYYY-MM-DD'
                 max_text_length: 10
                 on_text: root.set_last_appointment_date(self.text)
+#                pos_hint: {"center_x": .5,"center_y":.5}
 
             Button:
+                text:'Дата последнего приёма'
                 size_hint: None, None
-                size: "200sp", "40sp"
+                size: "40sp", "40sp"
                 on_press: root.choose_last_appointment_date()
+                background_color:0,0,0,0
+
+                Image:
+                    source:'i.jpg'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
+        GridLayout:
+            cols: 1
+            rows: 2
+            padding: 75,0,0,0
+            # имя врача
+            MyField:
+                hint_text: 'Имя врача'
+                id: vet_name_input
+                on_text: root.set_vet_name(self.text)
+                multiline: False
+                pos_hint: {"center_x": .5,"center_y":.5}
+
+            # название болезни
+            MyField:
+                hint_text: 'Диагноз'
+                id: disease_input
+                on_text: root.set_disease(self.text)
+                multiline: False
+                pos_hint: {"center_x": .5,"center_y":.5}
+
+        GridLayout:
+            cols: 1
+            rows: 2
+            padding: 75, 0, 0, 0
+            spacing: 10
+            MDFillRoundFlatButton:
+                text: '  Добавить информацию  '
+                #disabled: True if root.everything() else False
+                on_press: root.record_patient_info()
+                #on_release: root.dialogs()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 0, 0, 0, 1
+    #            background_color: 'CCCCFF'
+    #            background_normal:''
+                pos_hint: {"center_x": .5,"center_y":.5}
 
 
-        # имя врача
-        MyField:
-            id: vet_name_input
-            on_text: root.set_vet_name(self.text)
-            multiline: False
 
-        # название болезни
-        MyField:
-            id: disease_input
-            on_text: root.set_disease(self.text)
-            multiline: False
-
-        Button:
-            text: 'add info'
-            #disabled: True if root.everything() else False
-            on_press: root.record_patient_info()
-            #on_press: root.info()
-
-        Button:
-            text: 'вернуться в главное меню'
-            #disabled: True if root.everything() else False
-            on_press: root.dismiss()
-            #on_press: root.info()
+            MDFillRoundFlatButton:
+                text: 'Вернуться в главное меню'
+                #disabled: True if root.everything() else False
+                on_press: root.dismiss()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 1, 0, 1, 1
+                pos_hint: {"center_x": .5,"center_y":.5}
 
 
 <SearchPopup@Popup>
     title: 'Поиск'
-    separator_color: (1, 0, 0, 1)
+    auto_dismiss:False
+    separator_color: (192/256,110/256,240/256,1)
+    background_color:'#a910e6'
+    size_hint:None,None
+    size:(400,500)
 
     BoxLayout:
         # background color
@@ -128,29 +185,36 @@
         orientation: "vertical"
         adaptive_size: True
 
+        Label:
+            text: "[color=c06ef0]Search[/color]"
+            markup: True
+            font_size: 20
+            size_hint: None, None
+            height:50
+            width:50
+            pos_hint: {"center_x": .5}
 
         GridLayout:
             cols: 2
             rows: 2
-            padding: 20
-            spacing: 50
+            padding:50,0,0,0
             MyField:
-                id: pet_name
-                hint_text: 'имя'
-                on_text: root.set_search_pet_name(self.text)
-                multiline: False
+                id: pet_name_input
+                hint_text: 'Имя пациента'
+                on_text: root.set_pet_name(self.text)
+                pos_hint: {"center_x": .46}
             CheckBox:
                 group: 'search'
                 color: '330000'
                 size_hint: None, None
-                height: 60
+                height: 30
                 width: 200
                 on_active: root.set_properties(self, self.active, 'pet_name', 'birth_date')
         GridLayout:
             cols: 2
-            rows: 2
-            padding: 20
-            spacing: 50
+            padding:50,0,0,0
+            spacing:20
+            #дата рождения
             MyField:
                 id: birth_date_search
                 hint_text: 'YYYY-MM-DD'
@@ -159,32 +223,35 @@
                 multiline: False
             Button:
                 size_hint: None, None
-                size: "200sp", "40sp"
+                size: "40sp", "40sp"
                 on_press: root.choose_search_birth_date()
-
+                background_color:0,0,0,0
+                Image:
+                    source:'i.jpg'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
 
         GridLayout:
             cols: 2
-            rows: 2
-            padding: 20
-            spacing: 50
-
+            padding:50,0,0,0
+            #имя врача
             MyField:
+                hint_text: 'Имя врача'
                 id: vet_name
-                hint_text: 'имя врача'
                 on_text: root.set_search_vet_name(self.text)
                 multiline: False
             CheckBox:
                 group: 'search'
                 color: '330000'
                 size_hint: None, None
-                height: 60
+                height: 30
                 width: 200
                 on_active: root.set_properties(self, self.active, 'vet_name', 'last_appointment_date')
         GridLayout:
             cols: 2
-            padding: 20
-            spacing: 50
+            padding: 50,0,0,0
+            spacing:20
             MyField:
                 id: last_appointment_date_search
                 hint_text: 'YYYY-MM-DD'
@@ -192,20 +259,23 @@
                 on_text: root.set_search_last_appointment_date(self.text)
                 multiline: False
             Button:
+                text:'Дата последнего приёма'
                 size_hint: None, None
-                size: "200sp", "40sp"
+                size: "40sp", "40sp"
                 on_press: root.choose_search_last_appointment_date()
-
-
+                background_color:0,0,0,0
+                Image:
+                    source:'i.jpg'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
 
         GridLayout:
             cols: 2
-            padding: 20
-            spacing: 50
-
+            padding: 50,0,0,0
             MyField:
                 id: disease
-                hint_text: 'фраза из диагноза'
+                hint_text: 'Диагноз'
                 on_text: root.set_search_disease_phrase(self.text)
                 multiline: False
 
@@ -213,28 +283,46 @@
                 group: 'search'
                 color: '330000'
                 size_hint: None, None
-                height: 60
+                height: 30
                 width: 200
                 on_active: root.set_properties(self, self.active, 'disease', '')
 
 
-        Button:
-            text: 'поиск'
-            #disabled: True if root.everything() else False
-            #on_press: root.search_name_birth()
-            #on_press: root.search_last_appointment_date_vet_name()
-            #on_press: root.search_disease_phrase()
-            on_press: root.search()
+        GridLayout:
+            cols: 2
+            padding: 20, 0, 0, 0
+            spacing: 10
+            MDFillRoundFlatButton:
+                text: '          Поиск             '
+                #disabled: True if root.everything() else False
+                on_press: root.search()
+                #on_release: root.dialogs()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 0, 0, 0, 1
+    #            background_color: 'CCCCFF'
+    #            background_normal:''
+                pos_hint: {"center_x": .5,"center_y":.5}
 
-        Button:
-            text: 'вернуться в главное меню'
-            #disabled: True if root.everything() else False
-            on_press: root.dismiss()
+
+
+            MDFillRoundFlatButton:
+                text: 'Вернуться в главное меню'
+                #disabled: True if root.everything() else False
+                on_press: root.dismiss()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 1, 0, 1, 1
+                pos_hint: {"center_x": .5,"center_y":.5}
 
 
 <DeletePopup@Popup>
-    title: 'Поиск'
-    separator_color: (1, 0, 0, 1)
+    title: 'Удаление'
+    auto_dismiss:False
+    separator_color: (192/256,110/256,240/256,1)
+    background_color:'#a910e6'
+    size:(400,500)
+    size_hint:None,None
 
     BoxLayout:
         # background color
@@ -250,19 +338,25 @@
         orientation: "vertical"
         adaptive_size: True
 
+        Label:
+            text: "[color=c06ef0]Del[/color]"
+            markup: True
+            font_size: 20
+            size_hint: None, None
+            height:50
+            width:50
+            pos_hint: {"center_x": .5}
+
 
         GridLayout:
             cols: 2
             rows: 2
-            padding: 20
-            spacing: 50
+            padding: 50,0,0,0
             MyField:
                 id: pet_name
-                hint_text: 'имя'
+                hint_text: 'Имя пациента'
                 on_text: root.set_delete_pet_name(self.text)
                 multiline: False
-                spacing: 20
-                padding: 20
             CheckBox:
                 group: 'search'
                 color: '330000'
@@ -273,8 +367,8 @@
         GridLayout:
             cols: 2
             rows: 2
-            padding: 20
-            spacing: 50
+            padding:50,0,0,0
+            spacing:20
             MyField:
                 id: birth_date_delete
                 hint_text: 'YYYY-MM-DD'
@@ -283,19 +377,24 @@
                 multiline: False
             Button:
                 size_hint: None, None
-                size: "200sp", "40sp"
+                size: "40sp", "40sp"
                 on_press: root.choose_delete_birth_date()
+                background_color:0,0,0,0
+
+                Image:
+                    source:'i.jpg'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
 
 
         GridLayout:
             cols: 2
-            rows: 2
-            padding: 20
-            spacing: 50
+            padding:50,0,0,0
 
             MyField:
                 id: vet_name
-                hint_text: 'имя врача'
+                hint_text: 'Имя врача'
                 on_text: root.set_delete_vet_name(self.text)
                 multiline: False
             CheckBox:
@@ -307,8 +406,8 @@
                 on_active: root.set_properties(self, self.active, 'vet_name', 'last_appointment_date')
         GridLayout:
             cols: 2
-            padding: 20
-            spacing: 50
+            padding: 50,0,0,0
+            spacing: 20
             MyField:
                 id: last_appointment_date_delete
                 hint_text: 'YYYY-MM-DD'
@@ -317,19 +416,22 @@
                 multiline: False
             Button:
                 size_hint: None, None
-                size: "200sp", "40sp"
+                size: "40sp", "40sp"
                 on_press: root.choose_delete_last_appointment_date()
+                background_color:0,0,0,0
 
-
+                Image:
+                    source:'i.jpg'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
 
         GridLayout:
             cols: 2
-            padding: 20
-            spacing: 50
-
+            padding: 50,0,0,0
             MyField:
                 id: disease
-                hint_text: 'фраза из диагноза'
+                hint_text: 'Диагноз'
                 on_text: root.set_delete_disease_phrase(self.text)
                 multiline: False
 
@@ -342,18 +444,34 @@
                 on_active: root.set_properties(self, self.active, 'disease', '')
 
 
-        Button:
-            text: 'удалить'
-            #disabled: True if root.everything() else False
-            #on_press: root.search_name_birth()
-            #on_press: root.search_last_appointment_date_vet_name()
-            #on_press: root.search_disease_phrase()
-            on_press: root.delete()
+        GridLayout:
+            cols: 2
+            padding: 20, 0, 0, 0
+            spacing: 10
+            MDFillRoundFlatButton:
+                text: '        Удаление        '
+                #disabled: True if root.everything() else False
+                on_press: root.delete()
+                #on_release: root.dialogs()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 0, 0, 0, 1
+#                size_hint:None,None
+#                width:200
+    #            background_color: 'CCCCFF'
+    #            background_normal:''
+                pos_hint: {"center_x": .5,"center_y":.5}
 
-        Button:
-            text: 'вернуться в главное меню'
-            #disabled: True if root.everything() else False
-            on_press: root.dismiss()
+
+
+            MDFillRoundFlatButton:
+                text: 'Вернуться в главное меню'
+                #disabled: True if root.everything() else False
+                on_press: root.dismiss()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 1, 0, 1, 1
+                pos_hint: {"center_x": .5,"center_y":.5}
 
 <MyLabel@Label>
     pos_hint: {"center_y": .5}
@@ -376,11 +494,19 @@
 
         MDToolbar:
             title: 'Menu'
-            md_bg_color: 1, 0, 1, 1
+            height:40
+            size_hint_y:None
+            md_bg_color: 192/256,110/256,240/256,1
             left_action_items: [["menu", lambda x: x]]
 
+        Image:
+            id: imageView
+            source:'ilopet.jpg'
+            pos_hint: {"center_x": .5}
+            allow_stretch: True
+
         Label:
-            text: "[color=FF00FF]ГЛАВНОЕ ОКНО[/color]"
+#            text: "[color=FF00FF]ГЛАВНОЕ ОКНО[/color]"
             markup: True
             #font_size: "H6"
             pos_hint: {"center_x": .5}
@@ -389,7 +515,7 @@
         GridLayout:
             cols: 3
             Button:
-                text: 'открыть окно для добавления'
+                text: 'Запись пациента'
                 #on_release: root.search_name_birth('alesya', '2002-22-10')
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
@@ -397,13 +523,13 @@
                 #on_release: root.clear()
                 #on_release: root.show_dialog()
             Button:
-                text: 'открыть окно для поиска'
+                text: 'Поиск пациента'
                 #on_release: root.search_name_birth('alesya', '2002-22-10')
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
                 on_release: Factory.SearchPopup(root.r_c(), root.r_m()).open()
             Button:
-                text: 'открыть окно для удаления'
+                text: 'Удаление пациента'
                 #on_release: root.search_name_birth('alesya', '2002-22-10')
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
