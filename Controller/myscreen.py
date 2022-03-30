@@ -41,6 +41,7 @@ class Controller:
         self.disease = disease
 
 
+    # is called to correct the input data
     def set_all_pet_info(self):
         self.ready_=0
         if self.is_string(self.pet_name) and not self.is_empty(self.pet_name):
@@ -67,11 +68,15 @@ class Controller:
             self.model.vet_name = self.vet_name
             self.model.disease = self.disease
 
+            self.pet_name = ''
+            self.birth_date = ''
+            self.last_appointment_date = ''
+            self.vet_name = ''
+            self.disease = ''
             return True
 
         # if even one field is empty
         elif self.all_is_ready_to_be_a_patient_info != self.ready_:
-
             return False
 
     # returns True if str, False if it is not
@@ -157,11 +162,11 @@ class Controller:
     # if info is correct -> to the model
     # else -> dialog
     def record_patient_info(self):
-        b = self.set_all_pet_info()
-        if b == True:
+        correct_check = self.set_all_pet_info()
+        if correct_check == True:
             self.view.dialogs(True)
             self.model.record_patient_info()
-        elif b == False:
+        elif correct_check == False:
             self.view.dialogs(False)
 
 
@@ -172,6 +177,13 @@ class Controller:
         # self.model.vet_name = self.vet_name
         # self.model.disease = self.disease
         # self.model.record_patient_info()
+        # self.pet_name = ''
+        # self.birth_date = ''
+        # self.last_appointment_date = ''
+        # self.vet_name = ''
+        # self.disease = ''
+
+
 
     def show_patient_info(self):
         return self.model.show_patient_info()

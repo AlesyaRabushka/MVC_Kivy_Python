@@ -37,6 +37,16 @@ class AddPopup(Popup, Widget):
         self.controller = controller
         self.dialog = None
 
+        self._ready = ''
+
+
+    @property
+    def ready(self):
+        return self._ready
+    @ready.setter
+    def ready(self, ready):
+        self._ready = ready
+
 
     def set_pet_name(self, name):
         self.controller.set_pet_name(name)
@@ -88,11 +98,13 @@ class AddPopup(Popup, Widget):
 
     # is called after controller checked the input data
     def dialogs(self, right_info):
-        # if all the fields are fuul
+        # if all the fields are full
         if right_info == True:
+            self.ready = True
             self.show_dialog()
         # if even one field is empty
         elif right_info == False:
+            self.ready = False
             self.show_no_dialog()
 
     # is called when the pet information is successfully added
@@ -105,7 +117,6 @@ class AddPopup(Popup, Widget):
             ]
         )
         self.dialog.open()
-        # self.clear_pet_info_input()
 
 
     # is called when there is wrong pet information
@@ -120,13 +131,13 @@ class AddPopup(Popup, Widget):
         )
         self.dialog.open()
 
+
     def closed(self, text):
         self.dialog.dismiss()
 
+
     def no_closed(self, text):
         self.dialog.dismiss()
-
-
 
 
 # popup window to search info
@@ -255,7 +266,6 @@ class SearchPopup(Popup, Widget):
         self.dialog.dismiss()
 
 
-
 # popup window to delete info
 class DeletePopup(Popup, Widget):
     """
@@ -273,19 +283,19 @@ class DeletePopup(Popup, Widget):
         self.disease = ''
 
     # setters for deleted items
-    def set_search_pet_name(self, pet_name):
+    def set_delete_pet_name(self, pet_name):
         self.pet_name = str(pet_name)
 
-    def set_search_birth_date(self, birth_date):
+    def set_delete_birth_date(self, birth_date):
         self.birth_date = str(birth_date)
 
-    def set_last_appointment_date(self, last_app_date):
+    def set_delete_last_appointment_date(self, last_app_date):
         self.last_appointment_date = last_app_date
 
-    def set_vet_name(self, vet_name):
+    def set_delete_vet_name(self, vet_name):
         self.vet_name = vet_name
 
-    def set_disease_phrase(self, phrase):
+    def set_delete_disease_phrase(self, phrase):
         self.disease = phrase
 
     # calls for delete
@@ -298,22 +308,87 @@ class DeletePopup(Popup, Widget):
     def delete_disease_phrase(self):
         self.controller.delete_disease_phrase(self.disease)
 
-    # returns the amount of deleted items
-    def return_deleted_amount(self, amount):
-        self.show_dialog(amount)
+        # returns the amount of notes that have been found
+        # and call the dialog
 
+    def return_deleted_amount(self, count):
+        self.show_dialog(count)
 
-    # shows how many records have been deleted
-    def show_dialog(self, amount):
+        # info from checkboxes
+
+    def set_properties(self, instance, value, option1, option2):
+        if value == True:
+            if option1 == 'disease':
+                self.options.append(option1)
+            else:
+                self.options.append(option1)
+                self.options.append(option2)
+        else:
+            self.options.clear()
+
+        # calls out of .kv to define the search options
+
+    def delete(self):
+        if len(self.options) == 0:
+            self.empty_dialog()
+        elif self.options[0] == 'disease' and self.disease != '':
+            self.delete_disease_phrase()
+        elif self.options[0] == 'pet_name' and self.options[
+            1] == 'birth_date' and self.pet_name != '' and self.birth_date != '':
+            self.delete_name_birth()
+        elif self.options[0] == 'vet_name' and self.options[
+            1] == 'last_appointment_date' and self.vet_name != '' and self.last_appointment_date != '':
+            self.delete_last_appointment_date_vet_name()
+        else:
+            self.empty_input_dialog()
+
+        # is called to show how many records have been found
+
+    def show_dialog(self, count):
         self.dialog = MDDialog(
-            title='Удаление',
-            text=f'Удалено записей: {amount}',
-            # size_hint=(0.5,0.5),
+            title='Search',
+            text=f'Deleted records: {count}',
             buttons=[
                 MDFlatButton(text='Ok', on_release=self.closed)
             ]
         )
         self.dialog.open()
+
+        # is called when the search option has not been configured
+
+    def empty_dialog(self):
+        self.dialog = MDDialog(
+            title='Warning',
+            text='Please choose the delete options',
+            buttons=[
+                MDFlatButton(text='Ok', on_release=self.closed)
+            ]
+        )
+        self.dialog.open()
+
+        # is called when the input data has not been configured
+
+    def empty_input_dialog(self):
+        self.dialog = MDDialog(
+            title='Warning',
+            text='Please enter the delete data',
+            buttons=[
+                MDFlatButton(text='Ok', on_release=self.closed)
+            ]
+        )
+        self.dialog.open()
+
+    def wrong_input_dialog(self):
+        self.dialog = MDDialog(
+            title='Warning',
+            text='Please enter the correct data',
+            buttons=[
+                MDFlatButton(text='Ok', on_release=self.closed)
+            ]
+        )
+        self.dialog.open()
+
+        # is called to close the dialog
 
     def closed(self, text):
         self.dialog.dismiss()
