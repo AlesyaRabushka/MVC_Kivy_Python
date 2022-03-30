@@ -180,18 +180,6 @@ class SearchPopup(Popup, Widget):
     def return_searched_amount(self, count):
         self.show_dialog(count)
 
-    def show_dialog(self, count):
-        self.dialog = MDDialog(
-            title='Поиск',
-            text=f'Найдено записей: {count}',
-            buttons=[
-                MDFlatButton(text='Ok', on_release=self.closed)
-            ]
-        )
-        self.dialog.open()
-
-    def closed(self, text):
-        self.dialog.dismiss()
 
     # info from checkboxes
     def set_properties(self, instance, value, option1, option2):
@@ -201,15 +189,70 @@ class SearchPopup(Popup, Widget):
             else:
                 self.options.append(option1)
                 self.options.append(option2)
+        else:
+            self.options.clear()
 
+    # calls out of .kv to define the search options
     def search(self):
-        if self.options[0] == 'disease':
+        if len(self.options) == 0:
+            self.empty_dialog()
+        elif self.options[0] == 'disease' and self.disease != '':
             self.search_disease_phrase()
-        elif self.options[0] == 'pet_name' and self.options[1] == 'birth_date':
-            print(self.options, self.pet_name, self.birth_date)
+        elif self.options[0] == 'pet_name' and self.options[1] == 'birth_date' and self.pet_name != '' and self.birth_date != '':
             self.search_name_birth()
-        elif self.options[0] == 'vet_name' and self.options[1] == 'last_appointment_date':
+        elif self.options[0] == 'vet_name' and self.options[1] == 'last_appointment_date' and self.vet_name != '' and self.last_appointment_date != '':
             self.search_last_appointment_date_vet_name()
+        else:
+            self.empty_input_dialog()
+
+
+    # is called to show how many records have been found
+    def show_dialog(self, count):
+        self.dialog = MDDialog(
+            title='Search',
+            text=f'Found records: {count}',
+            buttons=[
+                MDFlatButton(text='Ok', on_release=self.closed)
+            ]
+        )
+        self.dialog.open()
+
+
+    # is called when the search option has not been configured
+    def empty_dialog(self):
+        self.dialog = MDDialog(
+            title='Warning',
+            text='Please choose the search options',
+            buttons=[
+                MDFlatButton(text='Ok', on_release=self.closed)
+            ]
+        )
+        self.dialog.open()
+
+    # is called when the input data has not been configured
+    def empty_input_dialog(self):
+        self.dialog = MDDialog(
+            title='Warning',
+            text= 'Please enter the search data',
+            buttons=[
+                MDFlatButton(text='Ok', on_release=self.closed)
+            ]
+        )
+        self.dialog.open()
+
+    def wrong_input_dialog(self):
+        self.dialog = MDDialog(
+            title='Warning',
+            text='Please enter the correct data',
+            buttons=[
+                MDFlatButton(text='Ok', on_release=self.closed)
+            ]
+        )
+        self.dialog.open()
+
+    # is called to close the dialog
+    def closed(self, text):
+        self.dialog.dismiss()
 
 
 

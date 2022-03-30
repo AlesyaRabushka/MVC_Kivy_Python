@@ -178,23 +178,41 @@ class Controller:
 
 
     def search_name_birth(self, pet_name, birth_date):
-        self.model.search_name_birth(pet_name, birth_date)
+        if self.is_correct_date(birth_date) and self.is_string(pet_name):
+            self.model.search_name_birth(pet_name, birth_date)
+        else:
+            self.search_view.wrong_input_dialog()
 
     def search_last_appointment_vet_name(self, last_appointment_date, vet_name):
-        self.model.search_last_appointment_vet_name(last_appointment_date, vet_name)
+        if self.is_correct_date(last_appointment_date) and self.is_string(vet_name):
+            self.model.search_last_appointment_vet_name(last_appointment_date, vet_name)
+        else:
+            self.search_view.wrong_input_dialog()
 
     def search_disease_phrase(self, phrase):
-        self.model.search_disease_phrase(phrase)
+        if self.is_string(phrase):
+            self.model.search_disease_phrase(phrase)
+        else:
+            self.search_view.wrong_input_dialog()
 
 
     def delete_pet_name_birth_date(self, pet_name, birth_date):
-        self.model.delete_pet_name_birth_date(pet_name, birth_date)
+        if self.is_correct_date(birth_date) and self.is_string(pet_name):
+            self.model.delete_pet_name_birth_date(pet_name, birth_date)
+        else:
+            self.search_view.wrong_input_dialog()
 
     def delete_vet_name_last_appointment_date(self, vet_name, last_appointment_date):
-        self.model.delete_vet_name_last_appointment_date(vet_name, last_appointment_date)
+        if self.is_correct_date(last_appointment_date) and self.is_string(vet_name):
+            self.model.delete_vet_name_last_appointment_date(vet_name, last_appointment_date)
+        else:
+            self.search_view.wrong_input_dialog()
 
     def delete_disease_phrase(self, phrase):
-        self.model.delete_disease_phrase(phrase)
+        if self.is_string(phrase):
+            self.model.delete_disease_phrase(phrase)
+        else:
+            self.search_view.wrong_input_dialog()
 
 
 

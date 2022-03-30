@@ -135,6 +135,7 @@
                 on_text: root.set_search_pet_name(self.text)
                 multiline: False
             CheckBox:
+                group: 'search'
                 color: '330000'
                 size_hint: None, None
                 height: 60
@@ -147,7 +148,8 @@
             spacing: 50
             MyField:
                 id: birth_date
-                hint_text: 'birth date'
+                hint_text: 'YYYY-MM-DD'
+                max_text_length: 10
                 on_text: root.set_search_birth_date(self.text)
                 multiline: False
 
@@ -164,6 +166,7 @@
                 on_text: root.set_vet_name(self.text)
                 multiline: False
             CheckBox:
+                group: 'search'
                 color: '330000'
                 size_hint: None, None
                 height: 60
@@ -175,7 +178,8 @@
             spacing: 50
             MyField:
                 id: last_appointment_date
-                hint_text: 'дата последнего приема'
+                hint_text: 'YYYY-MM-DD'
+                max_text_length: 10
                 on_text: root.set_last_appointment_date(self.text)
                 multiline: False
 
@@ -193,6 +197,7 @@
                 multiline: False
 
             CheckBox:
+                group: 'search'
                 color: '330000'
                 size_hint: None, None
                 height: 60
