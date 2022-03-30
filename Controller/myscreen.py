@@ -214,9 +214,9 @@ class Controller:
         else:
             self.search_view.wrong_input_dialog()
 
-    def delete_vet_name_last_appointment_date(self, vet_name, last_appointment_date):
+    def delete_last_appointment_date_vet_name(self, last_appointment_date, vet_name):
         if self.is_correct_date(last_appointment_date) and self.is_string(vet_name):
-            self.model.delete_vet_name_last_appointment_date(vet_name, last_appointment_date)
+            self.model.delete_last_appointment_date_vet_name(last_appointment_date, vet_name)
         else:
             self.search_view.wrong_input_dialog()
 

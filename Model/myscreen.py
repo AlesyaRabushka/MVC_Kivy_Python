@@ -238,7 +238,7 @@ class Model:
         self.return_deleted_amount(amount_of_deleted_items)
 
     # delete particular records by given parameters of vet name and last appointment date
-    def delete_vet_name_last_appointment_date(self, vet_name, last_appointment_date):
+    def delete_last_appointment_date_vet_name(self, last_appointment_date, vet_name):
         amount_of_deleted_items = 0
         for item in self._pets_list:
             if item['vet_name'].lower() == vet_name.lower() and item['last_appointment_date'] == last_appointment_date:

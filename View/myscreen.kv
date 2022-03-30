@@ -12,7 +12,6 @@
     background_color: (1, 1, 1)
     background_normal:''
     #input_filter: "int"
-    #pos_hint: {"center_y": .5}
 
 
 <AddPopup@Popup>
@@ -70,17 +69,22 @@
             size: "200sp", "40sp"
             on_press: root.choose_birth_date()
 
-        # дата последнего приёма
-        MyField:
-            id: last_appointment_date_input
-            hint_text: 'YYYY-MM-DD'
-            max_text_length: 10
-            on_text: root.set_last_appointment_date(self.text)
+        GridLayout:
+            cols: 2
+            padding: 200, 0, 0, 0
+            # дата последнего приёма
+            MyField:
+                id: last_appointment_date_input
+                hint_text: 'YYYY-MM-DD'
+                max_text_length: 10
+                on_text: root.set_last_appointment_date(self.text)
 
-        Button:
-            size_hint: None, None
-            size: "200sp", "40sp"
-            on_press: root.choose_last_appointment_date()
+            Button:
+                size_hint: None, None
+                size: "200sp", "40sp"
+                on_press: root.choose_last_appointment_date()
+
+
         # имя врача
         MyField:
             id: vet_name_input
@@ -148,11 +152,15 @@
             padding: 20
             spacing: 50
             MyField:
-                id: birth_date
+                id: birth_date_search
                 hint_text: 'YYYY-MM-DD'
                 max_text_length: 10
                 on_text: root.set_search_birth_date(self.text)
                 multiline: False
+            Button:
+                size_hint: None, None
+                size: "200sp", "40sp"
+                on_press: root.choose_search_birth_date()
 
 
         GridLayout:
@@ -164,7 +172,7 @@
             MyField:
                 id: vet_name
                 hint_text: 'имя врача'
-                on_text: root.set_vet_name(self.text)
+                on_text: root.set_search_vet_name(self.text)
                 multiline: False
             CheckBox:
                 group: 'search'
@@ -174,15 +182,19 @@
                 width: 200
                 on_active: root.set_properties(self, self.active, 'vet_name', 'last_appointment_date')
         GridLayout:
-            cols: 1
+            cols: 2
             padding: 20
             spacing: 50
             MyField:
-                id: last_appointment_date
+                id: last_appointment_date_search
                 hint_text: 'YYYY-MM-DD'
                 max_text_length: 10
-                on_text: root.set_last_appointment_date(self.text)
+                on_text: root.set_search_last_appointment_date(self.text)
                 multiline: False
+            Button:
+                size_hint: None, None
+                size: "200sp", "40sp"
+                on_press: root.choose_search_last_appointment_date()
 
 
 
@@ -194,7 +206,7 @@
             MyField:
                 id: disease
                 hint_text: 'фраза из диагноза'
-                on_text: root.set_disease_phrase(self.text)
+                on_text: root.set_search_disease_phrase(self.text)
                 multiline: False
 
             CheckBox:
@@ -249,6 +261,8 @@
                 hint_text: 'имя'
                 on_text: root.set_delete_pet_name(self.text)
                 multiline: False
+                spacing: 20
+                padding: 20
             CheckBox:
                 group: 'search'
                 color: '330000'
@@ -262,11 +276,15 @@
             padding: 20
             spacing: 50
             MyField:
-                id: birth_date
+                id: birth_date_delete
                 hint_text: 'YYYY-MM-DD'
                 max_text_length: 10
                 on_text: root.set_delete_birth_date(self.text)
                 multiline: False
+            Button:
+                size_hint: None, None
+                size: "200sp", "40sp"
+                on_press: root.choose_delete_birth_date()
 
 
         GridLayout:
@@ -288,15 +306,19 @@
                 width: 200
                 on_active: root.set_properties(self, self.active, 'vet_name', 'last_appointment_date')
         GridLayout:
-            cols: 1
+            cols: 2
             padding: 20
             spacing: 50
             MyField:
-                id: last_appointment_date
+                id: last_appointment_date_delete
                 hint_text: 'YYYY-MM-DD'
                 max_text_length: 10
                 on_text: root.set_delete_last_appointment_date(self.text)
                 multiline: False
+            Button:
+                size_hint: None, None
+                size: "200sp", "40sp"
+                on_press: root.choose_delete_last_appointment_date()
 
 
 
@@ -321,7 +343,7 @@
 
 
         Button:
-            text: 'поиск'
+            text: 'удалить'
             #disabled: True if root.everything() else False
             #on_press: root.search_name_birth()
             #on_press: root.search_last_appointment_date_vet_name()

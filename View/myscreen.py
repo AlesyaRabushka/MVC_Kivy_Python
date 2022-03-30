@@ -168,14 +168,36 @@ class SearchPopup(Popup, Widget):
     def set_search_birth_date(self, birth_date):
         self.birth_date = str(birth_date)
 
-    def set_last_appointment_date(self, last_app_date):
+    def set_search_last_appointment_date(self, last_app_date):
         self.last_appointment_date = last_app_date
 
-    def set_vet_name(self, vet_name):
+    def set_search_vet_name(self, vet_name):
         self.vet_name = vet_name
 
-    def set_disease_phrase(self, phrase):
+    def set_search_disease_phrase(self, phrase):
         self.disease = phrase
+
+
+    # set last appointment date by calendar widget
+    def choose_search_last_appointment_date(self):
+        date_dialog = MDDatePicker(min_year=2000, max_year=2022)
+        date_dialog.bind(on_save=self.set_last_appointment_date_calendar)
+        date_dialog.open()
+
+    def set_last_appointment_date_calendar(self, instance, value, date_range):
+        self.ids.last_appointment_date_search.text = str(value)
+        self.set_search_last_appointment_date(str(value))
+
+    # set birth date by calendar widget
+    def choose_search_birth_date(self):
+        date_dialog = MDDatePicker(min_year=2000, max_year=2022)
+        date_dialog.bind(on_save=self.set_birth_date_calendar)
+        date_dialog.open()
+
+    def set_birth_date_calendar(self, instance, value, date_range):
+        self.ids.birth_date_search.text = str(value)
+        self.set_search_birth_date(str(value))
+
 
     # serch for pet with the given PET NAME and DATE BIRTH
     def search_name_birth(self):
@@ -282,6 +304,8 @@ class DeletePopup(Popup, Widget):
         self.vet_name = ''
         self.disease = ''
 
+        self.options = []
+
     # setters for deleted items
     def set_delete_pet_name(self, pet_name):
         self.pet_name = str(pet_name)
@@ -298,12 +322,34 @@ class DeletePopup(Popup, Widget):
     def set_delete_disease_phrase(self, phrase):
         self.disease = phrase
 
+    # set last appointment date by calendar widget
+    def choose_delete_last_appointment_date(self):
+        date_dialog = MDDatePicker(min_year=2000, max_year=2022)
+        date_dialog.bind(on_save=self.set_last_appointment_date_calendar)
+        date_dialog.open()
+
+    def set_last_appointment_date_calendar(self, instance, value, date_range):
+        self.ids.last_appointment_date_delete.text = str(value)
+        self.set_delete_last_appointment_date(str(value))
+
+    # set birth date by calendar widget
+    def choose_delete_birth_date(self):
+        date_dialog = MDDatePicker(min_year=2000, max_year=2022)
+        date_dialog.bind(on_save=self.set_birth_date_calendar)
+        date_dialog.open()
+
+    def set_birth_date_calendar(self, instance, value, date_range):
+        self.ids.birth_date_delete.text = str(value)
+        self.set_delete_birth_date(str(value))
+
+
+
     # calls for delete
     def delete_pet_name_birth_date(self):
         self.controller.delete_pet_name_birth_date(self.pet_name, self.birth_date)
 
-    def delete_vet_name_last_appointment_date(self):
-        self.controller.delete_vet_name_last_appointment_date(self.vet_name, self.last_appointment_date)
+    def delete_last_appointment_date_vet_name(self):
+        self.controller.delete_last_appointment_date_vet_name(self.last_appointment_date, self.vet_name)
 
     def delete_disease_phrase(self):
         self.controller.delete_disease_phrase(self.disease)
@@ -335,7 +381,7 @@ class DeletePopup(Popup, Widget):
             self.delete_disease_phrase()
         elif self.options[0] == 'pet_name' and self.options[
             1] == 'birth_date' and self.pet_name != '' and self.birth_date != '':
-            self.delete_name_birth()
+            self.delete_pet_name_birth_date()
         elif self.options[0] == 'vet_name' and self.options[
             1] == 'last_appointment_date' and self.vet_name != '' and self.last_appointment_date != '':
             self.delete_last_appointment_date_vet_name()
