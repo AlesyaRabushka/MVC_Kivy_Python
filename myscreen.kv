@@ -1,0 +1,642 @@
+#:import Factory kivy.factory.Factory
+#:import Window kivy.core.window
+
+<MyField@MDTextField>
+    size_hint_x: None
+    width: '200'
+    text_color: "000000"
+    required: True
+    helper_text: "This field is required"
+    helper_text_mode: "on_error"
+    multiline: False
+    background_color: (1, 1, 1)
+    background_normal:''
+    #input_filter: "int"
+
+
+<AddPopup@Popup>
+    auto_dismiss:False
+    title: 'Регистрация'
+    separator_color: (192/256,110/256,240/256,1)
+    size_hint:None,None
+    size:(400,500)
+#    background_color:'CC99FF'
+#    background_normal:''
+
+    BoxLayout:
+        # background color
+        canvas.before:
+            Color:
+                rgb: (1,1,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+
+        orientation: "vertical"
+        adaptive_size: True
+
+        #spacing: "12dp"
+        #padding: "12dp"
+        #radius: [10, ]
+        #pos_hint: {"center_x": .5, "center_y": .5}
+        GridLayout:
+            cols:2
+            Label:
+                text: "[color=c06ef0]                       Sign Up[/color]"
+                markup: True
+                font_size: 20
+                size_hint: None, None
+    #            size_x: 50
+    #            size_y: 50
+                height:50
+#                width:50
+
+#                pos_hint: {"center_x": .5}
+                #adaptive_size: True
+                background_color: (1,0,0, 1)
+#            canvas.before:
+#                Color:
+#                    rgba: self.background_color
+#                Rectangle:
+#                    size: self.size
+#                    pos: self.pos
+            Image:
+                source:'ilopet.jpg'
+#                center_x:self.parent.center_x
+#                center_y:self.parent.center_y
+#                size:"5sp","5sp"
+                size: (5,5)
+
+        # имя пациента
+        MyField
+            id: pet_name_input
+            hint_text: 'Имя пациента'
+            on_text: root.set_pet_name(self.text)
+            pos_hint: {"center_x": .46}
+        GridLayout:
+            cols:2
+            padding:75,0,0,0
+
+        # дата рождения
+            MyField:
+                id: birth_date_input
+                hint_text: 'YYYY-MM-DD'
+                max_text_length: 10
+                on_text: root.set_birth_date(self.text)
+
+            Button:
+                size_hint:None,None
+#            text:'Дата рождения'
+#            front_size:32
+                size: "40sp", "40sp"
+                on_press: root.choose_birth_date()
+                background_color:0,0,0,0
+
+                Image:
+                    source:'i.jpg'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
+
+            # дата последнего приёма
+            MyField:
+                id: last_appointment_date_input
+                hint_text: 'YYYY-MM-DD'
+                max_text_length: 10
+                on_text: root.set_last_appointment_date(self.text)
+#                pos_hint: {"center_x": .5,"center_y":.5}
+
+            Button:
+#                text:'Дата последнего приёма'
+                size_hint: None, None
+                size: "40sp", "40sp"
+                on_press: root.choose_last_appointment_date()
+                background_color:0,0,0,0
+
+                Image:
+                    source:'i.jpg'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
+        GridLayout:
+            cols: 1
+            padding: 75,0,0,0
+            # имя врача
+            MyField:
+                hint_text: 'Имя врача'
+                id: vet_name_input
+                on_text: root.set_vet_name(self.text)
+                multiline: False
+                pos_hint: {"center_x": .5,"center_y":.5}
+
+            # название болезни
+            MyField:
+                hint_text: 'Диагноз'
+                id: disease_input
+                on_text: root.set_disease(self.text)
+                multiline: False
+                pos_hint: {"center_x": .5,"center_y":.5}
+
+        GridLayout:
+            cols: 1
+            rows: 2
+            padding: 75, 0, 0, 0
+            spacing: 10
+            MDFillRoundFlatButton:
+                text: '  Информация о владельце  '
+                #disabled: True if root.everything() else False
+                on_press: root.record_patient_info()
+                on_release: Factory.HandlerPopup(root.return_controller(), root.return_model()).open()
+                #on_release: root.dialogs()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 0, 0, 0, 1
+    #            background_color: 'CCCCFF'
+    #            background_normal:''
+                pos_hint: {"center_x": .5,"center_y":.5}
+
+
+
+            MDFillRoundFlatButton:
+                text: 'Вернуться в главное меню'
+                #disabled: True if root.everything() else False
+                on_press: root.dismiss()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 1, 0, 1, 1
+                pos_hint: {"center_x": .5,"center_y":.5}
+
+
+<SearchPopup@Popup>
+    title: 'Поиск'
+    auto_dismiss:False
+    separator_color: (192/256,110/256,240/256,1)
+    background_color:'#a910e6'
+    size_hint:None,None
+    size:(400,500)
+
+    BoxLayout:
+        # background color
+        canvas.before:
+            Color:
+                rgb: (1,1,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+
+        orientation: "vertical"
+        adaptive_size: True
+        GridLayout:
+            cols:2
+            Label:
+                text: "[color=c06ef0]                      Search[/color]"
+                markup: True
+                font_size: 20
+                size_hint: None, None
+                height:50
+                width:50
+                pos_hint: {"center_x": .5}
+
+            Image:
+                source:'ilopet.jpg'
+#                center_x:self.parent.center_x
+#                center_y:self.parent.center_y
+#                size:"5sp","5sp"
+                size: (5,5)
+
+        GridLayout:
+            cols: 2
+            rows: 2
+            padding:50,0,0,0
+            MyField:
+                id: pet_name_input
+                hint_text: 'Имя пациента'
+                on_text: root.set_search_pet_name(self.text)
+                pos_hint: {"center_x": .46}
+            CheckBox:
+                group: 'search'
+                color: '330000'
+                size_hint: None, None
+                height: 30
+                width: 200
+                on_active: root.set_properties(self, self.active, 'pet_name', 'birth_date')
+        GridLayout:
+            cols: 2
+            padding:50,0,0,0
+            spacing:20
+            #дата рождения
+            MyField:
+                id: birth_date_search
+                hint_text: 'YYYY-MM-DD'
+                max_text_length: 10
+                on_text: root.set_search_birth_date(self.text)
+                multiline: False
+            Button:
+                size_hint: None, None
+                size: "40sp", "40sp"
+                on_press: root.choose_search_birth_date()
+                background_color:0,0,0,0
+                Image:
+                    source:'i.jpg'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
+
+        GridLayout:
+            cols: 2
+            padding:50,0,0,0
+            #имя врача
+            MyField:
+                hint_text: 'Имя врача'
+                id: vet_name
+                on_text: root.set_search_vet_name(self.text)
+                multiline: False
+            CheckBox:
+                group: 'search'
+                color: '330000'
+                size_hint: None, None
+                height: 30
+                width: 200
+                on_active: root.set_properties(self, self.active, 'vet_name', 'last_appointment_date')
+        GridLayout:
+            cols: 2
+            padding: 50,0,0,0
+            spacing:20
+            MyField:
+                id: last_appointment_date_search
+                hint_text: 'YYYY-MM-DD'
+                max_text_length: 10
+                on_text: root.set_search_last_appointment_date(self.text)
+                multiline: False
+            Button:
+#                text:'Дата последнего приёма'
+                size_hint: None, None
+                size: "40sp", "40sp"
+                on_press: root.choose_search_last_appointment_date()
+                background_color:0,0,0,0
+                Image:
+                    source:'i.jpg'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
+
+        GridLayout:
+            cols: 2
+            padding: 50,0,0,0
+            MyField:
+                id: disease
+                hint_text: 'Диагноз'
+                on_text: root.set_search_disease_phrase(self.text)
+                multiline: False
+
+            CheckBox:
+                group: 'search'
+                color: '330000'
+                size_hint: None, None
+                height: 30
+                width: 200
+                on_active: root.set_properties(self, self.active, 'disease', '')
+
+
+        GridLayout:
+            cols: 2
+            padding: 20, 0, 0, 0
+            spacing: 10
+            MDFillRoundFlatButton:
+                text: '          Поиск             '
+                #disabled: True if root.everything() else False
+                on_press: root.search()
+                #on_release: root.dialogs()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 0, 0, 0, 1
+    #            background_color: 'CCCCFF'
+    #            background_normal:''
+                pos_hint: {"center_x": .5,"center_y":.5}
+
+
+
+            MDFillRoundFlatButton:
+                text: 'Вернуться в главное меню'
+                #disabled: True if root.everything() else False
+                on_press: root.dismiss()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 1, 0, 1, 1
+                pos_hint: {"center_x": .5,"center_y":.5}
+
+
+<DeletePopup@Popup>
+    title: 'Удаление'
+    auto_dismiss:False
+    separator_color: (192/256,110/256,240/256,1)
+    background_color:'#a910e6'
+    size:(400,500)
+    size_hint:None,None
+
+    BoxLayout:
+        # background color
+        canvas.before:
+            Color:
+                rgb: (1,1,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+
+        orientation: "vertical"
+        adaptive_size: True
+        GridLayout:
+            cols:2
+            Label:
+                text: "[color=c06ef0]                Del[/color]"
+                markup: True
+                font_size: 20
+                size_hint: None, None
+                height:50
+                width:50
+                pos_hint: {"center_x": .5}
+
+            Image:
+                source:'ilopet.jpg'
+#                center_x:self.parent.center_x
+#                center_y:self.parent.center_y
+#                size:"5sp","5sp"
+                size: (5,5)
+
+
+        GridLayout:
+            cols: 2
+            rows: 2
+            padding: 50,0,0,0
+            MyField:
+                id: pet_name
+                hint_text: 'Имя пациента'
+                on_text: root.set_delete_pet_name(self.text)
+                multiline: False
+            CheckBox:
+                group: 'search'
+                color: '330000'
+                size_hint: None, None
+                height: 60
+                width: 200
+                on_active: root.set_properties(self, self.active, 'pet_name', 'birth_date')
+        GridLayout:
+            cols: 2
+            rows: 2
+            padding:50,0,0,0
+            spacing:20
+            MyField:
+                id: birth_date_delete
+                hint_text: 'YYYY-MM-DD'
+                max_text_length: 10
+                on_text: root.set_delete_birth_date(self.text)
+                multiline: False
+            Button:
+                size_hint: None, None
+                size: "40sp", "40sp"
+                on_press: root.choose_delete_birth_date()
+                background_color:0,0,0,0
+
+                Image:
+                    source:'i.jpg'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
+
+
+        GridLayout:
+            cols: 2
+            padding:50,0,0,0
+
+            MyField:
+                id: vet_name
+                hint_text: 'Имя врача'
+                on_text: root.set_delete_vet_name(self.text)
+                multiline: False
+            CheckBox:
+                group: 'search'
+                color: '330000'
+                size_hint: None, None
+                height: 60
+                width: 200
+                on_active: root.set_properties(self, self.active, 'vet_name', 'last_appointment_date')
+        GridLayout:
+            cols: 2
+            padding: 50,0,0,0
+            spacing: 20
+            MyField:
+                id: last_appointment_date_delete
+                hint_text: 'YYYY-MM-DD'
+                max_text_length: 10
+                on_text: root.set_delete_last_appointment_date(self.text)
+                multiline: False
+            Button:
+                size_hint: None, None
+                size: "40sp", "40sp"
+                on_press: root.choose_delete_last_appointment_date()
+                background_color:0,0,0,0
+
+                Image:
+                    source:'i.jpg'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
+
+        GridLayout:
+            cols: 2
+            padding: 50,0,0,0
+            MyField:
+                id: disease
+                hint_text: 'Диагноз'
+                on_text: root.set_delete_disease_phrase(self.text)
+                multiline: False
+
+            CheckBox:
+                group: 'search'
+                color: '330000'
+                size_hint: None, None
+                height: 60
+                width: 200
+                on_active: root.set_properties(self, self.active, 'disease', '')
+
+
+        GridLayout:
+            cols: 2
+            padding: 20, 0, 0, 0
+            spacing: 10
+            MDFillRoundFlatButton:
+                text: '        Удаление        '
+                #disabled: True if root.everything() else False
+                on_press: root.delete()
+                #on_release: root.dialogs()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 0, 0, 0, 1
+#                size_hint:None,None
+#                width:200
+    #            background_color: 'CCCCFF'
+    #            background_normal:''
+                pos_hint: {"center_x": .5,"center_y":.5}
+
+
+
+            MDFillRoundFlatButton:
+                text: 'Вернуться в главное меню'
+                #disabled: True if root.everything() else False
+                on_press: root.dismiss()
+                #on_release: Factory.FoundPopup().open()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 1, 0, 1, 1
+                pos_hint: {"center_x": .5,"center_y":.5}
+
+
+<FoundPopup@Popup>
+    title: 'Удаление'
+    auto_dismiss:False
+    separator_color: (192/256,110/256,240/256,1)
+    background_color:'#a910e6'
+    size:(700,900)
+    size_hint:None,None
+
+
+<HandlerPopup@Popup>
+    title: 'Информация о владельце'
+    auto_dismiss:False
+    separator_color: (192/256,110/256,240/256,1)
+    background_color:'#a910e6'
+    size_hint:None,None
+    size:(350,450)
+
+    BoxLayout:
+        # background color
+        canvas.before:
+            Color:
+                rgb: (1,1,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+
+        orientation: "vertical"
+        adaptive_size: True
+
+        GridLayout:
+            cols:2
+            size_hint_y: .5
+            Label:
+                text: "[color=c06ef0]      Contact[/color]"
+                markup: True
+                font_size: 20
+
+            Image:
+                source:'call.png'
+#                center_x:self.parent.center_x
+#                center_y:self.parent.center_y
+#                size:"5sp","5sp"
+                size: (5,5)
+        GridLayout:
+            cols:1
+            rows:4
+            padding:65,10,0,0
+            # имя пациента
+            MyField
+                id: hadler_name_input
+                hint_text: 'Имя владельца'
+                on_text: root.set_pet_name(self.text)
+                pos_hint: {"center_x": .46}
+
+        # Номер телефона
+            MyField:
+                id: phone_number_input
+                hint_text: 'Номера телефона'
+                max_text_length: 10
+                on_text: root.set_birth_date(self.text)
+
+            #Почта
+            MyField:
+                id: email_input
+                hint_text: 'Почта'
+                max_text_length: 10
+                on_text: root.set_last_appointment_date(self.text)
+
+            #Адрес
+            MyField:
+                hint_text: 'Адрес'
+                id: adress_input
+                on_text: root.set_vet_name(self.text)
+                multiline: False
+#                pos_hint: {"center_x": .5,"center_y":.5}
+        GridLayout:
+            cols:1
+            padding:75,100,0,0
+            MDFillRoundFlatButton:
+                text: 'Добавить информацию'
+                on_press: root.dismiss()
+                text_color: 0, 0, 0, 1
+                line_color: 1, 0, 1, 1
+#                pos_hint: {"center_x": .5,"center_y":.5}
+
+<MyLabel@Label>
+    pos_hint: {"center_y": .5}
+
+<BackgroundColor@Label>
+    background_color: 'FFCCFF'
+
+
+
+<MainScreen>
+    BoxLayout:
+        orientation: "vertical"
+        adaptive_size: True
+        #spacing: "12dp"
+        #padding: "12dp"
+        #radius: [10, ]
+        #pos_hint: {"center_x": .5, "center_y": .5}
+        #md_bg_color: app.theme_cls.disabled_hint_text_color
+
+        MDToolbar:
+            title: 'Menu'
+            height:40
+            size_hint_y:None
+            md_bg_color: 192/256,110/256,240/256,1
+            left_action_items: [["menu", lambda x: x]]
+
+
+        Label:
+#            text: "[color=FF00FF]ГЛАВНОЕ ОКНО[/color]"
+            markup: True
+            #font_size: "H6"
+            pos_hint: {"center_x": .5}
+            #adaptive_size: True
+
+        GridLayout:
+            cols: 3
+            size_hint: 1, 0.3
+            Button:
+                text: 'Запись пациента'
+                #on_release: root.search_name_birth('alesya', '2002-22-10')
+                #on_press: root.choose_date()
+                #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
+                on_release: Factory.AddPopup(root.return_controller(), root.return_model()).open()
+                #on_release: root.clear()
+                #on_release: root.show_dialog()
+            Button:
+                text: 'Поиск пациента'
+                #on_release: root.search_name_birth('alesya', '2002-22-10')
+                #on_press: root.choose_date()
+                #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
+                on_release: Factory.SearchPopup(root.return_controller(), root.return_model()).open()
+            Button:
+                text: 'Удаление пациента'
+                #on_release: root.search_name_birth('alesya', '2002-22-10')
+                #on_press: root.choose_date()
+                #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
+                on_release: Factory.DeletePopup(root.return_controller(), root.return_model()).open()
