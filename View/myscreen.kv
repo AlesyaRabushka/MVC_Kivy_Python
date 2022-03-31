@@ -507,21 +507,14 @@
     size_hint:None,None
 
 
+
 <HandlerPopup@Popup>
-<<<<<<< HEAD
     title: 'Информация о владельце'
     auto_dismiss:False
     separator_color: (192/256,110/256,240/256,1)
     background_color:'#a910e6'
     size_hint:None,None
     size:(350,450)
-=======
-    title:'Информация о пациенте'
-    separator_color: (192/256,110/256,240/256,1)
-    background_color:'#a910e6'
-    size:(700,900)
-    size_hint:None,None
->>>>>>> origin/main
 
     BoxLayout:
         # background color
@@ -536,7 +529,6 @@
 
         orientation: "vertical"
         adaptive_size: True
-<<<<<<< HEAD
 
         GridLayout:
             cols:2
@@ -548,26 +540,10 @@
 
             Image:
                 source:'call.png'
-=======
-        GridLayout:
-            cols:2
-            Label:
-                text: "[color=c06ef0]                Information[/color]"
-                markup: True
-                font_size: 20
-                size_hint: None, None
-                height:50
-                width:50
-                pos_hint: {"center_x": .5}
-
-            Image:
-                source:'ilopet.jpg'
->>>>>>> origin/main
 #                center_x:self.parent.center_x
 #                center_y:self.parent.center_y
 #                size:"5sp","5sp"
                 size: (5,5)
-<<<<<<< HEAD
         GridLayout:
             cols:1
             rows:4
@@ -609,29 +585,6 @@
                 text_color: 0, 0, 0, 1
                 line_color: 1, 0, 1, 1
 #                pos_hint: {"center_x": .5,"center_y":.5}
-=======
-
-
-
-<InformationPopup@Popup>
-    title:'Информация о пациенте'
-    separator_color: (192/256,110/256,240/256,1)
-    background_color:'#a910e6'
-    size:(700,900)
-    size_hint:None,None
-
-    BoxLayout:
-        MDFillRoundFlatButton:
-            text: 'Вернуться в главное меню'
-            #disabled: True if root.everything() else False
-            on_press: root.dismiss()
-            #on_release: Factory.FoundPopup().open()
-            #on_press: root.info()
-            text_color: 0, 0, 0, 1
-            line_color: 1, 0, 1, 1
-            pos_hint: {"center_x": .5,"center_y":.5}
-
->>>>>>> origin/main
 
 <MyLabel@Label>
     pos_hint: {"center_y": .5}
@@ -639,6 +592,23 @@
 <BackgroundColor@Label>
     background_color: 'FFCCFF'
 
+<InformationPopup@Popup>:
+    auto_dismiss:False
+    separator_color: (192/256,110/256,240/256,1)
+    background_color:'#a910e6'
+    size:(700,900)
+    size_hint:None,None
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgb: (1,1,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Button:
+            text:"хуй"
+            on_press: root.dismiss()
 
 
 <MainScreen>
@@ -689,4 +659,3 @@
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
                 on_release: Factory.DeletePopup(root.return_controller(), root.return_model()).open()
-
