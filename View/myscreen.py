@@ -6,7 +6,7 @@ from kivymd.uix.dialog import MDDialog
 
 
 from kivy.lang import Builder
-from kivy.properties import ObjectProperty, BooleanProperty
+from kivy.properties import ObjectProperty
 
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.picker import MDDatePicker
@@ -18,11 +18,11 @@ from kivy.core.window import Window
 
 from kivy.uix.widget import Widget
 from kivy.metrics import dp
-#from Kivy_MVC_Template.Utility.observer import Observer
 
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.datatables import MDDataTable
-from kivy.uix.gridlayout import GridLayout
+
+
 # popup window for pet data input
 class AddPopup(Popup, Widget):
     """
@@ -449,6 +449,7 @@ class DeletePopup(Popup, Widget):
         self.dialog.dismiss()
 
 
+# popup window with found by search info
 class FoundPopup(Popup, Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -463,11 +464,28 @@ class FoundPopup(Popup, Widget):
         self.add_widget(self.table)
 
 
+# popup window about pet handler information that is appeared after AddPopup window
+class HandlerPopup(Popup):
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
+
+
+# popup window for single pet information that is appeared when you click on CHECK in main screen table
+class InformationPopup(Popup):
+    def __init__(self, pet_info, **kwargs):
+        super().__init__(**kwargs)
+        self.pet_info = pet_info
+
+
+
+
+# main view
 class MainScreen(MDScreen):
     """"
     The first (main) window of the program
 
     """
+
 
     controller = ObjectProperty()
     model = ObjectProperty()
@@ -483,6 +501,7 @@ class MainScreen(MDScreen):
         # the table on the main screen
         self.table = MDDataTable(pos_hint={'center_y': 0.58, 'center_x': 0.5},
                                  use_pagination=True,
+                                 #check = True,
                                  column_data=[
                                      ("Имя питомца", dp(30)),
                                      ("Дата рождения", dp(30)),
@@ -490,7 +509,23 @@ class MainScreen(MDScreen):
                                      ("ФИО ветеринара", dp(30)),
                                      ("Диагноз", dp(30))], size_hint=(1, 0.7),
                                  row_data=self.add_table_data())
+
+        self.table.bind(on_row_press = self.pet_info_window)
         self.add_widget(self.table)
+
+
+    # popup window with more detailed pet info
+    def pet_info_window(self, instance, current_row):
+        if current_row.ids.check.state == 'normal':
+            InformationPopup(current_row).open()
+        else:
+            current_row.ids.check.state = 'normal'
+
+
+    # is called from InformationPopup when it iss dismissed
+    def close_pet_info_window(self):
+        self.remove_widget(self.table)
+        self.add_into_main_table(self._pets_list)
 
 
     # is called to add patients info into the table
@@ -519,6 +554,7 @@ class MainScreen(MDScreen):
                                      ("ФИО ветеринара", dp(30)),
                                      ("Диагноз", dp(30))], size_hint=(1, 0.7),
                                  row_data=self.add_table_data_deleted(pet))
+        self.table.bind(on_row_press=self.pet_info_window)
         self.add_widget(self.table)
 
     # is called in delete_from_main_table(pet) to delete pet element info from main screen data table
@@ -550,6 +586,8 @@ class MainScreen(MDScreen):
                                      ("ФИО ветеринара", dp(30)),
                                      ("Диагноз", dp(30))], size_hint=(1, 0.7),
                                  row_data=self.add_table_data_added(pets_list))
+
+        self.table.bind(on_row_press=self.pet_info_window)
         self.add_widget(self.table)
 
     # is called in add_into_main_table() to upload a new pet list into main screen table
