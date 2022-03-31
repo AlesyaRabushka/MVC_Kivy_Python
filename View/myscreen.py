@@ -507,6 +507,37 @@ class MainScreen(MDScreen):
 
         return table_pets_list
 
+    # new table is called after deleting the pet element
+    def delete_from_main_table(self, pet):
+        self.remove_widget(self.table)
+        self.table = MDDataTable(pos_hint={'center_y': 0.58, 'center_x': 0.5},
+                                 use_pagination=True,
+                                 column_data=[
+                                     ("Имя питомца", dp(30)),
+                                     ("Дата рождения", dp(30)),
+                                     ("Дата последнего приема", dp(30)),
+                                     ("ФИО ветеринара", dp(30)),
+                                     ("Диагноз", dp(30))], size_hint=(1, 0.7),
+                                 row_data=self.add_table_data_deleted(pet))
+        self.add_widget(self.table)
+
+    # delete pet element info from main screen data tadble
+    def add_table_data_deleted(self, pet):
+        table_pets_list = []
+        for item in self._pets_list:
+            if item == pet:
+                pass
+            else:
+                pet_list = []
+                pet_list.append(item['pet_name'])
+                pet_list.append(item['birth_date'])
+                pet_list.append(item['last_appointment_date'])
+                pet_list.append(item['vet_name'])
+                pet_list.append(item['disease'])
+                table_pets_list.append(pet_list)
+
+        return table_pets_list
+
     # are called when the popup windows are initialized
     def return_model(self):
         return self.model

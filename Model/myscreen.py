@@ -260,13 +260,20 @@ class Model:
     # delete the particular records by the given disease phrase
     def delete_disease_phrase(self, phrase):
         amount_of_deleted_items = 0
+        deleted_list = []
         for item in self._pets_list:
             if (item['disease'].lower()).find(phrase.lower()) != -1:
+                deleted_list = item
                 amount_of_deleted_items += 1
                 self._pets_list.remove(item)
 
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)
+        self.delete_from_main_table(deleted_list)
+
+    # delete the particular pet element from main screen data table
+    def delete_from_main_table(self, deleted_list):
+        self.main_view.delete_from_main_table(deleted_list)
 
     # returns the amount of deleted records
     def return_deleted_amount(self, amount):
