@@ -1,4 +1,21 @@
+import os
+from kivy.lang import Builder
+
 import xml.sax
+from kivy.uix.popup import Popup
+
+
+class ParserPopup(Popup):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.closed = False
+
+    def dismissed(self):
+        self.dismiss()
+        print('bye')
+        self.closed = True
+
+
 
 class PetElement(xml.sax.ContentHandler):
     def __init__(self):
@@ -8,6 +25,8 @@ class PetElement(xml.sax.ContentHandler):
         self.last_appointment_date = False
         self.vet_name = False
         self.disease = False
+
+        # self.dialog = main_view
 
         self.count = 0
 
@@ -42,6 +61,16 @@ class PetElement(xml.sax.ContentHandler):
                 self.pets_list.append(self.pet)
                 self.pet = {}
                 self.count=0
+            else:
+                print('here is bad file')
+                # while True:
+                #     ParserPopup().open()
+                #     print('hyq')
+                #     if ParserPopup().closed:
+                #         print(ParserPopup().closed)
+                #         print('break')
+                #         break
+
 
     def characters(self, content):
         if self.pet_name:
@@ -72,3 +101,6 @@ class PetElement(xml.sax.ContentHandler):
 
     def return_pets_list(self):
         return self.pets_list
+
+
+#Builder.load_file(os.path.join(os.path.dirname(__file__), "sax_parser.kv"))
