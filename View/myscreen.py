@@ -111,6 +111,11 @@ class AddPopup(Popup, Widget):
             self.ready = False
             self.show_no_dialog()
 
+
+    # is called when the pet info registration has been successfully done
+    def start_handler_info(self):
+        Factory.HandlerPopup(self.return_controller(), self.return_model()).open()
+
     # is called when the pet information is successfully added
     def show_dialog(self):
         self.dialog = MDDialog(
@@ -135,9 +140,10 @@ class AddPopup(Popup, Widget):
         )
         self.dialog.open()
 
-
+   # is called when the pet indo is correct
     def closed(self, text):
         self.dialog.dismiss()
+
 
 
     def no_closed(self, text):
@@ -467,6 +473,8 @@ class FoundPopup(Popup, Widget):
                                      ("Диагноз", dp(30))], size_hint=(1, 0.7))
         self.add_widget(self.table)
 
+
+# popup window about pet handler information that is appeared after AddPopup window
 class HandlerPopup(Popup):
 
     model = ObjectProperty()
@@ -477,12 +485,18 @@ class HandlerPopup(Popup):
         self.model = model
         self.controller = controller
 
+    # set pet handler info
+    def set_handler_name(self, handler):
+        self.controller.set_handler_name(handler)
+    def set_phone_number(self, phone):
+        self.controller.set_phone_number(phone)
+    def set_mail(self, mail):
+        self.controller.set_mail(mail)
+    def set_address(self, address):
+        self.controller.set_address(address)
 
-
-# popup window about pet handler information that is appeared after AddPopup window
-class HandlerPopup(Popup):
-    def __init__(self,**kwargs):
-        super().__init__(**kwargs)
+    def record_handler_info(self):
+        self.controller.record_handler_info()
 
 
 # popup window for single pet information that is appeared when you click on CHECK in main screen table
@@ -537,7 +551,7 @@ class MainScreen(MDScreen):
             current_row.ids.check.state = 'normal'
 
 
-    # is called from InformationPopup when it iss dismissed
+    # is called from InformationPopup when it is dismissed
     def close_pet_info_window(self):
         self.remove_widget(self.table)
         self.add_into_main_table(self._pets_list)
@@ -573,19 +587,16 @@ class MainScreen(MDScreen):
         self.add_widget(self.table)
 
     # is called in delete_from_main_table(pet) to delete pet element info from main screen data table
-    def add_table_data_deleted(self, pet):
+    def add_table_data_deleted(self, pets):
         table_pets_list = []
-        for item in self._pets_list:
-            if item == pet:
-                pass
-            else:
-                pet_list = []
-                pet_list.append(item['pet_name'])
-                pet_list.append(item['birth_date'])
-                pet_list.append(item['last_appointment_date'])
-                pet_list.append(item['vet_name'])
-                pet_list.append(item['disease'])
-                table_pets_list.append(pet_list)
+        for item in pets:
+            pet_list = []
+            pet_list.append(item['pet_name'])
+            pet_list.append(item['birth_date'])
+            pet_list.append(item['last_appointment_date'])
+            pet_list.append(item['vet_name'])
+            pet_list.append(item['disease'])
+            table_pets_list.append(pet_list)
 
         return table_pets_list
 

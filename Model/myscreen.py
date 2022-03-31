@@ -35,6 +35,8 @@ class Model:
 
         # список всех пациентов
         self._pets_list = []
+        self._handlers_list = []
+        self._all_info_list = []
 
         # reading info from the file with the start of the program
         self.set_previous_patient_info()
@@ -43,9 +45,11 @@ class Model:
         self.search_view = SearchPopup(self.controller, self.main_view.return_model())
         self.delete_view = DeletePopup(self.main_view.return_controller(), self.main_view.return_model())
 
-
-        # список классов наблюдателя
-        self._observers = []
+        # pet handler info
+        self._handler_name = ''
+        self._phone_number = ''
+        self._mail = ''
+        self._address = ''
 
 
 
@@ -53,67 +57,134 @@ class Model:
     def return_pets_list(self):
         return self._pets_list
 
-
+    # set pet info
     @property
     def pet_name(self):
         return self._pet_name
-
     @property
     def birth(self):
         return self._birth
-
     @property
     def last_appointment_date(self):
         return self._last_appointment_date
-
     @property
     def vet_name(self):
         return self._vet_name
-
     @property
     def disease(self):
         return self._disease
 
-
     @pet_name.setter
     def pet_name(self, name):
         self._pet_name = name
-
     @birth.setter
     def birth(self, birth):
         self._birth = birth
-
     @last_appointment_date.setter
     def last_appointment_date(self, app):
         self._last_appointment_date = app
-
     @vet_name.setter
     def vet_name(self, name):
         self._vet_name = name
-
     @disease.setter
     def disease(self, disease):
         self._disease = disease
 
-    # adds pet record to the other ones
+
+    # pet pet handler info
+    @property
+    def handler_name(self):
+        return self._handler_name
+    @handler_name.setter
+    def handler_name(self, handler):
+        self._handler_name = handler
+    @property
+    def phone_number(self):
+        return self._phone_number
+    @phone_number.setter
+    def phone_number(self, number):
+        self._phone_number = number
+    @property
+    def mail(self):
+        return self._mail
+    @mail.setter
+    def mail(self, mail):
+        self._mail = mail
+    @property
+    def address(self):
+        return self._address
+    @address.setter
+    def address(self, address):
+        self._address = address
+
+
+    # adds all pet info to the other ones
     def add_info(self):
         self._patients = {}
+        self.pet={}
+        self.handler={}
+        # set all info
         self._patients['pet_name'] = self._pet_name
         self._patients['birth_date'] = self._birth
         self._patients['last_appointment_date'] = self._last_appointment_date
         self._patients['vet_name'] = self._vet_name
         self._patients['disease'] = self._disease
+        self._patients['handler_name'] = self._handler_name
+        self._patients['phone_number'] = self._phone_number
+        self._patients['mail'] = self._mail
+        self._patients['handler_address'] = self._address
 
-        self._pets_list.append(self._patients)
+        # set only pet info
+        self.pet['pet_name'] = self._pet_name
+        self.pet['birth_date'] = self._birth
+        self.pet['last_appointment_date'] = self._last_appointment_date
+        self.pet['vet_name'] = self._vet_name
+        self.pet['disease'] = self._disease
+
+        # set only handler info
+        self.handler['handler_name'] = self._handler_name
+        self.handler['phone_number'] = self._phone_number
+        self.handler['mail'] = self._mail
+        self.handler['handler_address'] = self._address
+
+
+        self._all_info_list.append(self._patients)
+        self._pets_list.append(self.pet)
+        self._handlers_list.append(self.handler)
+
 
         self._pet_name=''
         self._birth=''
         self._vet_name=''
         self._last_appointment_date=''
         self._disease=''
+        self._handler_name = ''
+        self._phone_number = ''
+        self._mail = ''
+        self._address = ''
 
-    # adds info into the file
+    def record_handler_info(self):
+        self.record_all_info()
+
+
+
     def record_patient_info(self):
+        # self._patients = {}
+        # self._patients['pet_name'] = self._pet_name
+        # self._patients['birth_date'] = self._birth
+        # self._patients['last_appointment_date'] = self._last_appointment_date
+        # self._patients['vet_name'] = self._vet_name
+        # self._patients['disease'] = self._disease
+        # self._patients['handler_name'] = self._handler_name
+        # self._patients['phone_number'] = self._phone_number
+        # self._patients['mail'] = self._mail
+        # self._patients['address'] = self._address
+        #
+        # self._pets_list.append(self._patients)
+        pass
+
+    # adds ALL info into the file
+    def record_all_info(self):
         # if the file exists
         if path.exists('pet.xml'):
             self.set_previous_patient_info()
@@ -121,6 +192,7 @@ class Model:
         # if not
         else:
             self.add_info()
+
 
         self.add_into_main_table(self._pets_list)
 
@@ -131,7 +203,7 @@ class Model:
         list = doc.createElement('pets_list')
         doc.appendChild(list)
 
-        for item in self._pets_list:
+        for item in self._all_info_list:
             pet = doc.createElement('pet')
 
             pet_name = doc.createElement('pet_name')
@@ -149,11 +221,27 @@ class Model:
             disease = doc.createElement('disease')
             disease.appendChild(doc.createTextNode(item['disease']))
 
+            handler = doc.createElement('handler_name')
+            handler.appendChild(doc.createTextNode(item['handler_name']))
+
+            phone = doc.createElement('phone_number')
+            phone.appendChild(doc.createTextNode(item['phone_number']))
+
+            mail = doc.createElement('mail')
+            mail.appendChild(doc.createTextNode(item['mail']))
+
+            address = doc.createElement('handler_address')
+            address.appendChild(doc.createTextNode(item['handler_address']))
+
             pet.appendChild(pet_name)
             pet.appendChild(birth_date)
             pet.appendChild(last_appointment)
             pet.appendChild(vet_name)
             pet.appendChild(disease)
+            pet.appendChild(handler)
+            pet.appendChild(phone)
+            pet.appendChild(mail)
+            pet.appendChild(address)
 
             list.appendChild(pet)
 
@@ -210,6 +298,7 @@ class Model:
         parser.parse('pet.xml')
 
         self._pets_list = handler.return_pets_list()
+        self._all_info_list = handler.return_all_list()
 
 
     # search for particular records by the given pet name and birth date
@@ -254,7 +343,7 @@ class Model:
 
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)
-        self.delete_from_main_table(deleted_list)
+        self.delete_from_main_table(self._pets_list)
 
     # delete particular records by given parameters of vet name and last appointment date
     def delete_last_appointment_date_vet_name(self, last_appointment_date, vet_name):
@@ -268,7 +357,7 @@ class Model:
 
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)
-        self.delete_from_main_table(deleted_list)
+        self.delete_from_main_table(self._pets_list)
 
     # delete the particular records by the given disease phrase
     def delete_disease_phrase(self, phrase):
@@ -282,7 +371,7 @@ class Model:
 
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)
-        self.delete_from_main_table(deleted_list)
+        self.delete_from_main_table(self._pets_list)
 
     # delete the particular pet element from main screen data table
     def delete_from_main_table(self, deleted_list):

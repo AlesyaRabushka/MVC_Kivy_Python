@@ -18,53 +18,49 @@ class Controller:
         self.view = AddPopup(controller=self, model=self.model)
         self.search_view = SearchPopup(controller=self, model=self.model)
 
-
+        # pet info
         self.pet_name = ''
         self.birth_date = ''
         self.last_appointment_date = ''
         self.vet_name = ''
         self.disease = ''
 
+        # pet handler info
+        self.handler_name=''
+        self.phone_number = ''
+        self.mail = ''
+        self.address = ''
+
         # amount of the input fields
         self.all_is_ready_to_be_a_patient_info = 5
 
 
 
-
+    # set pet info
     def set_pet_name(self, name):
         self.pet_name = str(name)
-
     def set_birth(self, birth):
         self.birth_date = birth
-
     def set_last_appointment_date(self, app):
         self.last_appointment_date = app
-
     def set_vet_name(self, name: str):
         self.vet_name = name
-
     def set_disease(self, disease):
         self.disease = disease
 
-
     # is called to correct the input data
     def set_all_pet_info(self):
-        self.ready_=0
+        self.ready_ = 0
         if self.is_string(self.pet_name) and not self.is_empty(self.pet_name):
-
-            self.ready_+=1
+            self.ready_ += 1
         if self.is_correct_date(self.birth_date) and not self.is_empty(self.birth_date):
-
-            self.ready_+=1
+            self.ready_ += 1
         if self.is_correct_date(self.last_appointment_date) and not self.is_empty(self.last_appointment_date):
-
-            self.ready_+=1
-        if self.is_string(self.vet_name)and not self.is_empty(self.vet_name):
-
-            self.ready_+=1
+            self.ready_ += 1
+        if self.is_string(self.vet_name) and not self.is_empty(self.vet_name):
+            self.ready_ += 1
         if self.is_string(self.disease) and not self.is_empty(self.disease):
-
-            self.ready_+=1
+            self.ready_ += 1
 
         # if all input fields are ready
         if self.all_is_ready_to_be_a_patient_info == self.ready_:
@@ -85,6 +81,55 @@ class Controller:
         # if even one field is empty
         elif self.all_is_ready_to_be_a_patient_info != self.ready_:
             return False
+
+
+
+
+    # set pet handler info
+    def set_handler_name(self, handler):
+        self.handler_name = str(handler)
+
+    def set_phone_number(self, phone):
+        self.phone_number = str(phone)
+
+    def set_mail(self, mail):
+        self.mail = str(mail)
+
+    def set_address(self, address):
+        self.address = str(address)
+
+    # is called to check for correct input data
+    def set_all_handler_info(self):
+        self.ready_ = 0
+        if self.is_string(self.handler_name) and not self.is_empty(self.handler_name):
+            self.ready_ += 1
+        if self.is_correct_phone(self.phone_number) and not self.is_empty(self.phone_number):
+            self.ready_ += 1
+        if self.is_correct_mail(self.mail) and not self.is_empty(self.mail):
+            self.ready_ += 1
+        if self.is_correct_address(self.address) and not self.is_empty(self.address):
+            self.ready_ += 1
+
+        # if all input fields are ready
+        if self.ready_ == 4:
+            self.model.handler_name = self.handler_name
+            self.model.phone_number = self.phone_number
+            self.model.mail = self.mail
+            self.model.address = self.address
+
+            self.handler_name = ''
+            self.phone_number = ''
+            self.mail = ''
+            self.address = ''
+
+
+            return True
+
+        # if even one field is empty
+        elif self.ready_ != 4:
+            return False
+
+
 
     # returns True if str, False if it is not
     def is_string(self, string):
@@ -163,15 +208,58 @@ class Controller:
                     full_date.clear()
                     return True
 
+    # returns True if correct False if it is not
+    def is_correct_phone(self, phone):
+        count = 0
+        plus = 0
+        full_number = []
+        item = ''
+        for i in phone:
+            if i == '+':
+                plus += 1
+            elif i == '-':
+                count += 1
+                full_number.append(item)
+                item = ''
+            else:
+                item += i
+        full_number.append(item)
+
+
+        if len(phone) != 17:
+            return False
+        elif count != 4:
+            return False
+        elif len(full_number[0]) == 3 and len(full_number[1]) == 2 and len(full_number[2]) == 3 and len(full_number[3]) == 2 and len(full_number[4]) == 2:
+            return True
+
+    # returns True if correct False if it is not
+    def is_correct_address(self, address):
+        forbidden = '*+_&^:;#@№!?`~'
+        for i in address:
+            for j in forbidden:
+                if i == j:
+                    return False
+        return True
+
+    # returns True if correct False if it is not
+    def is_correct_mail(self, mail):
+        for i in mail:
+            if i == '@':
+                return True
+        return False
+
 
 
 
     # if info is correct -> to the model
     # else -> dialog
+
+    # pet info
     def record_patient_info(self):
         correct_check = self.set_all_pet_info()
         if correct_check == True:
-            self.view.dialogs(True)
+            self.view.start_handler_info()
             self.model.record_patient_info()
         elif correct_check == False:
             self.view.dialogs(False)
@@ -190,10 +278,16 @@ class Controller:
         # self.vet_name = ''
         # self.disease = ''
 
+    # pet handler info
+    def record_handler_info(self):
+        correct_check = self.set_all_handler_info()
+        if correct_check == True:
+            self.view.dialogs(True)
+            self.model.record_handler_info()
+        elif correct_check == False:
+            self.view.dialogs(False)
 
 
-    def show_patient_info(self):
-        return self.model.show_patient_info()
 
 
     def search_name_birth(self, pet_name, birth_date):
