@@ -122,8 +122,11 @@ class Model:
         else:
             self.add_info()
 
+        self.add_into_main_table(self._pets_list)
 
-        # добавляю записи в файлик
+
+
+        # is called to record pets info into the file
         doc = md.Document()
         list = doc.createElement('pets_list')
         doc.appendChild(list)
@@ -194,6 +197,10 @@ class Model:
         doc.writexml(file, encoding='windows-1251')
         file.close()
 
+    # updates info in tne main screen table after
+    def add_into_main_table(self, pets_list):
+        self.main_view.add_into_main_table(pets_list)
+
     # takes info from the file
     def set_previous_patient_info(self):
         parser = sax.make_parser()  # creating an XMLReader
@@ -238,24 +245,30 @@ class Model:
     # delete particular records by the given parameters of pet name and birth date
     def delete_pet_name_birth_date(self, pet_name, birth_date):
         amount_of_deleted_items = 0
+        deleted_list = []
         for item in self._pets_list:
             if item['pet_name'].lower() == pet_name.lower() and item['birth_date'] == birth_date:
+                deleted_list = item
                 amount_of_deleted_items += 1
                 self._pets_list.remove(item)
 
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)
+        self.delete_from_main_table(deleted_list)
 
     # delete particular records by given parameters of vet name and last appointment date
     def delete_last_appointment_date_vet_name(self, last_appointment_date, vet_name):
         amount_of_deleted_items = 0
+        deleted_list = []
         for item in self._pets_list:
             if item['vet_name'].lower() == vet_name.lower() and item['last_appointment_date'] == last_appointment_date:
+                deleted_list = item
                 amount_of_deleted_items += 1
                 self._pets_list.remove(item)
 
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)
+        self.delete_from_main_table(deleted_list)
 
     # delete the particular records by the given disease phrase
     def delete_disease_phrase(self, phrase):

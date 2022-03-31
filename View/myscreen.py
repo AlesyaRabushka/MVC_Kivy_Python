@@ -507,7 +507,7 @@ class MainScreen(MDScreen):
 
         return table_pets_list
 
-    # new table is called after deleting the pet element
+    # new table is appeared after deleting the pet element
     def delete_from_main_table(self, pet):
         self.remove_widget(self.table)
         self.table = MDDataTable(pos_hint={'center_y': 0.58, 'center_x': 0.5},
@@ -521,7 +521,7 @@ class MainScreen(MDScreen):
                                  row_data=self.add_table_data_deleted(pet))
         self.add_widget(self.table)
 
-    # delete pet element info from main screen data tadble
+    # is called in delete_from_main_table(pet) to delete pet element info from main screen data table
     def add_table_data_deleted(self, pet):
         table_pets_list = []
         for item in self._pets_list:
@@ -537,6 +537,35 @@ class MainScreen(MDScreen):
                 table_pets_list.append(pet_list)
 
         return table_pets_list
+
+    # new table is appeared after adding a new pet element
+    def add_into_main_table(self, pets_list):
+        self.remove_widget(self.table)
+        self.table = MDDataTable(pos_hint={'center_y': 0.58, 'center_x': 0.5},
+                                 use_pagination=True,
+                                 column_data=[
+                                     ("Имя питомца", dp(30)),
+                                     ("Дата рождения", dp(30)),
+                                     ("Дата последнего приема", dp(30)),
+                                     ("ФИО ветеринара", dp(30)),
+                                     ("Диагноз", dp(30))], size_hint=(1, 0.7),
+                                 row_data=self.add_table_data_added(pets_list))
+        self.add_widget(self.table)
+
+    # is called in add_into_main_table() to upload a new pet list into main screen table
+    def add_table_data_added(self, pets_list):
+        table_pets_list = []
+        for item in pets_list:
+            pet_list = []
+            pet_list.append(item['pet_name'])
+            pet_list.append(item['birth_date'])
+            pet_list.append(item['last_appointment_date'])
+            pet_list.append(item['vet_name'])
+            pet_list.append(item['disease'])
+            table_pets_list.append(pet_list)
+
+        return table_pets_list
+
 
     # are called when the popup windows are initialized
     def return_model(self):
