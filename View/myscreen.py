@@ -39,6 +39,10 @@ class AddPopup(Popup, Widget):
 
         self._ready = ''
 
+    def return_model(self):
+        return self.model
+    def return_controller(self):
+        return self.controller
 
     @property
     def ready(self):
@@ -461,6 +465,17 @@ class FoundPopup(Popup, Widget):
                                      ("ФИО ветеринара", dp(30)),
                                      ("Диагноз", dp(30))], size_hint=(1, 0.7))
         self.add_widget(self.table)
+
+class HandlerPopup(Popup):
+
+    model = ObjectProperty()
+    controller = ObjectProperty()
+
+    def __init__(self,controller, model, **kwargs):
+        super().__init__(**kwargs)
+        self.model = model
+        self.controller = controller
+
 
 
 class MainScreen(MDScreen):
