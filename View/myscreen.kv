@@ -41,26 +41,33 @@
         #padding: "12dp"
         #radius: [10, ]
         #pos_hint: {"center_x": .5, "center_y": .5}
+        GridLayout:
+            cols:2
+            Label:
+                text: "[color=c06ef0]                       Sign Up[/color]"
+                markup: True
+                font_size: 20
+                size_hint: None, None
+    #            size_x: 50
+    #            size_y: 50
+                height:50
+#                width:50
 
-        Label:
-            text: "[color=c06ef0]Sign Up[/color]"
-            markup: True
-            font_size: 20
-            size_hint: None, None
-#            size_x: 50
-#            size_y: 50
-            height:50
-            width:50
-
-            pos_hint: {"center_x": .5}
-            #adaptive_size: True
-            background_color: (1,0,0, 1)
+#                pos_hint: {"center_x": .5}
+                #adaptive_size: True
+                background_color: (1,0,0, 1)
 #            canvas.before:
 #                Color:
 #                    rgba: self.background_color
 #                Rectangle:
 #                    size: self.size
 #                    pos: self.pos
+            Image:
+                source:'ilopet.jpg'
+#                center_x:self.parent.center_x
+#                center_y:self.parent.center_y
+#                size:"5sp","5sp"
+                size: (5,5)
 
         # имя пациента
         MyField
@@ -103,7 +110,7 @@
 #                pos_hint: {"center_x": .5,"center_y":.5}
 
             Button:
-                text:'Дата последнего приёма'
+#                text:'Дата последнего приёма'
                 size_hint: None, None
                 size: "40sp", "40sp"
                 on_press: root.choose_last_appointment_date()
@@ -184,15 +191,23 @@
 
         orientation: "vertical"
         adaptive_size: True
+        GridLayout:
+            cols:2
+            Label:
+                text: "[color=c06ef0]                      Search[/color]"
+                markup: True
+                font_size: 20
+                size_hint: None, None
+                height:50
+                width:50
+                pos_hint: {"center_x": .5}
 
-        Label:
-            text: "[color=c06ef0]Search[/color]"
-            markup: True
-            font_size: 20
-            size_hint: None, None
-            height:50
-            width:50
-            pos_hint: {"center_x": .5}
+            Image:
+                source:'ilopet.jpg'
+#                center_x:self.parent.center_x
+#                center_y:self.parent.center_y
+#                size:"5sp","5sp"
+                size: (5,5)
 
         GridLayout:
             cols: 2
@@ -259,7 +274,7 @@
                 on_text: root.set_search_last_appointment_date(self.text)
                 multiline: False
             Button:
-                text:'Дата последнего приёма'
+#                text:'Дата последнего приёма'
                 size_hint: None, None
                 size: "40sp", "40sp"
                 on_press: root.choose_search_last_appointment_date()
@@ -337,15 +352,23 @@
 
         orientation: "vertical"
         adaptive_size: True
+        GridLayout:
+            cols:2
+            Label:
+                text: "[color=c06ef0]                Del[/color]"
+                markup: True
+                font_size: 20
+                size_hint: None, None
+                height:50
+                width:50
+                pos_hint: {"center_x": .5}
 
-        Label:
-            text: "[color=c06ef0]Del[/color]"
-            markup: True
-            font_size: 20
-            size_hint: None, None
-            height:50
-            width:50
-            pos_hint: {"center_x": .5}
+            Image:
+                source:'ilopet.jpg'
+#                center_x:self.parent.center_x
+#                center_y:self.parent.center_y
+#                size:"5sp","5sp"
+                size: (5,5)
 
 
         GridLayout:
@@ -468,10 +491,35 @@
                 text: 'Вернуться в главное меню'
                 #disabled: True if root.everything() else False
                 on_press: root.dismiss()
+                #on_release: Factory.FoundPopup().open()
                 #on_press: root.info()
                 text_color: 0, 0, 0, 1
                 line_color: 1, 0, 1, 1
                 pos_hint: {"center_x": .5,"center_y":.5}
+
+
+<FoundPopup@Popup>
+    title: 'Удаление'
+    auto_dismiss:False
+    separator_color: (192/256,110/256,240/256,1)
+    background_color:'#a910e6'
+    size:(700,900)
+    size_hint:None,None
+
+#    BoxLayout:
+#        # background color
+#        canvas.before:
+#            Color:
+#                rgb: (1,1,1)
+#            Rectangle:
+#                pos: self.pos
+#                size: self.size
+#
+#
+#
+#        orientation: "vertical"
+#        adaptive_size: True
+
 
 <MyLabel@Label>
     pos_hint: {"center_y": .5}

@@ -249,7 +249,7 @@ class SearchPopup(Popup, Widget):
             title='Search',
             text=f'Found records: {count}',
             buttons=[
-                MDFlatButton(text='Ok', on_release=self.closed)
+                MDFlatButton(text='Ok', on_release=self.closed_yes)
             ]
         )
         self.dialog.open()
@@ -288,6 +288,11 @@ class SearchPopup(Popup, Widget):
         self.dialog.open()
 
     # is called to close the dialog
+    def closed_yes(self, text):
+        self.dialog.dismiss()
+        o = FoundPopup()
+        o.open()
+
     def closed(self, text):
         self.dialog.dismiss()
 
@@ -442,6 +447,20 @@ class DeletePopup(Popup, Widget):
 
     def closed(self, text):
         self.dialog.dismiss()
+
+
+class FoundPopup(Popup, Widget):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.table = MDDataTable(pos_hint={'center_y': 0.58, 'center_x': 0.5},
+                                 use_pagination=True,
+                                 column_data=[
+                                     ("Имя питомца", dp(30)),
+                                     ("Дата рождения", dp(30)),
+                                     ("Дата последнего приема", dp(30)),
+                                     ("ФИО ветеринара", dp(30)),
+                                     ("Диагноз", dp(30))], size_hint=(1, 0.7))
+        self.add_widget(self.table)
 
 
 class MainScreen(MDScreen):
