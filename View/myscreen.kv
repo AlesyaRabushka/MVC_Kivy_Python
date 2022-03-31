@@ -201,7 +201,7 @@
             MyField:
                 id: pet_name_input
                 hint_text: 'Имя пациента'
-                on_text: root.set_pet_name(self.text)
+                on_text: root.set_search_pet_name(self.text)
                 pos_hint: {"center_x": .46}
             CheckBox:
                 group: 'search'
@@ -514,7 +514,7 @@
                 #on_release: root.search_name_birth('alesya', '2002-22-10')
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
-                on_release: Factory.AddPopup(root.r_c(), root.r_m()).open()
+                on_release: Factory.AddPopup(root.return_controller(), root.return_model()).open()
                 #on_release: root.clear()
                 #on_release: root.show_dialog()
             Button:
@@ -522,10 +522,10 @@
                 #on_release: root.search_name_birth('alesya', '2002-22-10')
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
-                on_release: Factory.SearchPopup(root.r_c(), root.r_m()).open()
+                on_release: Factory.SearchPopup(root.return_controller(), root.return_model()).open()
             Button:
                 text: 'Удаление пациента'
                 #on_release: root.search_name_birth('alesya', '2002-22-10')
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
-                on_release: Factory.DeletePopup(root.r_c(), root.r_m()).open()
+                on_release: Factory.DeletePopup(root.return_controller(), root.return_model()).open()

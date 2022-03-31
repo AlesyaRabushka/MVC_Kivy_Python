@@ -3,19 +3,21 @@
 
 from View.myscreen import MainScreen, AddPopup, SearchPopup
 from kivy.properties import StringProperty
-
+from Model.myscreen import Model
 
 class Controller:
     """координирует работу модели и представления"""
 
     def __init__(self, model):
         # model
-        self.model = model
 
+        self.model = Model(controller = self)
+        self._pets_list = self.model.return_pets_list()
         # сview screens
-        self.main_view = MainScreen(controller=self, model=self.model)
+        #self.main_view = MainScreen(controller=self, model=self.model)
         self.view = AddPopup(controller=self, model=self.model)
         self.search_view = SearchPopup(controller=self, model=self.model)
+
 
         self.pet_name = ''
         self.birth_date = ''
@@ -23,7 +25,11 @@ class Controller:
         self.vet_name = ''
         self.disease = ''
 
+        # amount of the input fields
         self.all_is_ready_to_be_a_patient_info = 5
+
+
+
 
     def set_pet_name(self, name):
         self.pet_name = str(name)
@@ -73,6 +79,7 @@ class Controller:
             self.last_appointment_date = ''
             self.vet_name = ''
             self.disease = ''
+
             return True
 
         # if even one field is empty
@@ -81,7 +88,7 @@ class Controller:
 
     # returns True if str, False if it is not
     def is_string(self, string):
-        numbers='1234567890'
+        numbers='1234567890*+-/|,:;_&^%$#@=\'\"'
         for i in string:
             for j in numbers:
                 if i == j:
@@ -232,4 +239,5 @@ class Controller:
     # DO NOT TOUCH
     # returns the main  screen
     def get_screen(self):
-        return self.main_view
+        return self.model.main_view
+        #return self.main_view

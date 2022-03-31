@@ -14,6 +14,8 @@ from os import path
 
 from Model.sax_parser import PetElement
 
+from kivy.properties import ObjectProperty
+
 from kivymd.uix.picker import MDDatePicker
 
 from View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
@@ -21,28 +23,35 @@ from View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
 
 class Model:
 
-    def __init__(self):
+
+    def __init__(self, controller):
         self._pet_name = ''
         self._birth = ''
         self._last_appointment_date = ''
         self._vet_name =''
         self._disease=''
         self.val = ''
+        self.controller = controller
 
-        self.main_view = MainScreen()
-        self.view = AddPopup(self.main_view.r_c(), self.main_view.r_m())
-        self.search_view = SearchPopup(self.main_view.r_c(), self.main_view.r_m())
-        self.delete_view = DeletePopup(self.main_view.r_c(), self.main_view.r_m())
+        # список всех пациентов
+        self._pets_list = []
+
+        # reading info from the file with the start of the program
+        self.set_previous_patient_info()
+        self.main_view = MainScreen(model = self, controller = self.controller)
+        self.view = AddPopup(self.main_view.return_controller(), self.main_view.return_model())
+        self.search_view = SearchPopup(self.controller, self.main_view.return_model())
+        self.delete_view = DeletePopup(self.main_view.return_controller(), self.main_view.return_model())
 
 
         # список классов наблюдателя
         self._observers = []
-        # список всех пациентов
-        self._pets_list = []
 
 
-        # reading info from the file with the start of the program
-        self.set_previous_patient_info()
+
+
+    def return_pets_list(self):
+        return self._pets_list
 
 
     @property
