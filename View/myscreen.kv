@@ -482,7 +482,6 @@
 
 
 <MainScreen>
-
     BoxLayout:
         orientation: "vertical"
         adaptive_size: True
@@ -499,11 +498,6 @@
             md_bg_color: 192/256,110/256,240/256,1
             left_action_items: [["menu", lambda x: x]]
 
-        Image:
-            id: imageView
-            source:'ilopet.jpg'
-            pos_hint: {"center_x": .5}
-            allow_stretch: True
 
         Label:
 #            text: "[color=FF00FF]ГЛАВНОЕ ОКНО[/color]"
@@ -514,6 +508,7 @@
 
         GridLayout:
             cols: 3
+            size_hint: 1, 0.3
             Button:
                 text: 'Запись пациента'
                 #on_release: root.search_name_birth('alesya', '2002-22-10')

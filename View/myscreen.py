@@ -17,12 +17,12 @@ from kivy.factory import Factory
 from kivy.core.window import Window
 
 from kivy.uix.widget import Widget
-
+from kivy.metrics import dp
 #from Kivy_MVC_Template.Utility.observer import Observer
 
 from kivymd.uix.button import MDFlatButton
-
-
+from kivymd.uix.datatables import MDDataTable
+from kivy.uix.gridlayout import GridLayout
 # popup window for pet data input
 class AddPopup(Popup, Widget):
     """
@@ -451,13 +451,22 @@ class MainScreen(MDScreen):
     # объект модели
     model = ObjectProperty()
 
-    def __init__(self, **kw):
+    def __init__(self,**kw):
         super().__init__(**kw)
         self.dialog=None
+
+        self.table = MDDataTable(pos_hint={'center_y': 0.58, 'center_x': 0.5},
+                                 use_pagination=True,
+                                 column_data=[
+                                     ("Имя питомца", dp(30)),
+                                     ("Дата рождения", dp(30)),
+                                     ("Дата последнего приема", dp(30)),
+                                     ("ФИО ветеринара", dp(30)),
+                                     ("Диагноз", dp(30))], size_hint=(1,0.7), row_data=[('Глаша','2012-09-01','2022-03-28','Рабушка А.А.','Беременность')])
+        self.add_widget(self.table)
         #self.ready = False
         #self.dialog = None
         #self.model.add_observer(self)  # register the view as an observer
-
 
     def r_m(self):
         return self.model
