@@ -145,10 +145,9 @@
             padding: 75, 0, 0, 0
             spacing: 10
             MDFillRoundFlatButton:
-                text: '  Информация о владельце  '
+                text: '  Добавить информацию  '
                 #disabled: True if root.everything() else False
                 on_press: root.record_patient_info()
-                #on_release: Factory.HandlerPopup(root.return_controller(), root.return_model()).open()
                 #on_release: root.dialogs()
                 #on_press: root.info()
                 text_color: 0, 0, 0, 1
@@ -506,7 +505,19 @@
     size:(700,900)
     size_hint:None,None
 
-
+#    BoxLayout:
+#        # background color
+#        canvas.before:
+#            Color:
+#                rgb: (1,1,1)
+#            Rectangle:
+#                pos: self.pos
+#                size: self.size
+#
+#
+#
+#        orientation: "vertical"
+#        adaptive_size: True
 
 <HandlerPopup@Popup>
     title: 'Информация о владельце'
@@ -582,24 +593,23 @@
             MDFillRoundFlatButton:
                 text: 'Добавить информацию'
                 on_press: root.record_handler_info()
-                on_release: root.dismiss()
+                #on_release: root.dismiss()
                 text_color: 0, 0, 0, 1
                 line_color: 1, 0, 1, 1
 #                pos_hint: {"center_x": .5,"center_y":.5}
 
-<MyLabel@Label>
-    pos_hint: {"center_y": .5}
 
-<BackgroundColor@Label>
-    background_color: 'FFCCFF'
 
-<InformationPopup@Popup>:
-    auto_dismiss:False
+
+<InformationPopup@Popup>
+    title:'Информация о пациенте'
     separator_color: (192/256,110/256,240/256,1)
     background_color:'#a910e6'
     size:(700,900)
     size_hint:None,None
+
     BoxLayout:
+        orientation: 'vertical'
         canvas.before:
             Color:
                 rgb: (1,1,1)
@@ -608,8 +618,63 @@
                 size: self.size
 
         Button:
-            text:"хуй"
+            text: 'Вернуться в главное меню'
+            #disabled: True if root.everything() else False
+            on_press: root.close_pet_info_window()
+            #on_release: Factory.FoundPopup().open()
+            #on_press: root.info()
+            text_color: 0, 0, 0, 1
+            line_color: 1, 0, 1, 1
+            pos_hint: {"center_x": .5,"center_y":.5}
+
+
+<WarningPopup@Popup>
+    title: 'XML Parsing Error'
+    auto_dismiss:False
+    separator_color: (192/256,110/256,240/256,1)
+    background_color:'#a910e6'
+    size_hint:None,None
+    size:(350,450)
+    pos_hint: {"center_x": .5,"center_y":.5}
+
+    BoxLayout:
+        # background color
+#        canvas.before:
+#            Color:
+#                rgb: (1,1,1)
+#            Rectangle:
+#                pos: self.pos
+#                size: self.size
+
+
+
+        orientation: "vertical"
+        adaptive_size: True
+
+        Label:
+            text: 'Something went wrong'
+        GridLayout:
+            cols:2
+            Label:
+                text: 'Amount:'
+            Label:
+                id: files
+
+        Button:
+            text: 'do you want to fix them?'
             on_press: root.dismiss()
+
+
+
+
+
+
+<MyLabel@Label>
+    pos_hint: {"center_y": .5}
+
+<BackgroundColor@Label>
+    background_color: 'FFCCFF'
+
 
 
 <MainScreen>
@@ -660,3 +725,4 @@
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
                 on_release: Factory.DeletePopup(root.return_controller(), root.return_model()).open()
+

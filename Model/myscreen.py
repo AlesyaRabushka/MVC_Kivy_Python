@@ -12,13 +12,10 @@ import xml.sax as sax
 
 from os import path
 
-from Model.sax_parser import PetElement
+from MVC_Kivy_Python.Model.sax_parser import PetElement
+from MVC_Kivy_Python.View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
 
-from kivy.properties import ObjectProperty
-
-from kivymd.uix.picker import MDDatePicker
-
-from View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
+from MVC_Kivy_Python.View.myscreen import WarningPopup
 
 
 class Model:
@@ -39,9 +36,16 @@ class Model:
         self._all_info_list = []
 
         # reading info from the file with the start of the program
+        self.bad_files_count = 0
         self.set_previous_patient_info()
+
         self.main_view = MainScreen(model = self, controller = self.controller)
-        self.view = AddPopup(self.main_view.return_controller(), self.main_view.return_model())
+        #self.warning = WarningPopup()
+        # self.view = AddPopup(self.main_view.return_controller(), self.main_view.return_model())
+        # self.search_view = SearchPopup(self.controller, self.main_view.return_model())
+        # self.delete_view = DeletePopup(self.main_view.return_controller(), self.main_view.return_model())
+
+        self.view = AddPopup(controller = self.controller, model = self)
         self.search_view = SearchPopup(self.controller, self.main_view.return_model())
         self.delete_view = DeletePopup(self.main_view.return_controller(), self.main_view.return_model())
 
@@ -54,8 +58,13 @@ class Model:
 
 
 
+
+
+
     def return_pets_list(self):
         return self._pets_list
+    def return_all_info_list(self):
+        return self._all_info_list
 
     # set pet info
     @property
@@ -289,16 +298,24 @@ class Model:
     def add_into_main_table(self, pets_list):
         self.main_view.add_into_main_table(pets_list)
 
-    # takes info from the file
+    # takes info from the file by PARSER
     def set_previous_patient_info(self):
         parser = sax.make_parser()  # creating an XMLReader
         parser.setFeature(sax.handler.feature_namespaces, 0)  # turning off namespaces
-        handler = PetElement()
+
+        handler = PetElement(model = self)
         parser.setContentHandler(handler)  # overriding default ContextHandler
         parser.parse('pet.xml')
 
         self._pets_list = handler.return_pets_list()
         self._all_info_list = handler.return_all_list()
+        self.bad_files_count = handler.return_bad_files_count()
+
+
+    def return_bad_files_count(self):
+        return self.bad_files_count
+
+
 
 
     # search for particular records by the given pet name and birth date

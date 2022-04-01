@@ -1,20 +1,22 @@
 # отслеживает все события, которые происходят на экране
 # вызывает методы модели и представления
 
-from View.myscreen import MainScreen, AddPopup, SearchPopup
+#from View.myscreen import MainScreen, AddPopup, SearchPopup
 from kivy.properties import StringProperty
-from Model.myscreen import Model
+from MVC_Kivy_Python.Model.myscreen import Model
+from MVC_Kivy_Python.View.myscreen import MainScreen, AddPopup, SearchPopup
+
 
 class Controller:
     """координирует работу модели и представления"""
 
-    def __init__(self, model):
+    def __init__(self):
         # model
 
         self.model = Model(controller = self)
         self._pets_list = self.model.return_pets_list()
-        # сview screens
-        #self.main_view = MainScreen(controller=self, model=self.model)
+        # view screens
+        self.main_view = MainScreen(controller=self, model=self.model)
         self.view = AddPopup(controller=self, model=self.model)
         self.search_view = SearchPopup(controller=self, model=self.model)
 
@@ -266,11 +268,12 @@ class Controller:
 
 
         # IS USED ONLY IN PURPOSE OF MAKING INCORRECT RECORDS
-        # self.model.pet_name = self.pet_name
+        #self.model.pet_name = self.pet_name
         # self.model.birth = self.birth_date
         # self.model.last_appointment_date = self.last_appointment_date
         # self.model.vet_name = self.vet_name
         # self.model.disease = self.disease
+        # self.view.start_handler_info()
         # self.model.record_patient_info()
         # self.pet_name = ''
         # self.birth_date = ''
@@ -286,6 +289,18 @@ class Controller:
             self.model.record_handler_info()
         elif correct_check == False:
             self.view.dialogs(False)
+
+        # IS USED ONLY IN PURPOSE OF MAKING INCORRECT RECORDS
+        # self.model.handler_name = self.handler_name
+        # self.model.phone_number = self.phone_number
+        # self.model.mail = self.mail
+        # self.model.address = self.address
+        #
+        # self.model.record_handler_info()
+        # self.handler_name = ''
+        # self.phone_number = ''
+        # self.mail = ''
+        # self.address = ''
 
 
 

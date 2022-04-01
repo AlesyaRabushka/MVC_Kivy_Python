@@ -476,6 +476,9 @@ class FoundPopup(Popup, Widget):
 
 # popup window about pet handler information that is appeared after AddPopup window
 class HandlerPopup(Popup):
+    """
+    Is used to set up pet handler information
+    """
 
     model = ObjectProperty()
     controller = ObjectProperty()
@@ -501,11 +504,57 @@ class HandlerPopup(Popup):
 
 # popup window for single pet information that is appeared when you click on CHECK in main screen table
 class InformationPopup(Popup):
-    def __init__(self, pet_info, **kwargs):
+    """
+    Is used to show more detailed pet info
+    """
+    def __init__(self, pet_info, main, **kwargs):
         super().__init__(**kwargs)
         self.pet_info = pet_info
+        self.main = main
+        self._all_info_list = main.return_all_info_list()
 
 
+        self.pet_name = pet_info[0]
+        self.birth_date = pet_info[1]
+        self.last_appointment_date = pet_info[2]
+        self.vet_name = pet_info[3]
+        self.disease = pet_info[4]
+
+        # for item in self._all_info_list:
+        #     if item['pet_name'] == self.pet_name:
+        #         self.ids.handler_name.text = item['handler_name']
+        #         self.ids.phone_number.text = item['phone_number']
+        #         self.ids.mail.text = item['mail']
+        #         self.ids.handler_address.text = item['handler_address']
+        #
+        #
+        # self.ids.pet_name.text = self.pet_name
+        # self.ids.birth_date.text = self.birth_date
+        # self.ids.last_appointment_date.text = self.last_appointment_date
+        # self.ids.vet_name.text = self.vet_name
+        # self.ids.disease.text = self.disease
+
+
+    # is called to close the InformationPopup
+    # and make CHECK in the main screen table down again
+    def close_pet_info_window(self):
+        self.dismiss()
+        self.main.close_pet_info_window()
+
+
+# popup window that shows the amount of broken records if they exist
+class WarningPopup(Popup, Widget):
+    """
+    Is used for showing the amount of broken records if they exist
+    """
+    def __init__(self, main, bad_files_count, **kwargs):
+        super().__init__(**kwargs)
+        self.main = main
+        self.bad_files_count = bad_files_count
+        self.ids.files.text = bad_files_count
+
+    def dismiss(self):
+        self.main.dismiss_warning()
 
 
 # main view
@@ -519,18 +568,22 @@ class MainScreen(MDScreen):
     controller = ObjectProperty()
     model = ObjectProperty()
 
-    def __init__(self,model,controller,**kw):
+    def __init__(self,model,controller, **kw):
         super().__init__(**kw)
         self.dialog=None
 
         self.controller = controller
         self.model = model
+
         self._pets_list=self.model.return_pets_list()
+        self._all_info_list = self.model.return_all_info_list()
+
+        self.current_pet_info = []
 
         # the table on the main screen
         self.table = MDDataTable(pos_hint={'center_y': 0.58, 'center_x': 0.5},
                                  use_pagination=True,
-                                 #check = True,
+                                 check = True,
                                  column_data=[
                                      ("Имя питомца", dp(30)),
                                      ("Дата рождения", dp(30)),
@@ -538,18 +591,33 @@ class MainScreen(MDScreen):
                                      ("ФИО ветеринара", dp(30)),
                                      ("Диагноз", dp(30))], size_hint=(1, 0.7),
                                  row_data=self.add_table_data())
-
-        self.table.bind(on_row_press = self.pet_info_window)
+        #self.table.bind(on_row_press=self.pet_info_window)
+        self.table.bind(on_check_press=self.check_info)
         self.add_widget(self.table)
 
+        # the warning window about broken records in xml file
+        # is shown ONLY if they exist
+        self.bad_files_count = str(self.model.return_bad_files_count())
+        if int(self.bad_files_count) != 0:
+            self.w = WarningPopup(main = self, bad_files_count=self.bad_files_count)
+            self.add_widget(self.w)
+
+
+
+    def dismiss_warning(self):
+        self.remove_widget(self.w)
+
+    def return_bad_files_count(self, count):
+        print(count)
+
+    def return_all_info_list(self):
+        return self._all_info_list
 
     # popup window with more detailed pet info
-    def pet_info_window(self, instance, current_row):
-        if current_row.ids.check.state == 'normal':
-            InformationPopup(current_row).open()
-        else:
-            current_row.ids.check.state = 'normal'
-
+    # is appeared when you click on CHECK in the main screen table
+    def check_info(self, instance, pet_info):
+        InformationPopup(pet_info, main=self).open()
+        print(pet_info)
 
     # is called from InformationPopup when it is dismissed
     def close_pet_info_window(self):
@@ -576,6 +644,7 @@ class MainScreen(MDScreen):
         self.remove_widget(self.table)
         self.table = MDDataTable(pos_hint={'center_y': 0.58, 'center_x': 0.5},
                                  use_pagination=True,
+                                 check = True,
                                  column_data=[
                                      ("Имя питомца", dp(30)),
                                      ("Дата рождения", dp(30)),
@@ -583,7 +652,7 @@ class MainScreen(MDScreen):
                                      ("ФИО ветеринара", dp(30)),
                                      ("Диагноз", dp(30))], size_hint=(1, 0.7),
                                  row_data=self.add_table_data_deleted(pet))
-        self.table.bind(on_row_press=self.pet_info_window)
+        self.table.bind(on_check_press=self.check_info)
         self.add_widget(self.table)
 
     # is called in delete_from_main_table(pet) to delete pet element info from main screen data table
@@ -605,6 +674,7 @@ class MainScreen(MDScreen):
         self.remove_widget(self.table)
         self.table = MDDataTable(pos_hint={'center_y': 0.58, 'center_x': 0.5},
                                  use_pagination=True,
+                                 check = True,
                                  column_data=[
                                      ("Имя питомца", dp(30)),
                                      ("Дата рождения", dp(30)),
@@ -613,7 +683,7 @@ class MainScreen(MDScreen):
                                      ("Диагноз", dp(30))], size_hint=(1, 0.7),
                                  row_data=self.add_table_data_added(pets_list))
 
-        self.table.bind(on_row_press=self.pet_info_window)
+        self.table.bind(on_check_press=self.check_info)
         self.add_widget(self.table)
 
     # is called in add_into_main_table() to upload a new pet list into main screen table

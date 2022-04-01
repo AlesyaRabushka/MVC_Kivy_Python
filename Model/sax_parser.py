@@ -5,20 +5,10 @@ import xml.sax
 from kivy.uix.popup import Popup
 
 
-class ParserPopup(Popup):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.closed = False
-
-    def dismissed(self):
-        self.dismiss()
-        print('bye')
-        self.closed = True
-
 
 
 class PetElement(xml.sax.ContentHandler):
-    def __init__(self):
+    def __init__(self, model):
         self.current_data = False
         self.pet_name = False
         self.birth_date = False
@@ -30,10 +20,14 @@ class PetElement(xml.sax.ContentHandler):
         self.mail = False
         self.address = False
 
+        self.model = model
+
         # self.dialog = main_view
 
         self.count_pet = 0
         self.count_handler = 0
+        self.bad_files_count = 0
+        self.bad_line = []
 
 
 
@@ -44,36 +38,51 @@ class PetElement(xml.sax.ContentHandler):
             self.pets_list = []
             self.handlers_list = []
             self.all_list = []
+            self.lines = []
+            self.line = 2
+
 
         elif self.current_data == 'pet':
             self.pet = {}
             self.handler = {}
             self.all = {}
+            self.line += 1
 
         elif self.current_data == 'pet_name':
             self.pet_name=True
+            self.line += 1
             #print('petname:', self.pet_name)
         elif self.current_data == 'birth_date':
             self.birth_date = True
+            self.line += 1
             #print('birth date: ', self.birth_data)
         elif self.current_data == 'last_appointment_date':
             self.last_appointment_date = True
+            self.line += 1
             #print('last appointment date: ', self.last_appointment_date)
         elif self.current_data == 'vet_name':
             self.vet_name = True
+            self.line += 1
             #print('vet name: ', self.vet_name)
         elif self.current_data == 'disease':
             self.disease = True
+            self.line += 1
 
 
         elif self.current_data == 'handler_name':
             self.handler_name = True
+            self.line += 1
         elif self.current_data == 'phone_number':
             self.phone_number = True
+            self.line += 1
         elif self.current_data == 'mail':
             self.mail = True
+            self.line += 1
         elif self.current_data == 'handler_address':
             self.address = True
+            self.line += 1
+        elif self.current_data == 'pet_name/':
+            print('baddesss$')
             #print('disease: ', self.disease)
         self.current_data=''
 
@@ -92,14 +101,8 @@ class PetElement(xml.sax.ContentHandler):
                 self.count_pet=0
                 self.count_handler=0
             else:
-                print('here is bad file')
-                # while True:
-                #     ParserPopup().open()
-                #     print('hyq')
-                #     if ParserPopup().closed:
-                #         print(ParserPopup().closed)
-                #         print('break')
-                #         break
+                #print('bad file')
+                self.bad_files_count += 1
 
 
     def characters(self, content):
@@ -108,12 +111,21 @@ class PetElement(xml.sax.ContentHandler):
             #self.pet_name = content
             self.pet['pet_name'] = content
             self.all['pet_name'] = content
+            #print(content)
             self.pet_name = False
             self.count_pet += 1
+        # elif self.pet_name == False:
+        #         print('not name ',self.line)
+        #         if self.line > 12:
+        #             self.bad_line.append(self.line - 8)
+        #         else:
+        #             self.bad_line.append(self.line)
+                #print(self.bad_line)
         elif self.birth_date:
             self.pet['birth_date'] = content
             self.all['birth_date'] = content
             self.birth_date = False
+            #print(self.line)
             self.count_pet += 1
             #self.birth_data = content
         elif self.last_appointment_date:
@@ -163,5 +175,8 @@ class PetElement(xml.sax.ContentHandler):
         return self.handlers_list
     def return_all_list(self):
         return self.all_list
+    def return_bad_files_count(self):
+        return self.bad_files_count
+
 
 #Builder.load_file(os.path.join(os.path.dirname(__file__), "sax_parser.kv"))
