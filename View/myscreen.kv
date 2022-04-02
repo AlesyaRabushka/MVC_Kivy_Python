@@ -145,10 +145,9 @@
             padding: 75, 0, 0, 0
             spacing: 10
             MDFillRoundFlatButton:
-                text: '  Информация о владельце  '
+                text: '  Добавить информацию  '
                 #disabled: True if root.everything() else False
                 on_press: root.record_patient_info()
-                on_release: Factory.HandlerPopup(root.return_controller(), root.return_model()).open()
                 #on_release: root.dialogs()
                 #on_press: root.info()
                 text_color: 0, 0, 0, 1
@@ -497,6 +496,7 @@
                 pos_hint: {"center_x": .5,"center_y":.5}
 
 
+
 <FoundPopup@Popup>
     title: 'Удаление'
     auto_dismiss:False
@@ -505,22 +505,27 @@
     size:(700,900)
     size_hint:None,None
 
+#    BoxLayout:
+#        # background color
+#        canvas.before:
+#            Color:
+#                rgb: (1,1,1)
+#            Rectangle:
+#                pos: self.pos
+#                size: self.size
+#
+#
+#
+#        orientation: "vertical"
+#        adaptive_size: True
 
 <HandlerPopup@Popup>
-<<<<<<< HEAD
     title: 'Информация о владельце'
     auto_dismiss:False
     separator_color: (192/256,110/256,240/256,1)
     background_color:'#a910e6'
     size_hint:None,None
     size:(350,450)
-=======
-    title:'Информация о пациенте'
-    separator_color: (192/256,110/256,240/256,1)
-    background_color:'#a910e6'
-    size:(700,900)
-    size_hint:None,None
->>>>>>> origin/main
 
     BoxLayout:
         # background color
@@ -535,7 +540,6 @@
 
         orientation: "vertical"
         adaptive_size: True
-<<<<<<< HEAD
 
         GridLayout:
             cols:2
@@ -547,26 +551,10 @@
 
             Image:
                 source:'call.png'
-=======
-        GridLayout:
-            cols:2
-            Label:
-                text: "[color=c06ef0]                Information[/color]"
-                markup: True
-                font_size: 20
-                size_hint: None, None
-                height:50
-                width:50
-                pos_hint: {"center_x": .5}
-
-            Image:
-                source:'ilopet.jpg'
->>>>>>> origin/main
 #                center_x:self.parent.center_x
 #                center_y:self.parent.center_y
 #                size:"5sp","5sp"
                 size: (5,5)
-<<<<<<< HEAD
         GridLayout:
             cols:1
             rows:4
@@ -575,28 +563,28 @@
             MyField
                 id: hadler_name_input
                 hint_text: 'Имя владельца'
-                on_text: root.set_pet_name(self.text)
+                on_text: root.set_handler_name(self.text)
                 pos_hint: {"center_x": .46}
 
         # Номер телефона
             MyField:
                 id: phone_number_input
                 hint_text: 'Номера телефона'
-                max_text_length: 10
-                on_text: root.set_birth_date(self.text)
+                max_text_length: 17
+                on_text: root.set_phone_number(self.text)
 
             #Почта
             MyField:
                 id: email_input
                 hint_text: 'Почта'
-                max_text_length: 10
-                on_text: root.set_last_appointment_date(self.text)
+                #max_text_length: 10
+                on_text: root.set_mail(self.text)
 
             #Адрес
             MyField:
                 hint_text: 'Адрес'
-                id: adress_input
-                on_text: root.set_vet_name(self.text)
+                id: address_input
+                on_text: root.set_address(self.text)
                 multiline: False
 #                pos_hint: {"center_x": .5,"center_y":.5}
         GridLayout:
@@ -604,11 +592,19 @@
             padding:75,100,0,0
             MDFillRoundFlatButton:
                 text: 'Добавить информацию'
-                on_press: root.dismiss()
+                on_press: root.record_handler_info()
+                #on_release: root.dismiss()
                 text_color: 0, 0, 0, 1
                 line_color: 1, 0, 1, 1
 #                pos_hint: {"center_x": .5,"center_y":.5}
-=======
+            MDFillRoundFlatButton:
+                text: 'Добавить информацию'
+                on_press: root.dismiss()
+                #on_release: root.dismiss()
+                text_color: 0, 0, 0, 1
+                line_color: 1, 0, 1, 1
+#                pos_hint: {"center_x": .5,"center_y":.5}
+
 
 
 
@@ -620,17 +616,65 @@
     size_hint:None,None
 
     BoxLayout:
-        MDFillRoundFlatButton:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgb: (1,1,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Button:
             text: 'Вернуться в главное меню'
             #disabled: True if root.everything() else False
-            on_press: root.dismiss()
+            on_press: root.close_pet_info_window()
             #on_release: Factory.FoundPopup().open()
             #on_press: root.info()
             text_color: 0, 0, 0, 1
             line_color: 1, 0, 1, 1
             pos_hint: {"center_x": .5,"center_y":.5}
 
->>>>>>> origin/main
+
+<WarningPopup@Popup>
+    title: 'XML Parsing Error'
+    auto_dismiss:False
+    separator_color: (192/256,110/256,240/256,1)
+    background_color:'#a910e6'
+    size_hint:None,None
+    size:(350,450)
+    pos_hint: {"center_x": .5,"center_y":.5}
+
+    BoxLayout:
+        # background color
+#        canvas.before:
+#            Color:
+#                rgb: (1,1,1)
+#            Rectangle:
+#                pos: self.pos
+#                size: self.size
+
+
+
+        orientation: "vertical"
+        adaptive_size: True
+
+        Label:
+            text: 'Something went wrong'
+        GridLayout:
+            cols:2
+            Label:
+                text: 'Amount:'
+            Label:
+                id: files
+
+        Button:
+            text: 'do you want to fix them?'
+            on_press: root.dismiss()
+
+
+
+
+
 
 <MyLabel@Label>
     pos_hint: {"center_y": .5}
