@@ -161,6 +161,8 @@ class Model:
         self._pets_list.append(self.pet)
         self._handlers_list.append(self.handler)
 
+        print(self._pets_list)
+
 
         self._pet_name=''
         self._birth=''
@@ -204,6 +206,7 @@ class Model:
 
 
         self.add_into_main_table(self._pets_list)
+
 
 
 
@@ -264,7 +267,7 @@ class Model:
         list = doc.createElement('pets_list')
         doc.appendChild(list)
 
-        for item in self._pets_list:
+        for item in self._all_info_list:
             pet = doc.createElement('pet')
 
             pet_name = doc.createElement('pet_name')
@@ -282,11 +285,27 @@ class Model:
             disease = doc.createElement('disease')
             disease.appendChild(doc.createTextNode(item['disease']))
 
+            handler = doc.createElement('handler_name')
+            handler.appendChild(doc.createTextNode(item['handler_name']))
+
+            phone = doc.createElement('phone_number')
+            phone.appendChild(doc.createTextNode(item['phone_number']))
+
+            mail = doc.createElement('mail')
+            mail.appendChild(doc.createTextNode(item['mail']))
+
+            address = doc.createElement('handler_address')
+            address.appendChild(doc.createTextNode(item['handler_address']))
+
             pet.appendChild(pet_name)
             pet.appendChild(birth_date)
             pet.appendChild(last_appointment)
             pet.appendChild(vet_name)
             pet.appendChild(disease)
+            pet.appendChild(handler)
+            pet.appendChild(phone)
+            pet.appendChild(mail)
+            pet.appendChild(address)
 
             list.appendChild(pet)
 
@@ -351,12 +370,15 @@ class Model:
     # delete particular records by the given parameters of pet name and birth date
     def delete_pet_name_birth_date(self, pet_name, birth_date):
         amount_of_deleted_items = 0
-        deleted_list = []
         for item in self._pets_list:
             if item['pet_name'].lower() == pet_name.lower() and item['birth_date'] == birth_date:
-                deleted_list = item
                 amount_of_deleted_items += 1
                 self._pets_list.remove(item)
+                # looking for this item in the main list
+                for bigger_item in self._all_info_list:
+                    if bigger_item['pet_name'].lower() == pet_name.lower() and bigger_item['birth_date'] == birth_date:
+                        self._all_info_list.remove(bigger_item)
+
 
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)
@@ -365,12 +387,14 @@ class Model:
     # delete particular records by given parameters of vet name and last appointment date
     def delete_last_appointment_date_vet_name(self, last_appointment_date, vet_name):
         amount_of_deleted_items = 0
-        deleted_list = []
         for item in self._pets_list:
             if item['vet_name'].lower() == vet_name.lower() and item['last_appointment_date'] == last_appointment_date:
-                deleted_list = item
                 amount_of_deleted_items += 1
                 self._pets_list.remove(item)
+                # looking for this item in the main list
+                for bigger_item in self._all_info_list:
+                    if bigger_item['vet_name'].lower() == vet_name.lower() and bigger_item['last_appointment_date'] == last_appointment_date:
+                        self._all_info_list.remove(bigger_item)
 
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)
@@ -379,12 +403,19 @@ class Model:
     # delete the particular records by the given disease phrase
     def delete_disease_phrase(self, phrase):
         amount_of_deleted_items = 0
-        deleted_list = []
+        index = []
+        print('phrase ', phrase)
+        print(self._pets_list)
         for item in self._pets_list:
             if (item['disease'].lower()).find(phrase.lower()) != -1:
-                deleted_list = item
                 amount_of_deleted_items += 1
                 self._pets_list.remove(item)
+                # looking for this item in the main list
+                for bigger_item in self._all_info_list:
+                    if (bigger_item['disease'].lower()).find(phrase.lower()) != -1:
+                        self._all_info_list.remove(bigger_item)
+            else:
+                pass
 
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)

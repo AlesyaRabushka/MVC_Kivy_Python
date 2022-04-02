@@ -27,7 +27,7 @@ class PetElement(xml.sax.ContentHandler):
         self.count_pet = 0
         self.count_handler = 0
         self.bad_files_count = 0
-        self.bad_line = []
+        self.bad_lines = {}
 
 
 
@@ -39,7 +39,7 @@ class PetElement(xml.sax.ContentHandler):
             self.handlers_list = []
             self.all_list = []
             self.lines = []
-            self.line = 2
+            self.line = 1
 
 
         elif self.current_data == 'pet':
@@ -51,6 +51,7 @@ class PetElement(xml.sax.ContentHandler):
         elif self.current_data == 'pet_name':
             self.pet_name=True
             self.line += 1
+            print(self.line)
             #print('petname:', self.pet_name)
         elif self.current_data == 'birth_date':
             self.birth_date = True
@@ -102,6 +103,8 @@ class PetElement(xml.sax.ContentHandler):
                 self.count_handler=0
             else:
                 #print('bad file')
+                self.count_pet = 0
+                self.count_handler = 0
                 self.bad_files_count += 1
 
 
@@ -111,9 +114,23 @@ class PetElement(xml.sax.ContentHandler):
             #self.pet_name = content
             self.pet['pet_name'] = content
             self.all['pet_name'] = content
-            #print(content)
-            self.pet_name = False
             self.count_pet += 1
+            self.pet_name = False
+
+
+            #print(content)
+
+            # if self.line % 11 != 4:
+            #     print('error in line' , self.line)
+            #     # self.line -= 1
+            #     #self.count_pet -= 1
+            #
+            # else:
+            #     self.pet['pet_name'] = content
+            #     self.all['pet_name'] = content
+            #     self.count_pet += 1
+            #     print('pet_name ', self.line)
+
         # elif self.pet_name == False:
         #         print('not name ',self.line)
         #         if self.line > 12:
@@ -125,7 +142,7 @@ class PetElement(xml.sax.ContentHandler):
             self.pet['birth_date'] = content
             self.all['birth_date'] = content
             self.birth_date = False
-            #print(self.line)
+            print('birth ',self.line)
             self.count_pet += 1
             #self.birth_data = content
         elif self.last_appointment_date:
@@ -133,18 +150,21 @@ class PetElement(xml.sax.ContentHandler):
             self.all['last_appointment_date'] = content
             self.last_appointment_date = False
             self.count_pet += 1
+            print('last ', self.line)
             #self.last_appointment_date = content
         elif self.vet_name:
             self.pet['vet_name'] = content
             self.all['vet_name'] = content
             self.vet_name = False
             self.count_pet += 1
+            print('vet ', self.line)
             #self.vet_name = content
         elif self.disease:
             self.pet['disease'] = content
             self.all['disease'] = content
             self.disease = False
             self.count_pet += 1
+            print('disease ',self.line)
 
         # handler info
         elif self.handler_name:

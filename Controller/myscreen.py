@@ -268,7 +268,7 @@ class Controller:
 
 
         # IS USED ONLY IN PURPOSE OF MAKING INCORRECT RECORDS
-        #self.model.pet_name = self.pet_name
+        # self.model.pet_name = self.pet_name
         # self.model.birth = self.birth_date
         # self.model.last_appointment_date = self.last_appointment_date
         # self.model.vet_name = self.vet_name

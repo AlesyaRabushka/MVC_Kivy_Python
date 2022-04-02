@@ -689,6 +689,7 @@ class MainScreen(MDScreen):
     # is called in add_into_main_table() to upload a new pet list into main screen table
     def add_table_data_added(self, pets_list):
         table_pets_list = []
+        self._pets_list = pets_list
         for item in pets_list:
             pet_list = []
             pet_list.append(item['pet_name'])
