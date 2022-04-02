@@ -547,11 +547,13 @@ class WarningPopup(Popup, Widget):
     """
     Is used for showing the amount of broken records if they exist
     """
-    def __init__(self, main, bad_files_count, **kwargs):
+    def __init__(self, main, bad_files_count, bad_line_name, bad_line_count, **kwargs):
         super().__init__(**kwargs)
         self.main = main
-        self.bad_files_count = bad_files_count
-        self.ids.files.text = bad_files_count
+
+        self.ids.files_count.text = bad_files_count
+        self.ids.line_name.text = bad_line_name
+        self.ids.line_count.text = bad_line_count
 
     def dismiss(self):
         self.main.dismiss_warning()
@@ -597,9 +599,12 @@ class MainScreen(MDScreen):
 
         # the warning window about broken records in xml file
         # is shown ONLY if they exist
-        self.bad_files_count = str(self.model.return_bad_files_count())
+        self.bad_files_count =str(self.model.return_bad_files_count())
+
+        self.bad_line_name = '<' +  self.model.return_bad_line_name() + '>'
+        self.bad_line_count = str(self.model.return_bad_line_count())
         if int(self.bad_files_count) != 0:
-            self.w = WarningPopup(main = self, bad_files_count=self.bad_files_count)
+            self.w = WarningPopup(main = self, bad_files_count=self.bad_files_count, bad_line_name = self.bad_line_name,bad_line_count = self.bad_line_count)
             self.add_widget(self.w)
 
 
@@ -609,6 +614,7 @@ class MainScreen(MDScreen):
 
     def return_bad_files_count(self, count):
         print(count)
+
 
     def return_all_info_list(self):
         return self._all_info_list

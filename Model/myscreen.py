@@ -37,6 +37,8 @@ class Model:
 
         # reading info from the file with the start of the program
         self.bad_files_count = 0
+        self.bad_line_name = ''
+        self.bad_line_count = 0
         self.set_previous_patient_info()
 
         self.main_view = MainScreen(model = self, controller = self.controller)
@@ -329,10 +331,16 @@ class Model:
         self._pets_list = handler.return_pets_list()
         self._all_info_list = handler.return_all_list()
         self.bad_files_count = handler.return_bad_files_count()
+        self.bad_line_name = handler.return_bad_line_name()
+        self.bad_line_count = handler.return_bad_line_count()
 
 
     def return_bad_files_count(self):
         return self.bad_files_count
+    def return_bad_line_name(self):
+        return self.bad_line_name
+    def return_bad_line_count(self):
+        return self.bad_line_count
 
 
 
