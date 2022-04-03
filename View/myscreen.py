@@ -111,7 +111,7 @@ class AddPopup(Popup, Widget):
 
     # is called when the pet info registration has been successfully done
     def start_handler_info(self):
-        Factory.HandlerPopup(self.return_controller(), self.return_model()).open()
+        Factory.HandlerPopup(self.return_controller(), self.return_model(), add_popup = self).open()
 
     # is called when the pet information is successfully added
     def show_dialog(self):
@@ -140,6 +140,8 @@ class AddPopup(Popup, Widget):
    # is called when the pet indo is correct
     def closed(self, text):
         self.dialog.dismiss()
+
+
 
 
 
@@ -502,8 +504,6 @@ class EmailLetterPopup(Popup):
         self.all_pet_info = self.model.return_all_info_list()
         self.first_point = arg1
         self.second_point = arg2
-        print(option)
-        print(arg1)
 
         self.handler_name = ''
         self.mail = ''
@@ -529,7 +529,6 @@ class EmailLetterPopup(Popup):
                 if item['disease'].lower() == self.first_point.lower():
                     self.handler_name = item['handler_name']
                     self.mail = item['mail']
-        print(self.handler_name, self.mail)
 
 
 
@@ -557,10 +556,11 @@ class HandlerPopup(Popup):
     model = ObjectProperty()
     controller = ObjectProperty()
 
-    def __init__(self,controller, model, **kwargs):
+    def __init__(self,controller, model, add_popup, **kwargs):
         super().__init__(**kwargs)
         self.model = model
         self.controller = controller
+        self.add_popup = add_popup
 
     # set pet handler info
     def set_handler_name(self, handler):
@@ -574,6 +574,7 @@ class HandlerPopup(Popup):
 
     def record_handler_info(self):
         self.controller.record_handler_info()
+
 
 
 # popup window for single pet information that is appeared when you click on CHECK in main screen table

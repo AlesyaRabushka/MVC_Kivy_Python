@@ -138,7 +138,6 @@ class PetElement(xml.sax.ContentHandler):
             if self.pet_type_line == True:
                 self.pet_type_line = False
                 self.close_pet_type = True
-                print('type')
         elif tag == 'birth_date':
             if self.birth_date_line == True:
                 self.birth_date_line = False
@@ -240,8 +239,6 @@ class PetElement(xml.sax.ContentHandler):
             self.pet_name_line = True
 
         elif self.pet_type:
-            print('im on type field')
-            #self.pet_name = content
             self.pet['pet_type'] = content
             self.all['pet_type'] = content
             self.count_pet += 1

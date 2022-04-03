@@ -69,7 +69,6 @@ class Model:
     @property
     def pet_name(self):
         return self._pet_name
-
     @property
     def pet_type(self):
         return self._pet_type
@@ -89,7 +88,6 @@ class Model:
     @pet_name.setter
     def pet_name(self, name):
         self._pet_name = name
-
     @pet_type.setter
     def pet_type(self, type):
         self._pet_type = type
@@ -427,7 +425,6 @@ class Model:
     # delete the particular records by the given disease phrase
     def delete_disease_phrase(self, phrase):
         amount_of_deleted_items = 0
-        index = []
         for item in self._pets_list:
             if (item['disease'].lower()).find(phrase.lower()) != -1:
                 amount_of_deleted_items += 1

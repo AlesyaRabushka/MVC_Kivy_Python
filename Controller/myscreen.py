@@ -4,7 +4,7 @@
 #from View.myscreen import MainScreen, AddPopup, SearchPopup
 from kivy.properties import StringProperty
 from MVC_Kivy_Python.Model.myscreen import Model
-from MVC_Kivy_Python.View.myscreen import MainScreen, AddPopup, SearchPopup
+from MVC_Kivy_Python.View.myscreen import MainScreen, AddPopup, SearchPopup, HandlerPopup
 
 
 class Controller:
@@ -73,7 +73,7 @@ class Controller:
         if self.all_is_ready_to_be_a_patient_info == self.ready_:
             self.model.pet_name = self.pet_name
             #self.model.pet_type = self.pet_type
-            self.model.pet_type = 'cat'
+            self.model.pet_type = 'кот'
             self.model.birth = self.birth_date
             self.model.last_appointment_date = self.last_appointment_date
             self.model.vet_name = self.vet_name
