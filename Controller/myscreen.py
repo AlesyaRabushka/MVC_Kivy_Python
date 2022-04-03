@@ -72,11 +72,11 @@ class Controller:
             self.model.vet_name = self.vet_name
             self.model.disease = self.disease
 
-            self.pet_name = ''
-            self.birth_date = ''
-            self.last_appointment_date = ''
-            self.vet_name = ''
-            self.disease = ''
+            # self.pet_name = ''
+            # self.birth_date = ''
+            # self.last_appointment_date = ''
+            # self.vet_name = ''
+            # self.disease = ''
 
             return True
 
@@ -119,12 +119,10 @@ class Controller:
             self.model.mail = self.mail
             self.model.address = self.address
 
-            self.handler_name = ''
-            self.phone_number = ''
-            self.mail = ''
-            self.address = ''
-
-
+            # self.handler_name = ''
+            # self.phone_number = ''
+            # self.mail = ''
+            # self.address = ''
             return True
 
         # if even one field is empty

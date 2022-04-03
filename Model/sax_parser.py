@@ -1,10 +1,4 @@
-import os
-from kivy.lang import Builder
-
 import xml.sax
-from kivy.uix.popup import Popup
-
-
 
 
 class PetElement(xml.sax.ContentHandler):

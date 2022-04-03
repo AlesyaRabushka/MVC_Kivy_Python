@@ -1,26 +1,23 @@
 import os
-import datetime
-
-import setuptools.extern
-from kivymd.uix.dialog import MDDialog
-
 
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.picker import MDDatePicker
-from kivy.uix.screenmanager import Screen
-
-from kivy.uix.popup import Popup
-from kivy.factory import Factory
-from kivy.core.window import Window
-
-from kivy.uix.widget import Widget
-from kivy.metrics import dp
-
+from kivymd.uix.tooltip import MDTooltip
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.datatables import MDDataTable
+from kivymd.uix.dialog import MDDialog
+
+from kivy.uix.button import Button
+from kivy.uix.popup import Popup
+from kivy.factory import Factory
+from kivy.uix.widget import Widget
+from kivy.metrics import dp
+from kivy.uix.checkbox import CheckBox
+
+
 
 
 # popup window for pet data input
@@ -119,8 +116,8 @@ class AddPopup(Popup, Widget):
     # is called when the pet information is successfully added
     def show_dialog(self):
         self.dialog = MDDialog(
-            title='Регистрация данных',
-            text='Запись добавлена!',
+            title='Registration',
+            text='The record has been added!',
             buttons=[
                 MDFlatButton(text='Ok', on_release=self.closed)
             ]
@@ -131,8 +128,8 @@ class AddPopup(Popup, Widget):
     # is called when there is wrong pet information
     def show_no_dialog(self):
         self.dialog = MDDialog(
-            title='Ошибка регистрации',
-            text='Проверьте введенные вами данные!',
+            title='Warning',
+            text='Please correct the input data',
             # size_hint=(0.5,0.5),
             buttons=[
                 MDFlatButton(text='Ok', on_release=self.no_closed)
@@ -559,6 +556,14 @@ class WarningPopup(Popup, Widget):
         self.main.dismiss_warning()
 
 
+# tooltips
+class TooltipCheckBox(CheckBox, MDTooltip):
+    pass
+class TooltipButton(Button, MDTooltip):
+    pass
+
+
+
 # main view
 class MainScreen(MDScreen):
     """"
@@ -612,8 +617,13 @@ class MainScreen(MDScreen):
     def dismiss_warning(self):
         self.remove_widget(self.w)
 
-    def return_bad_files_count(self, count):
-        print(count)
+    # is called in ToolBar
+    #  and shows the menu buttons
+    def show_menu(self):
+        data = {
+            'hello',
+            'hi'
+        }
 
 
     def return_all_info_list(self):
@@ -623,7 +633,7 @@ class MainScreen(MDScreen):
     # is appeared when you click on CHECK in the main screen table
     def check_info(self, instance, pet_info):
         InformationPopup(pet_info, main=self).open()
-        print(pet_info)
+
 
     # is called from InformationPopup when it is dismissed
     def close_pet_info_window(self):

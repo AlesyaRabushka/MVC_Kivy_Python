@@ -5,17 +5,28 @@
     size_hint_x: None
     width: '200'
     text_color: "000000"
+
     required: True
     helper_text: "This field is required"
     helper_text_mode: "on_error"
+
+    color_mode: 'custom'
+    line_color_focus: 'c06ef0'
+
     multiline: False
     background_color: (1, 1, 1)
     background_normal:''
-    #input_filter: "int"
+
+
+<TooltipCheckBox@ToolTip+CheckBox>
+    tooltip_bg_color: [192/256,110/256,240/256,1]
+<TooltipButton@ToolTip+Button>
+    tooltip_bg_color: [192/256,110/256,240/256,1]
+
 
 
 <AddPopup@Popup>
-    auto_dismiss:False
+    auto_dismiss: False
     title: 'Регистрация'
     separator_color: (192/256,110/256,240/256,1)
     size_hint:None,None
@@ -78,15 +89,24 @@
         GridLayout:
             cols:2
             padding:75,0,0,0
+#            ToolTipSpinner:
+#                id: sp1
+#                tooltip_txt: 'tool'
+#                text: 'value'
+#                on_text: self.on_spinner_select(self.text)
 
         # дата рождения
             MyField:
                 id: birth_date_input
-                hint_text: 'YYYY-MM-DD'
+                hint_text: 'Дата рождения'
+                helper_text: 'YYYY-MM-DD'
+                helper_text_mode: 'on_focus'
                 max_text_length: 10
                 on_text: root.set_birth_date(self.text)
 
-            Button:
+            #Button:
+            TooltipButton:
+                tooltip_text: 'календарь'
                 size_hint:None,None
 #            text:'Дата рождения'
 #            front_size:32
@@ -103,13 +123,16 @@
             # дата последнего приёма
             MyField:
                 id: last_appointment_date_input
-                hint_text: 'YYYY-MM-DD'
+                hint_text: 'Дата последнего посещ-ия'
+                helper_text: 'YYYY-MM-DD'
+                helper_text_mode: 'on_focus'
                 max_text_length: 10
                 on_text: root.set_last_appointment_date(self.text)
 #                pos_hint: {"center_x": .5,"center_y":.5}
 
-            Button:
+            TooltipButton:
 #                text:'Дата последнего приёма'
+                tooltip_text: 'календарь'
                 size_hint: None, None
                 size: "40sp", "40sp"
                 on_press: root.choose_last_appointment_date()
@@ -125,7 +148,7 @@
             padding: 75,0,0,0
             # имя врача
             MyField:
-                hint_text: 'Имя врача'
+                hint_text: 'ФИО врача'
                 id: vet_name_input
                 on_text: root.set_vet_name(self.text)
                 multiline: False
@@ -216,7 +239,9 @@
                 hint_text: 'Имя пациента'
                 on_text: root.set_search_pet_name(self.text)
                 pos_hint: {"center_x": .46}
-            CheckBox:
+            #CheckBox:
+            TooltipCheckBox:
+                tooltip_text: 'по имени и\nдате рождения'
                 group: 'search'
                 color: '330000'
                 size_hint: None, None
@@ -230,11 +255,14 @@
             #дата рождения
             MyField:
                 id: birth_date_search
-                hint_text: 'YYYY-MM-DD'
+                hint_text: 'Дата рождения'
+                helper_text: 'YYYY-MM-DD'
+                helper_text_mode: 'on_focus'
                 max_text_length: 10
                 on_text: root.set_search_birth_date(self.text)
                 multiline: False
-            Button:
+            TooltipButton:
+                tooltip_text: 'календарь'
                 size_hint: None, None
                 size: "40sp", "40sp"
                 on_press: root.choose_search_birth_date()
@@ -254,7 +282,9 @@
                 id: vet_name
                 on_text: root.set_search_vet_name(self.text)
                 multiline: False
-            CheckBox:
+            #CheckBox:
+            TooltipCheckBox:
+                tooltip_text: 'по ФИО врача и\nдате последнего посещения'
                 group: 'search'
                 color: '330000'
                 size_hint: None, None
@@ -267,12 +297,14 @@
             spacing:20
             MyField:
                 id: last_appointment_date_search
-                hint_text: 'YYYY-MM-DD'
+                hint_text: 'Дата посленего посещ-ия'
+                helper_text: 'YYYY-MM-DD'
+                helper_text_mode: 'on_focus'
                 max_text_length: 10
                 on_text: root.set_search_last_appointment_date(self.text)
                 multiline: False
-            Button:
-#                text:'Дата последнего приёма'
+            TooltipButton:
+                tooltip_text: 'календарь'
                 size_hint: None, None
                 size: "40sp", "40sp"
                 on_press: root.choose_search_last_appointment_date()
@@ -292,7 +324,9 @@
                 on_text: root.set_search_disease_phrase(self.text)
                 multiline: False
 
-            CheckBox:
+            #CheckBox:
+            TooltipCheckBox:
+                tooltip_text: 'по фразе из\nдиагноза'
                 group: 'search'
                 color: '330000'
                 size_hint: None, None
@@ -353,7 +387,7 @@
         GridLayout:
             cols:2
             Label:
-                text: "[color=c06ef0]                Del[/color]"
+                text: "[color=c06ef0]                Delete[/color]"
                 markup: True
                 font_size: 20
                 size_hint: None, None
@@ -378,7 +412,8 @@
                 hint_text: 'Имя пациента'
                 on_text: root.set_delete_pet_name(self.text)
                 multiline: False
-            CheckBox:
+            TooltipCheckBox:
+                tooltip_text: 'по имени и\nдате рождения'
                 group: 'search'
                 color: '330000'
                 size_hint: None, None
@@ -392,11 +427,14 @@
             spacing:20
             MyField:
                 id: birth_date_delete
-                hint_text: 'YYYY-MM-DD'
+                hint_text: 'Дата рождения'
+                helper_text: 'YYYY-MM-DD'
+                helper_text_mode: 'on_focus'
                 max_text_length: 10
                 on_text: root.set_delete_birth_date(self.text)
                 multiline: False
-            Button:
+            TooltipButton:
+                tooltip_text: 'календарь'
                 size_hint: None, None
                 size: "40sp", "40sp"
                 on_press: root.choose_delete_birth_date()
@@ -418,7 +456,8 @@
                 hint_text: 'Имя врача'
                 on_text: root.set_delete_vet_name(self.text)
                 multiline: False
-            CheckBox:
+            TooltipCheckBox:
+                tooltip_text: 'по ФИО врача и\nдате последнего посещения'
                 group: 'search'
                 color: '330000'
                 size_hint: None, None
@@ -431,11 +470,14 @@
             spacing: 20
             MyField:
                 id: last_appointment_date_delete
-                hint_text: 'YYYY-MM-DD'
+                hint_text: 'Дата последнего посещ-ия'
+                helper_text: 'YYYY-MM-DD'
+                helper_text_mode: 'on_focus'
                 max_text_length: 10
                 on_text: root.set_delete_last_appointment_date(self.text)
                 multiline: False
-            Button:
+            TooltipButton:
+                tooltip_text: 'календарь'
                 size_hint: None, None
                 size: "40sp", "40sp"
                 on_press: root.choose_delete_last_appointment_date()
@@ -456,7 +498,8 @@
                 on_text: root.set_delete_disease_phrase(self.text)
                 multiline: False
 
-            CheckBox:
+            TooltipCheckBox:
+                tooltip_text: 'по фразе из\nдиагноза'
                 group: 'search'
                 color: '330000'
                 size_hint: None, None
@@ -505,22 +548,21 @@
     size:(700,900)
     size_hint:None,None
 
-#    BoxLayout:
-#        # background color
-#        canvas.before:
-#            Color:
-#                rgb: (1,1,1)
-#            Rectangle:
-#                pos: self.pos
-#                size: self.size
-#
-#
-#
-#        orientation: "vertical"
-#        adaptive_size: True
+
+<ToolTip>
+    text: 'hello here'
+    size_hint: None, None
+    size: 100, 50
+    canvas.before:
+        Color:
+            rgb: 0.2, 0.2, 0.2
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
 
 <HandlerPopup@Popup>
-    title: 'Информация о владельце'
+    title: 'Информация о хозяине'
     auto_dismiss:False
     separator_color: (192/256,110/256,240/256,1)
     background_color:'#a910e6'
@@ -545,7 +587,7 @@
             cols:2
             size_hint_y: .5
             Label:
-                text: "[color=c06ef0]      Contact[/color]"
+                text: "[color=c06ef0]      Contacts[/color]"
                 markup: True
                 font_size: 20
 
@@ -562,27 +604,27 @@
             # имя пациента
             MyField
                 id: hadler_name_input
-                hint_text: 'Имя владельца'
+                hint_text: 'ФИО хозяина'
                 on_text: root.set_handler_name(self.text)
                 pos_hint: {"center_x": .46}
 
         # Номер телефона
             MyField:
                 id: phone_number_input
-                hint_text: 'Номера телефона'
+                hint_text: 'Номера телефона \n(+375-XX-XXX-XX-XX)'
                 max_text_length: 17
                 on_text: root.set_phone_number(self.text)
 
             #Почта
             MyField:
                 id: email_input
-                hint_text: 'Почта'
+                hint_text: 'Почта\n(xxxxxx@xxx)'
                 #max_text_length: 10
                 on_text: root.set_mail(self.text)
 
             #Адрес
             MyField:
-                hint_text: 'Адрес'
+                hint_text: 'Адрес проживания'
                 id: address_input
                 on_text: root.set_address(self.text)
                 multiline: False
@@ -695,23 +737,22 @@
     background_color: 'FFCCFF'
 
 
+<MDFloatingActionButtonSpeedDial>
+    data: root.show_menu
+    root_button_anim: True
+
 
 <MainScreen>
     BoxLayout:
         orientation: "vertical"
         adaptive_size: True
-        #spacing: "12dp"
-        #padding: "12dp"
-        #radius: [10, ]
-        #pos_hint: {"center_x": .5, "center_y": .5}
-        #md_bg_color: app.theme_cls.disabled_hint_text_color
 
         MDToolbar:
             title: 'Menu'
             height:40
             size_hint_y:None
             md_bg_color: 192/256,110/256,240/256,1
-            left_action_items: [["menu", lambda x: x]]
+            left_action_items: [["menu",lambda x: root.show_menu()]]
 
 
         Label:
