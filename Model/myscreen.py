@@ -324,7 +324,7 @@ class Model:
         parser = sax.make_parser()  # creating an XMLReader
         parser.setFeature(sax.handler.feature_namespaces, 0)  # turning off namespaces
 
-        handler = PetElement(model = self)
+        handler = PetElement()
         parser.setContentHandler(handler)  # overriding default ContextHandler
         parser.parse('pet.xml')
 
