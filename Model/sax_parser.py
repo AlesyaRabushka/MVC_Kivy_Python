@@ -5,6 +5,7 @@ class PetElement(xml.sax.ContentHandler):
     def __init__(self):
         self.current_data = False
         self.pet_name = False
+        self.pet_type = False
         self.birth_date = False
         self.last_appointment_date = False
         self.vet_name = False
@@ -34,6 +35,7 @@ class PetElement(xml.sax.ContentHandler):
             self.line = 1
 
             self.pet_name_line = False
+            self.pet_type_line = False
             self.birth_date_line = False
             self.last_appointment_date_line = False
             self.vet_name_line = False
@@ -45,6 +47,7 @@ class PetElement(xml.sax.ContentHandler):
             self.disease_line = False
 
             self.pet_name_line_count = 0
+            self.pet_type_line_count = 0
             self.birth_date_line_count = 0
             self.last_appointment_date_line_count = 0
             self.vet_name_line_count = 0
@@ -62,6 +65,7 @@ class PetElement(xml.sax.ContentHandler):
             self.line += 1
 
             self.close_pet_name = False
+            self.close_pet_type = False
             self.close_birth_date = False
             self.close_last_appointment_date = False
             self.close_vet_name = False
@@ -77,6 +81,11 @@ class PetElement(xml.sax.ContentHandler):
             self.pet_name=True
             self.line += 1
             self.pet_name_line_count = self.line
+
+        elif self.current_data == 'pet_type':
+            self.pet_type=True
+            self.line += 1
+            self.pet_type_line_count = self.line
 
         elif self.current_data == 'birth_date':
             self.birth_date = True
@@ -112,7 +121,7 @@ class PetElement(xml.sax.ContentHandler):
             self.line += 1
             self.mail_line_count = self.line
         elif self.current_data == 'handler_address':
-            self.address = True
+            self.handler_address = True
             self.line += 1
             self.handler_address_line_count = self.line
 
@@ -125,6 +134,11 @@ class PetElement(xml.sax.ContentHandler):
             if self.pet_name_line == True:
                 self.pet_name_line = False
                 self.close_pet_name = True
+        elif tag == 'pet_type':
+            if self.pet_type_line == True:
+                self.pet_type_line = False
+                self.close_pet_type = True
+                print('type')
         elif tag == 'birth_date':
             if self.birth_date_line == True:
                 self.birth_date_line = False
@@ -165,7 +179,7 @@ class PetElement(xml.sax.ContentHandler):
         elif tag == 'pet':
             self.line += 1
 
-            if self.count_pet == 5 and self.count_handler == 4:
+            if self.count_pet == 6 and self.count_handler == 4:
                 self.pets_list.append(self.pet)
                 self.handlers_list.append(self.handler)
                 self.all_list.append(self.all)
@@ -184,6 +198,9 @@ class PetElement(xml.sax.ContentHandler):
                 if self.close_pet_name == False:
                     self.bad_line_name = 'pet_name'
                     self.bad_line_count = self.pet_name_line_count
+                elif self.close_pet_type == False:
+                    self.bad_line_name = 'pet_type'
+                    self.bad_line_count = self.pet_type_line_count
                 elif self.close_birth_date == False:
                     self.bad_line_name = 'birth_date'
                     self.bad_line_count = self.birth_date_line_count
@@ -221,6 +238,15 @@ class PetElement(xml.sax.ContentHandler):
             self.count_pet += 1
             self.pet_name = False
             self.pet_name_line = True
+
+        elif self.pet_type:
+            print('im on type field')
+            #self.pet_name = content
+            self.pet['pet_type'] = content
+            self.all['pet_type'] = content
+            self.count_pet += 1
+            self.pet_type = False
+            self.pet_type_line = True
 
         elif self.birth_date:
             self.birth_date_line = True
@@ -276,11 +302,11 @@ class PetElement(xml.sax.ContentHandler):
             self.mail_line = True
             self.mail = False
             self.count_handler += 1
-        elif self.address:
+        elif self.handler_address:
             self.handler_address_line = True
             self.handler['handler_address'] = content
             self.all['handler_address'] = content
-            self.address = False
+            self.handler_address = False
             self.count_handler += 1
 
            #self.disease = content
