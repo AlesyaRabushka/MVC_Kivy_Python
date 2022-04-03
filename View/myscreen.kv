@@ -514,26 +514,17 @@
             spacing: 10
             MDFillRoundFlatButton:
                 text: '        Удаление        '
-                #disabled: True if root.everything() else False
                 on_press: root.delete()
-                #on_release: root.dialogs()
-                #on_press: root.info()
+                #on_release: Factory.EmailLetter().open()
                 text_color: 0, 0, 0, 1
                 line_color: 0, 0, 0, 1
-#                size_hint:None,None
-#                width:200
-    #            background_color: 'CCCCFF'
-    #            background_normal:''
                 pos_hint: {"center_x": .5,"center_y":.5}
 
 
 
             MDFillRoundFlatButton:
                 text: 'Вернуться в главное меню'
-                #disabled: True if root.everything() else False
                 on_press: root.dismiss()
-                #on_release: Factory.FoundPopup().open()
-                #on_press: root.info()
                 text_color: 0, 0, 0, 1
                 line_color: 1, 0, 1, 1
                 pos_hint: {"center_x": .5,"center_y":.5}
@@ -548,17 +539,6 @@
     size:(700,900)
     size_hint:None,None
 
-
-<ToolTip>
-    text: 'hello here'
-    size_hint: None, None
-    size: 100, 50
-    canvas.before:
-        Color:
-            rgb: 0.2, 0.2, 0.2
-        Rectangle:
-            size: self.size
-            pos: self.pos
 
 
 <HandlerPopup@Popup>
@@ -611,14 +591,18 @@
         # Номер телефона
             MyField:
                 id: phone_number_input
-                hint_text: 'Номера телефона \n(+375-XX-XXX-XX-XX)'
+                hint_text: 'Номера телефона'
+                helper_text: '+375-XX-XXX-XX-XX'
+                helper_text_mode: 'on_focus'
                 max_text_length: 17
                 on_text: root.set_phone_number(self.text)
 
             #Почта
             MyField:
                 id: email_input
-                hint_text: 'Почта\n(xxxxxx@xxx)'
+                hint_text: 'Электронная почта'
+                helper_text:'xxxxxx@xxx'
+                helper_text_mode: 'on_focus'
                 #max_text_length: 10
                 on_text: root.set_mail(self.text)
 
@@ -640,7 +624,7 @@
                 line_color: 1, 0, 1, 1
 #                pos_hint: {"center_x": .5,"center_y":.5}
             MDFillRoundFlatButton:
-                text: 'Добавить информацию'
+                text: 'Назад'
                 on_press: root.dismiss()
                 #on_release: root.dismiss()
                 text_color: 0, 0, 0, 1
@@ -733,13 +717,30 @@
 <MyLabel@Label>
     pos_hint: {"center_y": .5}
 
-<BackgroundColor@Label>
-    background_color: 'FFCCFF'
 
+<EmailLetterPopup@Popup>
+    title:'Электронное письмо'
+    separator_color: (192/256,110/256,240/256,1)
+    background_color:'#a910e6'
+    size:(500,600)
+    size_hint:None,None
 
-<MDFloatingActionButtonSpeedDial>
-    data: root.show_menu
-    root_button_anim: True
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgb: (1,1,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Button:
+            text: 'Вернуться в главное меню'
+            on_press: root.open_note()
+            text_color: 0, 0, 0, 1
+            line_color: 1, 0, 1, 1
+            pos_hint: {"center_x": .5,"center_y":.5}
+
 
 
 <MainScreen>
@@ -752,7 +753,7 @@
             height:40
             size_hint_y:None
             md_bg_color: 192/256,110/256,240/256,1
-            left_action_items: [["menu",lambda x: root.show_menu()]]
+            left_action_items: [["menu",lambda x: x]]
 
 
         Label:

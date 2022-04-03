@@ -313,6 +313,7 @@ class DeletePopup(Popup, Widget):
         super().__init__(**kwargs)
         self.model = model
         self.controller = controller
+        self.dialog = None
 
         self.pet_name = ''
         self.birth_date = ''
@@ -374,7 +375,10 @@ class DeletePopup(Popup, Widget):
         # and call the dialog
 
     def return_deleted_amount(self, count):
-        self.show_dialog(count)
+        if count == 0:
+            self.show_non_dialog()
+        else:
+            self.show_dialog(count)
 
         # info from checkboxes
 
@@ -408,7 +412,7 @@ class DeletePopup(Popup, Widget):
 
     def show_dialog(self, count):
         self.dialog = MDDialog(
-            title='Search',
+            title='Delete',
             text=f'Deleted records: {count}',
             buttons=[
                 MDFlatButton(text='Ok', on_release=self.closed)
@@ -423,7 +427,17 @@ class DeletePopup(Popup, Widget):
             title='Warning',
             text='Please choose the delete options',
             buttons=[
-                MDFlatButton(text='Ok', on_release=self.closed)
+                MDFlatButton(text='Ok', on_release=self.closed_empty)
+            ]
+        )
+        self.dialog.open()
+
+    def show_none_dialog(self):
+        self.dialog = MDDialog(
+            title='Delete',
+            text='No records have been found',
+            buttons=[
+                MDFlatButton(text='Ok', on_release=self.closed_empty)
             ]
         )
         self.dialog.open()
@@ -435,7 +449,7 @@ class DeletePopup(Popup, Widget):
             title='Warning',
             text='Please enter the delete data',
             buttons=[
-                MDFlatButton(text='Ok', on_release=self.closed)
+                MDFlatButton(text='Ok', on_release=self.closed_empty)
             ]
         )
         self.dialog.open()
@@ -445,7 +459,7 @@ class DeletePopup(Popup, Widget):
             title='Warning',
             text='Please enter the correct data',
             buttons=[
-                MDFlatButton(text='Ok', on_release=self.closed)
+                MDFlatButton(text='Ok', on_release=self.closed_empty)
             ]
         )
         self.dialog.open()
@@ -454,6 +468,17 @@ class DeletePopup(Popup, Widget):
 
     def closed(self, text):
         self.dialog.dismiss()
+        self.letter = Factory.EmailLetterPopup().open()
+
+    # for dialogs with empty input error
+    def closed_empty(self, text):
+        self.dialog.dismiss()
+
+
+class EmailLetterPopup(Popup):
+    def open_note(self):
+        #os.system("C:\\Windows\\HxOutlook.exe")
+        os.system('"C:\\Windows\\notebook.exe"')
 
 
 # popup window with found by search info
@@ -563,7 +588,6 @@ class TooltipButton(Button, MDTooltip):
     pass
 
 
-
 # main view
 class MainScreen(MDScreen):
     """"
@@ -620,10 +644,7 @@ class MainScreen(MDScreen):
     # is called in ToolBar
     #  and shows the menu buttons
     def show_menu(self):
-        data = {
-            'hello',
-            'hi'
-        }
+        pass
 
 
     def return_all_info_list(self):
