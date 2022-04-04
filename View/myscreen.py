@@ -600,24 +600,26 @@ class InformationPopup(Popup):
 
 
         self.pet_name = pet_info[0]
-        self.birth_date = pet_info[1]
-        self.last_appointment_date = pet_info[2]
-        self.vet_name = pet_info[3]
-        self.disease = pet_info[4]
+        self.pet_type = pet_info[1]
+        self.birth_date = pet_info[2]
+        self.last_appointment_date = pet_info[3]
+        self.vet_name = pet_info[4]
+        self.disease = pet_info[5]
 
-        # for item in self._all_info_list:
-        #     if item['pet_name'] == self.pet_name:
-        #         self.ids.handler_name.text = item['handler_name']
-        #         self.ids.phone_number.text = item['phone_number']
-        #         self.ids.mail.text = item['mail']
-        #         self.ids.handler_address.text = item['handler_address']
-        #
-        #
-        # self.ids.pet_name.text = self.pet_name
+        for item in self._all_info_list:
+            if item['pet_name'] == self.pet_name:
+                self.ids.handler_name.text = item['handler_name']
+                self.ids.phone_number.text = item['phone_number']
+                self.ids.mail.text = item['mail']
+                self.ids.handler_address.text = item['handler_address']
+
+
+        self.ids.pet_name.text = self.pet_name
+        self.ids.pet_type.text = self.pet_type
         # self.ids.birth_date.text = self.birth_date
         # self.ids.last_appointment_date.text = self.last_appointment_date
         # self.ids.vet_name.text = self.vet_name
-        # self.ids.disease.text = self.disease
+        self.ids.disease.text = self.disease
 
 
     # is called to close the InformationPopup
