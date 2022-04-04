@@ -12,10 +12,10 @@ import xml.sax as sax
 
 from os import path
 
-from Model.sax_parser import PetElement
-from View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
+from MVC_Kivy_Python.Model.sax_parser import PetElement
+from MVC_Kivy_Python.View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
 
-from View.myscreen import WarningPopup
+from MVC_Kivy_Python.View.myscreen import WarningPopup
 
 
 class Model:
@@ -42,11 +42,11 @@ class Model:
         self.bad_line_count = 0
         self.set_previous_patient_info()
 
-        self.main_view = MainScreen(model = self, controller = self.controller)
-
-        self.view = AddPopup(controller = self.controller, model = self)
-        self.search_view = SearchPopup(self.controller, self.main_view.return_model())
-        self.delete_view = DeletePopup(self.main_view.return_controller(), self.main_view.return_model())
+        # self.main_view = MainScreen(model = self, controller = self.controller)
+        #
+        # self.view = AddPopup(controller = self.controller, model = self)
+        # self.search_view = SearchPopup(self.controller, self.main_view.return_model())
+        # self.delete_view = DeletePopup(self.main_view.return_controller(), self.main_view.return_model())
 
         # pet handler info
         self._handler_name = ''
@@ -331,7 +331,7 @@ class Model:
 
     # updates info in tne main screen table after
     def add_into_main_table(self, pets_list):
-        self.main_view.add_into_main_table(pets_list)
+        self.controller.main_view.add_into_main_table(pets_list)
 
     # takes info from the file by PARSER
     def set_previous_patient_info(self):
@@ -347,6 +347,8 @@ class Model:
         self.bad_files_count = handler.return_bad_files_count()
         self.bad_line_name = handler.return_bad_line_name()
         self.bad_line_count = handler.return_bad_line_count()
+
+    #def return_previous_patient_info
 
 
     def return_bad_files_count(self):
@@ -373,7 +375,7 @@ class Model:
         for item in self._pets_list:
             if item['vet_name'].lower() == vet_name.lower() and item['last_appointment_date'] == last_appointment_date:
                 amount_of_found_items += 1
-        self.search_view.return_searched_amount(amount_of_found_items)
+        self.controller.search_view.return_searched_amount(amount_of_found_items)
 
     # search for particular records by the given disease phrase
     def search_disease_phrase(self, world):
@@ -385,7 +387,7 @@ class Model:
 
     # returns the amount of found pet records
     def return_searched_amount(self, count):
-        self.search_view.return_searched_amount(count)
+        self.controller.search_view.return_searched_amount(count)
 
 
 
@@ -442,8 +444,8 @@ class Model:
 
     # delete the particular pet element from main screen data table
     def delete_from_main_table(self, deleted_list):
-        self.main_view.delete_from_main_table(deleted_list)
+        self.controller.main_view.delete_from_main_table(deleted_list)
 
     # returns the amount of deleted records
     def return_deleted_amount(self, amount):
-        self.delete_view.return_deleted_amount(amount)
+        self.controller.delete_view.return_deleted_amount(amount)

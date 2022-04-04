@@ -9,6 +9,7 @@ from kivymd.uix.tooltip import MDTooltip
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.dialog import MDDialog
+from kivymd.uix.dropdownitem import MDDropDownItem
 
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
@@ -54,6 +55,7 @@ class AddPopup(Popup, Widget):
 
     def spinner_clicked(self, value):
         self.ids.click_label.text = f'You Selected:{value}'
+
 
     def set_birth_date(self, birth):
         self.controller.set_birth(birth)
@@ -534,6 +536,8 @@ class EmailLetterPopup(Popup):
                     self.mail = item['mail']
 
 
+class DropDownItem(MDDropDownItem):
+    pass
 
 # popup window with found by search info
 class FoundPopup(Popup, Widget):
