@@ -645,12 +645,16 @@ class WarningPopup(Popup, Widget):
     def dismiss(self):
         self.main.dismiss_warning()
 
+class HelperPopup(Popup):
+    pass
+
 
 # tooltips
 class TooltipCheckBox(CheckBox, MDTooltip):
     pass
 class TooltipButton(Button, MDTooltip):
     pass
+
 
 
 # main view
