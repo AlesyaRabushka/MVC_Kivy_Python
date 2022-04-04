@@ -97,10 +97,14 @@
             Spinner:
                 id:spinner_id
                 text:"Вид"
-                values:["Собака","Кот","Енот","Хорёк"]
+                values:"Собака","Кот","Енот","Хорёк"
+                markup:True
+
                 size_hint:None,None
                 size:(70,30)
                 on_text:root.spinner_clicked(spinner_id.text)
+                background_color:"c06ef0"
+                background_normal:''
 
 
         GridLayout:
@@ -752,7 +756,6 @@
             text: 'Вернуться в главное меню'
             #on_press: root.open_note()
             on_press: root.dismiss()
-            on_release: root.open_note()
             text_color: 0, 0, 0, 1
             line_color: 1, 0, 1, 1
             pos_hint: {"center_x": .5,"center_y":.5}
@@ -770,20 +773,53 @@
             size_hint_y:None
             md_bg_color: 192/256,110/256,240/256,1
             #left_action_items: [["menu",lambda x: x]]
-            Button:
-                text: '+'
+            TooltipButton:
+                tooltip_text: 'новая запись'
+                size_hint: None, None
+                size: "40sp", "40sp"
                 on_press: Factory.AddPopup(root.return_controller(), root.return_model()).open()
-                #Image:
-            Button:
-                #Image:
-                text: 'f'
+                background_color:0,0,0,0
+                Image:
+                    source:'credit-card-plus.png'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
+
+            TooltipButton:
+                tooltip_text: 'поиск'
+                size_hint: None, None
+                size: "40sp", "40sp"
                 on_press: Factory.SearchPopup(root.return_controller(), root.return_model()).open()
-            Button:
-                #Image:
-                text: '-'
+                background_color:0,0,0,0
+                Image:
+                    source:'credit-card-search-outline.png'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
+
+            TooltipButton:
+                tooltip_text: 'удалить запись'
+                size_hint: None, None
+                size: "40sp", "40sp"
                 on_press: Factory.DeletePopup(root.return_controller(), root.return_model()).open()
+                background_color:0,0,0,0
+                Image:
+                    source:'credit-card-remove-outline.png'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
 
-
+            TooltipButton:
+                tooltip_text: 'контактная\nинформация'
+                size_hint: None, None
+                size: "40sp", "40sp"
+#                on_press: Factory.DeletePopup(root.return_controller(), root.return_model()).open()
+                background_color:0,0,0,0
+                Image:
+                    source:'help-circle-outline.png'
+                    center_x:self.parent.center_x
+                    center_y:self.parent.center_y
+                    size:"40sp","40sp"
 
         Label:
 #            text: "[color=FF00FF]ГЛАВНОЕ ОКНО[/color]"
