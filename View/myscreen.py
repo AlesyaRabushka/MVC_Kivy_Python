@@ -64,7 +64,6 @@ class AddPopup(Popup, Widget):
         self.ids.spinner_id.text = f'{value}'
         self.controller.set_pet_type(value)
 
-
     def set_birth_date(self, birth):
         self.controller.set_birth(birth)
 
