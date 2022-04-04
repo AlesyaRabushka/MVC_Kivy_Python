@@ -1167,8 +1167,13 @@
         GridLayout:
             cols: 3
             size_hint: 1, 0.3
+            spacing:10
+            padding:10,0,10,10
             Button:
                 text: 'Запись пациента'
+                background_color:'#c06ef0'
+                background_normal:''
+                line_color:'#FFFFFF'
                 #on_release: root.search_name_birth('alesya', '2002-22-10')
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
@@ -1177,12 +1182,18 @@
                 #on_release: root.show_dialog()
             Button:
                 text: 'Поиск пациента'
+                background_color:'#c06ef0'
+                background_normal:''
+                line_color:'#FFFFFF'
                 #on_release: root.search_name_birth('alesya', '2002-22-10')
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
                 on_release: Factory.SearchPopup(root.return_controller(), root.return_model()).open()
             Button:
                 text: 'Удаление пациента'
+                background_color:'#c06ef0'
+                background_normal:''
+                line_color:'#FFFFFF'
                 #on_release: root.search_name_birth('alesya', '2002-22-10')
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
