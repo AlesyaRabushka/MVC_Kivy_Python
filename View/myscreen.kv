@@ -74,14 +74,13 @@
                 source:'ilopet.jpg'
 #                center_x:self.parent.center_x
 #                center_y:self.parent.center_y
-#                size:"5sp","5sp"
-                size: (5,5)
+                size:"20sp","20sp"
         GridLayout:
             cols:3
             rows:1
             size_hint_y:None
             height:50
-            padding:75,0,0,0
+            padding:75,0,10,0
            # spacing:10
         # имя пациента
             MyField
@@ -656,11 +655,11 @@
     title:'Информация о пациенте'
     separator_color: (192/256,110/256,240/256,1)
     background_color:'#a910e6'
-    size:(700,900)
+    size:(400,400)
     size_hint:None,None
 
     BoxLayout:
-        orientation: 'vertical'
+        # background color
         canvas.before:
             Color:
                 rgb: (1,1,1)
@@ -668,15 +667,144 @@
                 pos: self.pos
                 size: self.size
 
-        Button:
-            text: 'Вернуться в главное меню'
-            #disabled: True if root.everything() else False
-            on_press: root.close_pet_info_window()
-            #on_release: Factory.FoundPopup().open()
-            #on_press: root.info()
-            text_color: 0, 0, 0, 1
-            line_color: 1, 0, 1, 1
-            pos_hint: {"center_x": .5,"center_y":.5}
+
+
+        orientation: "vertical"
+        adaptive_size: True
+
+        Label:
+            text: "[color=c06ef0]Information[/color]"
+            markup: True
+            font_size: 20
+            size_hint_y:None
+            height:30
+            spacing:20
+
+
+        GridLayout:
+            cols:2
+            rows:8
+            spacing: 20
+            padding:0,10,0,0
+            size_hint_y: None
+            height:260
+            Label:
+                text:"[color=070606]Имя пациента:[/color]"
+                markup: True
+                font_size: 15
+#                size_hint_y:None
+                height:30
+                width:30
+
+            Label:
+                text:"[color=c06ef0]Иаза[/color]"
+                markup: True
+                font_size: 15
+#                size_hint_y:None
+                height:20
+                width:30
+
+            Label:
+                text:"[color=070606]Вид:[/color]"
+                markup: True
+                font_size: 15
+                height:20
+                width:30
+            Label:
+                text:"[color=c06ef0]Иаза[/color]"
+                markup: True
+                font_size: 15
+                height:30
+                width:30
+
+            Label:
+                text:"[color=070606]Диагноз:[/color]"
+                markup: True
+                font_size: 15
+                height:30
+                width:30
+
+            Label:
+                text:"[color=c06ef0]Иаза[/color]"
+                markup: True
+                font_size: 15
+                height:30
+                width:30
+            Label:
+                text:"[color=070606]Хозяин:[/color]"
+                markup: True
+                font_size: 15
+                height:30
+                width:30
+            Label:
+                text:"[color=c06ef0]Иаза[/color]"
+                markup: True
+                font_size: 15
+                height:30
+                width:30
+            Label:
+                text:"[color=070606]Номер телефона:[/color]"
+                markup: True
+                font_size: 15
+                height:30
+                width:30
+            Label:
+                text:"[color=c06ef0]Иаза[/color]"
+                markup: True
+                font_size: 15
+                height:30
+                width:30
+            Label:
+                text:"[color=070606]Электронная почта:[/color]"
+                markup: True
+                font_size: 15
+                height:30
+                width:30
+            Label:
+                text:"[color=c06ef0]Иаза[/color]"
+                markup: True
+                font_size: 15
+#                size_hint_y:None
+                height:20
+                width:30
+            Label:
+                text:"[color=070606]Адрес:[/color]"
+                markup: True
+                font_size: 15
+#                size_hint_y:None
+                height:20
+                width:30
+
+            Label:
+                text:"[color=c06ef0]Иаза[/color]"
+                markup: True
+                font_size: 15
+#                size_hint_y:None
+                height:20
+                width:30
+
+
+
+        GridLayout:
+            cols:1
+            padding:80,0,0,0
+            size_hint_y: None
+            height:50
+#            canvas.before:
+#                Color:
+#                    rgb: (1,0,1)
+#                Rectangle:
+#                    pos: self.pos
+#                    size: self.size
+            MDFillRoundFlatButton:
+                text: 'Вернуться в главное меню'
+                #disabled: True if root.everything() else False
+                on_press: root.close_pet_info_window()
+                #on_release: Factory.FoundPopup().open()
+                #on_press: root.info()
+                text_color: 0, 0, 0, 1
+                line_color: 1, 0, 1, 1
+    #            pos_hint: {"center_x": .5,"center_y":.5}
 
 
 <WarningPopup@Popup>
