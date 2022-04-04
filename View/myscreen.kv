@@ -768,7 +768,22 @@
             height:40
             size_hint_y:None
             md_bg_color: 192/256,110/256,240/256,1
-            left_action_items: [["menu",lambda x: x]]
+            #left_action_items: [["menu",lambda x: x]]
+            Button:
+                text: '+'
+                on_press: Factory.AddPopup(root.return_controller(), root.return_model()).open()
+                #Image:
+            Button:
+                #Image:
+                text: 'f'
+                on_press: Factory.SearchPopup(root.return_controller(), root.return_model()).open()
+            Button:
+                #Image:
+                text: '-'
+                on_press: Factory.DeletePopup(root.return_controller(), root.return_model()).open()
+
+
+
 
 
         Label:
