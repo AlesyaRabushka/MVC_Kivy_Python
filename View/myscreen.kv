@@ -653,7 +653,7 @@
     auto_dismiss:False
     separator_color: (192/256,110/256,240/256,1)
     background_color:'#a910e6'
-    size:(400,400)
+    size:(500,400)
     size_hint:None,None
 
     BoxLayout:
@@ -894,97 +894,6 @@
             line_color: 1, 0, 1, 1
             pos_hint: {"center_x": .5,"center_y":.5}
 
-<HandlerPopup@Popup>
-    title: 'Информация о хозяине'
-    auto_dismiss:False
-    separator_color: (192/256,110/256,240/256,1)
-    background_color:'#a910e6'
-    size_hint:None,None
-    size:(350,450)
-
-    BoxLayout:
-        # background color
-        canvas.before:
-            Color:
-                rgb: (1,1,1)
-            Rectangle:
-                pos: self.pos
-                size: self.size
-
-
-
-        orientation: "vertical"
-        adaptive_size: True
-
-        GridLayout:
-            cols:2
-            size_hint_y: .5
-            Label:
-                text: "[color=c06ef0]      Contacts[/color]"
-                markup: True
-                font_size: 20
-
-            Image:
-                source:'call.png'
-#                center_x:self.parent.center_x
-#                center_y:self.parent.center_y
-#                size:"5sp","5sp"
-                size: (5,5)
-        GridLayout:
-            cols:1
-            rows:4
-            padding:65,10,0,0
-            # имя пациента
-            MyField
-                id: hadler_name_input
-                hint_text: 'ФИО хозяина'
-                on_text: root.set_handler_name(self.text)
-                pos_hint: {"center_x": .46}
-
-        # Номер телефона
-            MyField:
-                id: phone_number_input
-                hint_text: 'Номера телефона'
-                helper_text: '+375-XX-XXX-XX-XX'
-                helper_text_mode: 'on_focus'
-                max_text_length: 17
-                on_text: root.set_phone_number(self.text)
-
-            #Почта
-            MyField:
-                id: email_input
-                hint_text: 'Электронная почта'
-                helper_text:'XXXXXXXXXXX@XXXXXX'
-                helper_text_mode: 'on_focus'
-                #max_text_length: 10
-                on_text: root.set_mail(self.text)
-
-            #Адрес
-            MyField:
-                hint_text: 'Адрес проживания'
-                id: address_input
-                on_text: root.set_address(self.text)
-                multiline: False
-#                pos_hint: {"center_x": .5,"center_y":.5}
-        GridLayout:
-            cols:2
-            rows:1
-            padding:25,100,0,0
-            spacing:10
-            MDFillRoundFlatButton:
-                text: 'Добавить информацию'
-                on_press: root.record_handler_info()
-                #on_release: root.dismiss()
-                text_color: 0, 0, 0, 1
-                line_color: 1, 0, 1, 1
-#                pos_hint: {"center_x": .5,"center_y":.5}
-            MDFillRoundFlatButton:
-                text: 'Назад'
-                on_press: root.dismiss()
-                #on_release: root.dismiss()
-                text_color: 0, 0, 0, 1
-                line_color: 1, 0, 1, 1
-#                pos_hint: {"center_x": .5,"center_y":.5}
 
 <HelperPopup@Popup>
     title: 'Contacts:'
@@ -1173,7 +1082,6 @@
                 text: 'Запись пациента'
                 background_color:'#c06ef0'
                 background_normal:''
-                line_color:'#FFFFFF'
                 #on_release: root.search_name_birth('alesya', '2002-22-10')
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
@@ -1184,7 +1092,6 @@
                 text: 'Поиск пациента'
                 background_color:'#c06ef0'
                 background_normal:''
-                line_color:'#FFFFFF'
                 #on_release: root.search_name_birth('alesya', '2002-22-10')
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
@@ -1193,7 +1100,6 @@
                 text: 'Удаление пациента'
                 background_color:'#c06ef0'
                 background_normal:''
-                line_color:'#FFFFFF'
                 #on_release: root.search_name_birth('alesya', '2002-22-10')
                 #on_press: root.choose_date()
                 #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
