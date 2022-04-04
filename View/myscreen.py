@@ -123,7 +123,7 @@ class AddPopup(Popup, Widget):
 
     # is called when the pet info registration has been successfully done
     def start_handler_info(self):
-        Factory.HandlerPopup(self.return_controller(), self.return_model(), add_popup = self).open()
+        Factory.HandlerPopup(controller = self.return_controller(), model = self.return_model(), add_popup = self).open()
 
     # is called when the pet information is successfully added
     def show_dialog(self):
