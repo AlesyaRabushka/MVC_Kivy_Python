@@ -43,7 +43,7 @@ class AddPopup(Popup, Widget):
     def return_controller(self):
         return self.controller
     def get_values(self):
-        values = ['Кот', 'Собака', 'Питон','Хорёк', 'Морская свинка']
+        values = ['Кот', 'Собака', 'Питон','Хорёк', 'Енот','Морская\n свинка']
         print(self.ids.click_label.text)
         return values
 
@@ -686,7 +686,7 @@ class MainScreen(MDScreen):
                                  use_pagination=True,
                                  check = True,
                                  column_data=[
-                                     ("Имя питомца", dp(30)),
+                                     ("Имя питомца", dp(35)),
                                      ("Вид животного", dp(30)),
                                      ("Дата рождения", dp(30)),
                                      ("Дата последнего приема", dp(30)),
