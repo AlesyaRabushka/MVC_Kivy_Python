@@ -37,7 +37,7 @@ class Controller:
         self.address = ''
 
         # amount of the input fields
-        self.all_is_ready_to_be_a_patient_info = 5
+        self.all_is_ready_to_be_a_patient_info = 6
 
 
 
@@ -46,7 +46,7 @@ class Controller:
     def set_pet_name(self, name):
         self.pet_name = str(name)
     def set_pet_type(self, type):
-        self.pet_type = 'кот'
+        self.pet_type = type
     def set_birth(self, birth):
         self.birth_date = birth
     def set_last_appointment_date(self, app):
@@ -72,11 +72,12 @@ class Controller:
         if self.is_string(self.disease) and not self.is_empty(self.disease):
             self.ready_ += 1
 
+
         # if all input fields are ready
         if self.all_is_ready_to_be_a_patient_info == self.ready_:
             self.model.pet_name = self.pet_name
             #self.model.pet_type = self.pet_type
-            self.model.pet_type = 'кот'
+            self.model.pet_type = self.pet_type
             self.model.birth = self.birth_date
             self.model.last_appointment_date = self.last_appointment_date
             self.model.vet_name = self.vet_name
