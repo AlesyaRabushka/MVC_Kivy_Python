@@ -23,6 +23,7 @@ class Model:
 
     def __init__(self, controller):
         self._pet_name = ''
+        self._pet_type = ''
         self._birth = ''
         self._last_appointment_date = ''
         self._vet_name =''
@@ -42,10 +43,6 @@ class Model:
         self.set_previous_patient_info()
 
         self.main_view = MainScreen(model = self, controller = self.controller)
-        #self.warning = WarningPopup()
-        # self.view = AddPopup(self.main_view.return_controller(), self.main_view.return_model())
-        # self.search_view = SearchPopup(self.controller, self.main_view.return_model())
-        # self.delete_view = DeletePopup(self.main_view.return_controller(), self.main_view.return_model())
 
         self.view = AddPopup(controller = self.controller, model = self)
         self.search_view = SearchPopup(self.controller, self.main_view.return_model())
@@ -73,6 +70,9 @@ class Model:
     def pet_name(self):
         return self._pet_name
     @property
+    def pet_type(self):
+        return self._pet_type
+    @property
     def birth(self):
         return self._birth
     @property
@@ -88,6 +88,9 @@ class Model:
     @pet_name.setter
     def pet_name(self, name):
         self._pet_name = name
+    @pet_type.setter
+    def pet_type(self, type):
+        self._pet_type = type
     @birth.setter
     def birth(self, birth):
         self._birth = birth
@@ -136,6 +139,7 @@ class Model:
         self.handler={}
         # set all info
         self._patients['pet_name'] = self._pet_name
+        self._patients['pet_type'] = self._pet_type
         self._patients['birth_date'] = self._birth
         self._patients['last_appointment_date'] = self._last_appointment_date
         self._patients['vet_name'] = self._vet_name
@@ -147,6 +151,7 @@ class Model:
 
         # set only pet info
         self.pet['pet_name'] = self._pet_name
+        self.pet['pet_type'] = self._pet_type
         self.pet['birth_date'] = self._birth
         self.pet['last_appointment_date'] = self._last_appointment_date
         self.pet['vet_name'] = self._vet_name
@@ -163,10 +168,11 @@ class Model:
         self._pets_list.append(self.pet)
         self._handlers_list.append(self.handler)
 
-        print(self._pets_list)
+
 
 
         self._pet_name=''
+        self._pet_type = ''
         self._birth=''
         self._vet_name=''
         self._last_appointment_date=''
@@ -223,6 +229,9 @@ class Model:
             pet_name = doc.createElement('pet_name')
             pet_name.appendChild(doc.createTextNode(item['pet_name']))
 
+            pet_type = doc.createElement('pet_type')
+            pet_type.appendChild(doc.createTextNode(item['pet_type']))
+
             birth_date = doc.createElement('birth_date')
             birth_date.appendChild(doc.createTextNode(str(item['birth_date'])))
 
@@ -248,6 +257,7 @@ class Model:
             address.appendChild(doc.createTextNode(item['handler_address']))
 
             pet.appendChild(pet_name)
+            pet.appendChild(pet_type)
             pet.appendChild(birth_date)
             pet.appendChild(last_appointment)
             pet.appendChild(vet_name)
@@ -275,6 +285,9 @@ class Model:
             pet_name = doc.createElement('pet_name')
             pet_name.appendChild(doc.createTextNode(item['pet_name']))
 
+            pet_type = doc.createElement('pet_type')
+            pet_type.appendChild(doc.createTextNode(item['pet_type']))
+
             birth_date = doc.createElement('birth_date')
             birth_date.appendChild(doc.createTextNode(str(item['birth_date'])))
 
@@ -300,6 +313,7 @@ class Model:
             address.appendChild(doc.createTextNode(item['handler_address']))
 
             pet.appendChild(pet_name)
+            pet.appendChild(pet_type)
             pet.appendChild(birth_date)
             pet.appendChild(last_appointment)
             pet.appendChild(vet_name)
@@ -324,7 +338,7 @@ class Model:
         parser = sax.make_parser()  # creating an XMLReader
         parser.setFeature(sax.handler.feature_namespaces, 0)  # turning off namespaces
 
-        handler = PetElement(model = self)
+        handler = PetElement()
         parser.setContentHandler(handler)  # overriding default ContextHandler
         parser.parse('pet.xml')
 
@@ -411,9 +425,6 @@ class Model:
     # delete the particular records by the given disease phrase
     def delete_disease_phrase(self, phrase):
         amount_of_deleted_items = 0
-        index = []
-        print('phrase ', phrase)
-        print(self._pets_list)
         for item in self._pets_list:
             if (item['disease'].lower()).find(phrase.lower()) != -1:
                 amount_of_deleted_items += 1

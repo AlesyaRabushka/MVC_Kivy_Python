@@ -20,7 +20,8 @@
     separator_color: (192/256,110/256,240/256,1)
     size_hint:None,None
     size:(400,500)
-
+#    background_color:'CC99FF'
+#    background_normal:''
 
     BoxLayout:
         # background color
@@ -36,6 +37,10 @@
         orientation: "vertical"
         adaptive_size: True
 
+        #spacing: "12dp"
+        #padding: "12dp"
+        #radius: [10, ]
+        #pos_hint: {"center_x": .5, "center_y": .5}
         GridLayout:
             cols:2
             Label:
@@ -43,11 +48,25 @@
                 markup: True
                 font_size: 20
                 size_hint: None, None
+    #            size_x: 50
+    #            size_y: 50
                 height:50
-                background_color: (1,0,0, 1)
+#                width:50
 
+#                pos_hint: {"center_x": .5}
+                #adaptive_size: True
+                background_color: (1,0,0, 1)
+#            canvas.before:
+#                Color:
+#                    rgba: self.background_color
+#                Rectangle:
+#                    size: self.size
+#                    pos: self.pos
             Image:
                 source:'ilopet.jpg'
+#                center_x:self.parent.center_x
+#                center_y:self.parent.center_y
+#                size:"5sp","5sp"
                 size: (5,5)
 
         # имя пациента
@@ -69,6 +88,8 @@
 
             Button:
                 size_hint:None,None
+#            text:'Дата рождения'
+#            front_size:32
                 size: "40sp", "40sp"
                 on_press: root.choose_birth_date()
                 background_color:0,0,0,0
@@ -85,6 +106,7 @@
                 hint_text: 'YYYY-MM-DD'
                 max_text_length: 10
                 on_text: root.set_last_appointment_date(self.text)
+#                pos_hint: {"center_x": .5,"center_y":.5}
 
             Button:
 #                text:'Дата последнего приёма'
@@ -120,22 +142,30 @@
         GridLayout:
             cols: 1
             rows: 2
-            padding: 95, 0, 0, 0
+            padding: 75, 0, 0, 0
             spacing: 10
             MDFillRoundFlatButton:
-                text: '   Добавить информацию  '
+                text: '  Добавить информацию  '
+                #disabled: True if root.everything() else False
                 on_press: root.record_patient_info()
+                #on_release: root.dialogs()
+                #on_press: root.info()
                 text_color: 0, 0, 0, 1
                 line_color: 0, 0, 0, 1
+    #            background_color: 'CCCCFF'
+    #            background_normal:''
+                pos_hint: {"center_x": .5,"center_y":.5}
 
 
 
             MDFillRoundFlatButton:
                 text: 'Вернуться в главное меню'
+                #disabled: True if root.everything() else False
                 on_press: root.dismiss()
+                #on_press: root.info()
                 text_color: 0, 0, 0, 1
                 line_color: 1, 0, 1, 1
-
+                pos_hint: {"center_x": .5,"center_y":.5}
 
 
 <SearchPopup@Popup>
@@ -172,6 +202,9 @@
 
             Image:
                 source:'ilopet.jpg'
+#                center_x:self.parent.center_x
+#                center_y:self.parent.center_y
+#                size:"5sp","5sp"
                 size: (5,5)
 
         GridLayout:
@@ -274,17 +307,26 @@
             spacing: 10
             MDFillRoundFlatButton:
                 text: '          Поиск             '
+                #disabled: True if root.everything() else False
                 on_press: root.search()
+                #on_release: root.dialogs()
+                #on_press: root.info()
                 text_color: 0, 0, 0, 1
                 line_color: 0, 0, 0, 1
+    #            background_color: 'CCCCFF'
+    #            background_normal:''
+                pos_hint: {"center_x": .5,"center_y":.5}
 
 
 
             MDFillRoundFlatButton:
                 text: 'Вернуться в главное меню'
+                #disabled: True if root.everything() else False
                 on_press: root.dismiss()
+                #on_press: root.info()
                 text_color: 0, 0, 0, 1
                 line_color: 1, 0, 1, 1
+                pos_hint: {"center_x": .5,"center_y":.5}
 
 
 <DeletePopup@Popup>
@@ -321,6 +363,9 @@
 
             Image:
                 source:'ilopet.jpg'
+#                center_x:self.parent.center_x
+#                center_y:self.parent.center_y
+#                size:"5sp","5sp"
                 size: (5,5)
 
 
@@ -426,16 +471,26 @@
             spacing: 10
             MDFillRoundFlatButton:
                 text: '        Удаление        '
+                #disabled: True if root.everything() else False
                 on_press: root.delete()
+                #on_release: root.dialogs()
+                #on_press: root.info()
                 text_color: 0, 0, 0, 1
                 line_color: 0, 0, 0, 1
+#                size_hint:None,None
+#                width:200
+    #            background_color: 'CCCCFF'
+    #            background_normal:''
                 pos_hint: {"center_x": .5,"center_y":.5}
 
 
 
             MDFillRoundFlatButton:
                 text: 'Вернуться в главное меню'
+                #disabled: True if root.everything() else False
                 on_press: root.dismiss()
+                #on_release: Factory.FoundPopup().open()
+                #on_press: root.info()
                 text_color: 0, 0, 0, 1
                 line_color: 1, 0, 1, 1
                 pos_hint: {"center_x": .5,"center_y":.5}
@@ -450,7 +505,19 @@
     size:(700,900)
     size_hint:None,None
 
-
+#    BoxLayout:
+#        # background color
+#        canvas.before:
+#            Color:
+#                rgb: (1,1,1)
+#            Rectangle:
+#                pos: self.pos
+#                size: self.size
+#
+#
+#
+#        orientation: "vertical"
+#        adaptive_size: True
 
 <HandlerPopup@Popup>
     title: 'Информация о владельце'
@@ -484,6 +551,9 @@
 
             Image:
                 source:'call.png'
+#                center_x:self.parent.center_x
+#                center_y:self.parent.center_y
+#                size:"5sp","5sp"
                 size: (5,5)
         GridLayout:
             cols:1
@@ -516,19 +586,24 @@
                 id: address_input
                 on_text: root.set_address(self.text)
                 multiline: False
+#                pos_hint: {"center_x": .5,"center_y":.5}
         GridLayout:
             cols:1
             padding:75,100,0,0
             MDFillRoundFlatButton:
                 text: 'Добавить информацию'
                 on_press: root.record_handler_info()
+                #on_release: root.dismiss()
                 text_color: 0, 0, 0, 1
                 line_color: 1, 0, 1, 1
+#                pos_hint: {"center_x": .5,"center_y":.5}
             MDFillRoundFlatButton:
                 text: 'Добавить информацию'
                 on_press: root.dismiss()
+                #on_release: root.dismiss()
                 text_color: 0, 0, 0, 1
                 line_color: 1, 0, 1, 1
+#                pos_hint: {"center_x": .5,"center_y":.5}
 
 
 
@@ -537,7 +612,7 @@
     title:'Информация о пациенте'
     separator_color: (192/256,110/256,240/256,1)
     background_color:'#a910e6'
-    size:(400,600)
+    size:(700,900)
     size_hint:None,None
 
     BoxLayout:
@@ -548,41 +623,16 @@
             Rectangle:
                 pos: self.pos
                 size: self.size
-        GridLayout:
-            cols:1
-            rows:2
-            Label:
-                text: "[color=c06ef0]Личный аккаунт пициента[/color]"
-                markup: True
-                font_size: 17
-                size_hint: None, None
-#                padding:140,0,0,0
-                pos_hint: {"center_x": .5,"center_y":.5}
 
-            Image:
-                source:'akk2.png'
-#                size: (5,5)
-                size_hint:2.3,None
-                pos_hint: {"center_x": .5,"center_y":.5}
-
-#        GridLayout:
-#            cols:1
-#            padding:120,0,0,0
-#            Label:
-#                text:"[color=c06ef0]     Личный аккаунт питомца[/color]"
-#                markup:True
-#                font_size:15
-#                size_hint:None,None
-
-        GridLayout:
-            cols: 1
-            size_hint: 1, 0.3
-            padding: 95,0,0,0
-            MDFillRoundFlatButton:
-                text: 'Вернуться в главное меню'
-                on_press: root.close_pet_info_window()
-                text_color: 0, 0, 0, 1
-                line_color: 1, 0, 1, 1
+        Button:
+            text: 'Вернуться в главное меню'
+            #disabled: True if root.everything() else False
+            on_press: root.close_pet_info_window()
+            #on_release: Factory.FoundPopup().open()
+            #on_press: root.info()
+            text_color: 0, 0, 0, 1
+            line_color: 1, 0, 1, 1
+            pos_hint: {"center_x": .5,"center_y":.5}
 
 
 <WarningPopup@Popup>
@@ -595,6 +645,14 @@
     pos_hint: {"center_x": .5,"center_y":.5}
 
     BoxLayout:
+        # background color
+#        canvas.before:
+#            Color:
+#                rgb: (1,1,1)
+#            Rectangle:
+#                pos: self.pos
+#                size: self.size
+
 
 
         orientation: "vertical"
@@ -641,6 +699,12 @@
 <MainScreen>
     BoxLayout:
         orientation: "vertical"
+        adaptive_size: True
+        #spacing: "12dp"
+        #padding: "12dp"
+        #radius: [10, ]
+        #pos_hint: {"center_x": .5, "center_y": .5}
+        #md_bg_color: app.theme_cls.disabled_hint_text_color
 
         MDToolbar:
             title: 'Menu'
@@ -660,28 +724,24 @@
         GridLayout:
             cols: 3
             size_hint: 1, 0.3
-            padding: 20,10,20,10
-            spacing:25
-
             Button:
                 text: 'Запись пациента'
-                font_size: 17
-                text_color: 0, 0, 0, 1
-                line_color: 1, 0, 1, 1
-                size_hint:(1,.3)
+                #on_release: root.search_name_birth('alesya', '2002-22-10')
+                #on_press: root.choose_date()
+                #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
                 on_release: Factory.AddPopup(root.return_controller(), root.return_model()).open()
+                #on_release: root.clear()
+                #on_release: root.show_dialog()
             Button:
                 text: 'Поиск пациента'
-                font_size: 17
-                text_color: 0, 0, 0, 1
-                line_color: 1, 0, 1, 1
-                size_hint:(1,.3)
+                #on_release: root.search_name_birth('alesya', '2002-22-10')
+                #on_press: root.choose_date()
+                #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
                 on_release: Factory.SearchPopup(root.return_controller(), root.return_model()).open()
             Button:
-                text: 'Выписка пациента'
-                font_size: 17
-                text_color: 0, 0, 0, 1
-                line_color: 1, 0, 1, 1
-                size_hint:(1,.3)
+                text: 'Удаление пациента'
+                #on_release: root.search_name_birth('alesya', '2002-22-10')
+                #on_press: root.choose_date()
+                #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
                 on_release: Factory.DeletePopup(root.return_controller(), root.return_model()).open()
 

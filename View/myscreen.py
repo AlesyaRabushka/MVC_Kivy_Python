@@ -1,26 +1,23 @@
 import os
-import datetime
-
-import setuptools.extern
-from kivymd.uix.dialog import MDDialog
-
 
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.picker import MDDatePicker
-from kivy.uix.screenmanager import Screen
-
-from kivy.uix.popup import Popup
-from kivy.factory import Factory
-from kivy.core.window import Window
-
-from kivy.uix.widget import Widget
-from kivy.metrics import dp
-
+from kivymd.uix.tooltip import MDTooltip
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.datatables import MDDataTable
+from kivymd.uix.dialog import MDDialog
+
+from kivy.uix.button import Button
+from kivy.uix.popup import Popup
+from kivy.factory import Factory
+from kivy.uix.widget import Widget
+from kivy.metrics import dp
+from kivy.uix.checkbox import CheckBox
+
+
 
 
 # popup window for pet data input
@@ -114,13 +111,13 @@ class AddPopup(Popup, Widget):
 
     # is called when the pet info registration has been successfully done
     def start_handler_info(self):
-        Factory.HandlerPopup(self.return_controller(), self.return_model()).open()
+        Factory.HandlerPopup(self.return_controller(), self.return_model(), add_popup = self).open()
 
     # is called when the pet information is successfully added
     def show_dialog(self):
         self.dialog = MDDialog(
-            title='Регистрация данных',
-            text='Запись добавлена!',
+            title='Registration',
+            text='The record has been added!',
             buttons=[
                 MDFlatButton(text='Ok', on_release=self.closed)
             ]
@@ -131,8 +128,8 @@ class AddPopup(Popup, Widget):
     # is called when there is wrong pet information
     def show_no_dialog(self):
         self.dialog = MDDialog(
-            title='Ошибка регистрации',
-            text='Проверьте введенные вами данные!',
+            title='Warning',
+            text='Please correct the input data',
             # size_hint=(0.5,0.5),
             buttons=[
                 MDFlatButton(text='Ok', on_release=self.no_closed)
@@ -143,6 +140,8 @@ class AddPopup(Popup, Widget):
    # is called when the pet indo is correct
     def closed(self, text):
         self.dialog.dismiss()
+
+
 
 
 
@@ -316,12 +315,16 @@ class DeletePopup(Popup, Widget):
         super().__init__(**kwargs)
         self.model = model
         self.controller = controller
+        self.dialog = None
 
         self.pet_name = ''
         self.birth_date = ''
         self.last_appointment_date = ''
         self.vet_name = ''
         self.disease = ''
+        self.letter = None
+
+        self.check_option = 0
 
         self.options = []
 
@@ -377,7 +380,10 @@ class DeletePopup(Popup, Widget):
         # and call the dialog
 
     def return_deleted_amount(self, count):
-        self.show_dialog(count)
+        if count == 0:
+            self.show_none_dialog()
+        else:
+            self.show_dialog(count)
 
         # info from checkboxes
 
@@ -397,21 +403,30 @@ class DeletePopup(Popup, Widget):
         if len(self.options) == 0:
             self.empty_dialog()
         elif self.options[0] == 'disease' and self.disease != '':
+            self.check_option = 3
             self.delete_disease_phrase()
+            self.letter = EmailLetterPopup(model=self.model, option=3, arg1=self.disease, arg2='')
+
         elif self.options[0] == 'pet_name' and self.options[
             1] == 'birth_date' and self.pet_name != '' and self.birth_date != '':
+            self.check_option = 1
             self.delete_pet_name_birth_date()
+            self.letter = EmailLetterPopup(model=self.model, option=2, arg1=self.pet_name, arg2=self.birth_date)
+
         elif self.options[0] == 'vet_name' and self.options[
             1] == 'last_appointment_date' and self.vet_name != '' and self.last_appointment_date != '':
+            self.check_option = 2
             self.delete_last_appointment_date_vet_name()
+            self.letter = EmailLetterPopup(model=self.model, option=1, arg1=self.vet_name,
+                                           arg2=self.last_appointment_date)
+
         else:
             self.empty_input_dialog()
 
-        # is called to show how many records have been found
-
+    # is called to show how many records have been found
     def show_dialog(self, count):
         self.dialog = MDDialog(
-            title='Search',
+            title='Delete',
             text=f'Deleted records: {count}',
             buttons=[
                 MDFlatButton(text='Ok', on_release=self.closed)
@@ -419,14 +434,24 @@ class DeletePopup(Popup, Widget):
         )
         self.dialog.open()
 
-        # is called when the search option has not been configured
-
+    # is called when the search option has not been configured
     def empty_dialog(self):
         self.dialog = MDDialog(
             title='Warning',
             text='Please choose the delete options',
             buttons=[
-                MDFlatButton(text='Ok', on_release=self.closed)
+                MDFlatButton(text='Ok', on_release=self.closed_empty)
+            ]
+        )
+        self.dialog.open()
+
+    # is called if no info have been found
+    def show_none_dialog(self):
+        self.dialog = MDDialog(
+            title='Delete',
+            text='No records have been found',
+            buttons=[
+                MDFlatButton(text='Ok', on_release=self.closed_empty)
             ]
         )
         self.dialog.open()
@@ -438,7 +463,7 @@ class DeletePopup(Popup, Widget):
             title='Warning',
             text='Please enter the delete data',
             buttons=[
-                MDFlatButton(text='Ok', on_release=self.closed)
+                MDFlatButton(text='Ok', on_release=self.closed_empty)
             ]
         )
         self.dialog.open()
@@ -448,7 +473,7 @@ class DeletePopup(Popup, Widget):
             title='Warning',
             text='Please enter the correct data',
             buttons=[
-                MDFlatButton(text='Ok', on_release=self.closed)
+                MDFlatButton(text='Ok', on_release=self.closed_empty)
             ]
         )
         self.dialog.open()
@@ -456,7 +481,55 @@ class DeletePopup(Popup, Widget):
         # is called to close the dialog
 
     def closed(self, text):
+        # print(text)
         self.dialog.dismiss()
+        self.letter = EmailLetterPopup(model = self.model, option=1, arg1=self.vet_name, arg2=self.last_appointment_date).open()
+
+
+        #self.letter = Factory.EmailLetterPopup().open()
+
+    # for dialogs with empty input error
+    def closed_empty(self, text):
+        self.options = []
+        self.dialog.dismiss()
+
+
+
+class EmailLetterPopup(Popup):
+    def __init__(self, model, option, arg1, arg2, **kwargs):
+        super().__init__(**kwargs)
+        self.all_pet_info = []
+        self.option = option
+        self.model = model
+        self.all_pet_info = self.model.return_all_info_list()
+        self.first_point = arg1
+        self.second_point = arg2
+
+        self.handler_name = ''
+        self.mail = ''
+        self.find_pet_handler_info()
+
+    def open_note(self, arg1, arg2, **kwargs):
+        #os.system("C:\\Windows\\HxOutlook.exe")
+        os.startfile("C:\\Windows\\notebook.exe")
+        os.system("C:\\Windows\\notebook.exe")
+
+    # set contact pet handler info
+    def find_pet_handler_info(self):
+        for item in self.all_pet_info:
+            if self.option == 1:
+                if item['pet_name'].lower() == self.first_point.lower() and item['birth_date'] == self.second_point:
+                    self.handler_name = item['handler_name']
+                    self.mail = item['mail']
+            elif self.option == 2:
+                if item['vet_name'].lower() == self.first_point.lower() and item['last_appointment_date'] == self.second_point:
+                    self.handler_name = item['handler_name']
+                    self.mail = item['mail']
+            elif self.option == 3:
+                if item['disease'].lower() == self.first_point.lower():
+                    self.handler_name = item['handler_name']
+                    self.mail = item['mail']
+
 
 
 # popup window with found by search info
@@ -483,10 +556,11 @@ class HandlerPopup(Popup):
     model = ObjectProperty()
     controller = ObjectProperty()
 
-    def __init__(self,controller, model, **kwargs):
+    def __init__(self,controller, model, add_popup, **kwargs):
         super().__init__(**kwargs)
         self.model = model
         self.controller = controller
+        self.add_popup = add_popup
 
     # set pet handler info
     def set_handler_name(self, handler):
@@ -500,6 +574,7 @@ class HandlerPopup(Popup):
 
     def record_handler_info(self):
         self.controller.record_handler_info()
+
 
 
 # popup window for single pet information that is appeared when you click on CHECK in main screen table
@@ -559,6 +634,13 @@ class WarningPopup(Popup, Widget):
         self.main.dismiss_warning()
 
 
+# tooltips
+class TooltipCheckBox(CheckBox, MDTooltip):
+    pass
+class TooltipButton(Button, MDTooltip):
+    pass
+
+
 # main view
 class MainScreen(MDScreen):
     """"
@@ -588,6 +670,7 @@ class MainScreen(MDScreen):
                                  check = True,
                                  column_data=[
                                      ("Имя питомца", dp(30)),
+                                     ("Вид животного", dp(30)),
                                      ("Дата рождения", dp(30)),
                                      ("Дата последнего приема", dp(30)),
                                      ("ФИО ветеринара", dp(30)),
@@ -612,8 +695,10 @@ class MainScreen(MDScreen):
     def dismiss_warning(self):
         self.remove_widget(self.w)
 
-    def return_bad_files_count(self, count):
-        print(count)
+    # is called in ToolBar
+    #  and shows the menu buttons
+    def show_menu(self):
+        pass
 
 
     def return_all_info_list(self):
@@ -623,7 +708,7 @@ class MainScreen(MDScreen):
     # is appeared when you click on CHECK in the main screen table
     def check_info(self, instance, pet_info):
         InformationPopup(pet_info, main=self).open()
-        print(pet_info)
+
 
     # is called from InformationPopup when it is dismissed
     def close_pet_info_window(self):
@@ -637,6 +722,7 @@ class MainScreen(MDScreen):
         for item in self._pets_list:
             pet_list = []
             pet_list.append(item['pet_name'])
+            pet_list.append(item['pet_type'])
             pet_list.append(item['birth_date'])
             pet_list.append(item['last_appointment_date'])
             pet_list.append(item['vet_name'])
@@ -653,6 +739,7 @@ class MainScreen(MDScreen):
                                  check = True,
                                  column_data=[
                                      ("Имя питомца", dp(30)),
+                                     ("Вид животного", dp(30)),
                                      ("Дата рождения", dp(30)),
                                      ("Дата последнего приема", dp(30)),
                                      ("ФИО ветеринара", dp(30)),
@@ -667,6 +754,7 @@ class MainScreen(MDScreen):
         for item in pets:
             pet_list = []
             pet_list.append(item['pet_name'])
+            pet_list.append(item['pet_type'])
             pet_list.append(item['birth_date'])
             pet_list.append(item['last_appointment_date'])
             pet_list.append(item['vet_name'])
@@ -683,6 +771,7 @@ class MainScreen(MDScreen):
                                  check = True,
                                  column_data=[
                                      ("Имя питомца", dp(30)),
+                                     ("Вид животного", dp(30)),
                                      ("Дата рождения", dp(30)),
                                      ("Дата последнего приема", dp(30)),
                                      ("ФИО ветеринара", dp(30)),
@@ -699,6 +788,7 @@ class MainScreen(MDScreen):
         for item in pets_list:
             pet_list = []
             pet_list.append(item['pet_name'])
+            pet_list.append(item['pet_type'])
             pet_list.append(item['birth_date'])
             pet_list.append(item['last_appointment_date'])
             pet_list.append(item['vet_name'])

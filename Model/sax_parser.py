@@ -1,16 +1,11 @@
-import os
-from kivy.lang import Builder
-
 import xml.sax
-from kivy.uix.popup import Popup
-
-
 
 
 class PetElement(xml.sax.ContentHandler):
-    def __init__(self, model):
+    def __init__(self):
         self.current_data = False
         self.pet_name = False
+        self.pet_type = False
         self.birth_date = False
         self.last_appointment_date = False
         self.vet_name = False
@@ -18,11 +13,8 @@ class PetElement(xml.sax.ContentHandler):
         self.handler_name = False
         self.phone_number = False
         self.mail = False
-        self.address = False
+        self.handler_address = False
 
-        self.model = model
-
-        # self.dialog = main_view
 
         self.count_pet = 0
         self.count_handler = 0
@@ -43,16 +35,27 @@ class PetElement(xml.sax.ContentHandler):
             self.line = 1
 
             self.pet_name_line = False
+            self.pet_type_line = False
             self.birth_date_line = False
             self.last_appointment_date_line = False
             self.vet_name_line = False
             self.disease_line = False
+            self.handler_name_line = False
+            self.phone_number_line = False
+            self.mail_line = False
+            self.handler_address_line = False
+            self.disease_line = False
 
             self.pet_name_line_count = 0
+            self.pet_type_line_count = 0
             self.birth_date_line_count = 0
             self.last_appointment_date_line_count = 0
             self.vet_name_line_count = 0
             self.disease_line_count = 0
+            self.handler_name_line_count = 0
+            self.phone_number_line_count = 0
+            self.mail_line_count = 0
+            self.handler_address_line_count = 0
 
 
         elif self.current_data == 'pet':
@@ -62,10 +65,15 @@ class PetElement(xml.sax.ContentHandler):
             self.line += 1
 
             self.close_pet_name = False
+            self.close_pet_type = False
             self.close_birth_date = False
             self.close_last_appointment_date = False
             self.close_vet_name = False
             self.close_disease = False
+            self.close_handler_name = False
+            self.close_phone_number = False
+            self.close_mail = False
+            self.close_handler_address = False
 
 
 
@@ -73,6 +81,11 @@ class PetElement(xml.sax.ContentHandler):
             self.pet_name=True
             self.line += 1
             self.pet_name_line_count = self.line
+
+        elif self.current_data == 'pet_type':
+            self.pet_type=True
+            self.line += 1
+            self.pet_type_line_count = self.line
 
         elif self.current_data == 'birth_date':
             self.birth_date = True
@@ -98,15 +111,19 @@ class PetElement(xml.sax.ContentHandler):
         elif self.current_data == 'handler_name':
             self.handler_name = True
             self.line += 1
+            self.handler_name_line_count = self.line
         elif self.current_data == 'phone_number':
             self.phone_number = True
             self.line += 1
+            self.phone_number_line_count = self.line
         elif self.current_data == 'mail':
             self.mail = True
             self.line += 1
+            self.mail_line_count = self.line
         elif self.current_data == 'handler_address':
-            self.address = True
+            self.handler_address = True
             self.line += 1
+            self.handler_address_line_count = self.line
 
 
         self.current_data=''
@@ -117,6 +134,10 @@ class PetElement(xml.sax.ContentHandler):
             if self.pet_name_line == True:
                 self.pet_name_line = False
                 self.close_pet_name = True
+        elif tag == 'pet_type':
+            if self.pet_type_line == True:
+                self.pet_type_line = False
+                self.close_pet_type = True
         elif tag == 'birth_date':
             if self.birth_date_line == True:
                 self.birth_date_line = False
@@ -135,11 +156,29 @@ class PetElement(xml.sax.ContentHandler):
                 self.disease_line = False
                 self.close_disease = True
 
+        elif tag == 'handler_name':
+            if self.handler_name_line == True:
+                self.handler_name_line = False
+                self.close_handler_name = True
+        elif tag == 'phone_number':
+            if self.phone_number_line == True:
+                self.phone_number_line = False
+                self.close_phone_number = True
+        elif tag == 'mail':
+            if self.mail_line == True:
+                self.mail_line = False
+                self.close_mail = True
+        elif tag == 'handler_address':
+            if self.handler_address_line == True:
+                self.handler_address_line = False
+                self.close_handler_address = True
+
+
 
         elif tag == 'pet':
             self.line += 1
 
-            if self.count_pet == 5 and self.count_handler == 4:
+            if self.count_pet == 6 and self.count_handler == 4:
                 self.pets_list.append(self.pet)
                 self.handlers_list.append(self.handler)
                 self.all_list.append(self.all)
@@ -158,6 +197,9 @@ class PetElement(xml.sax.ContentHandler):
                 if self.close_pet_name == False:
                     self.bad_line_name = 'pet_name'
                     self.bad_line_count = self.pet_name_line_count
+                elif self.close_pet_type == False:
+                    self.bad_line_name = 'pet_type'
+                    self.bad_line_count = self.pet_type_line_count
                 elif self.close_birth_date == False:
                     self.bad_line_name = 'birth_date'
                     self.bad_line_count = self.birth_date_line_count
@@ -170,7 +212,19 @@ class PetElement(xml.sax.ContentHandler):
                 elif self.close_disease == False:
                     self.bad_line_name = 'disease'
                     self.bad_line_count = self.disease_line_count
-                print(self.bad_line_name, self.bad_line_count)
+                elif self.close_handler_name == False:
+                    self.bad_line_name = 'handler_name'
+                    self.bad_line_count = self.handler_name_line_count
+                elif self.close_phone_number == False:
+                    self.bad_line_name = 'phone_number'
+                    self.bad_line_count = self.phone_number_line_count
+                elif self.close_mail == False:
+                    self.bad_line_name = 'mail'
+                    self.bad_line_count = self.mail_line_count
+                elif self.close_handler_address == False:
+                    self.bad_line_name = 'handler_address'
+                    self.bad_line_count = self.handler_address_line_count
+
 
 
 
@@ -183,6 +237,13 @@ class PetElement(xml.sax.ContentHandler):
             self.count_pet += 1
             self.pet_name = False
             self.pet_name_line = True
+
+        elif self.pet_type:
+            self.pet['pet_type'] = content
+            self.all['pet_type'] = content
+            self.count_pet += 1
+            self.pet_type = False
+            self.pet_type_line = True
 
         elif self.birth_date:
             self.birth_date_line = True
@@ -224,21 +285,25 @@ class PetElement(xml.sax.ContentHandler):
             self.handler['handler_name'] = content
             self.all['handler_name'] = content
             self.handler_name = False
+            self.handler_name_line = True
             self.count_handler += 1
         elif self.phone_number:
             self.handler['phone_number'] = content
             self.all['phone_number'] = content
             self.phone_number = False
+            self.phone_number_line = True
             self.count_handler += 1
         elif self.mail:
             self.handler['mail'] = content
             self.all['mail'] = content
+            self.mail_line = True
             self.mail = False
             self.count_handler += 1
-        elif self.address:
+        elif self.handler_address:
+            self.handler_address_line = True
             self.handler['handler_address'] = content
             self.all['handler_address'] = content
-            self.address = False
+            self.handler_address = False
             self.count_handler += 1
 
            #self.disease = content
