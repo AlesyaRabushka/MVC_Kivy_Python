@@ -1,4 +1,5 @@
 import os
+import webbrowser
 
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
@@ -514,8 +515,12 @@ class EmailLetterPopup(Popup):
         self.mail = ''
         self.find_pet_handler_info()
 
-    def open_note(self):
-        os.popen(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
+    def open_mail(self):
+        # open default browser
+        webbrowser.open_new('https://e.mail.ru/drafts/')
+        # open certain browser
+        webbrowser.get("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe %s").open_new('https://e.mail.ru/inbox/')
+
 
     # set contact pet handler info
     def find_pet_handler_info(self):
