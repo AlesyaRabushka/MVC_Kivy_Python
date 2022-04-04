@@ -23,6 +23,13 @@
 <TooltipButton@ToolTip+Button>
     tooltip_bg_color: [192/256,110/256,240/256,1]
 
+<DropDownItem@MDDropDownItem>:
+    Button:
+        text: 'first'
+        size_hint_y: None
+        height: 40
+        on_release: root.select('item1')
+
 
 
 <AddPopup@Popup>
@@ -30,7 +37,7 @@
     title: 'Регистрация'
     separator_color: (192/256,110/256,240/256,1)
     size_hint:None,None
-    size:(400,500)
+    size:(400,550)
 #    background_color:'CC99FF'
 #    background_normal:''
 
@@ -55,24 +62,14 @@
         GridLayout:
             cols:2
             Label:
-                text: "[color=c06ef0]                       Sign Up[/color]"
+                text: "[color=c06ef0]                                  Sing UP[/color]"
                 markup: True
                 font_size: 20
                 size_hint: None, None
-    #            size_x: 50
-    #            size_y: 50
                 height:50
-#                width:50
+                width:50
+                pos_hint: {"center_x": .5}
 
-#                pos_hint: {"center_x": .5}
-                #adaptive_size: True
-                background_color: (1,0,0, 1)
-#            canvas.before:
-#                Color:
-#                    rgba: self.background_color
-#                Rectangle:
-#                    size: self.size
-#                    pos: self.pos
             Image:
                 source:'ilopet.jpg'
 #                center_x:self.parent.center_x
@@ -82,19 +79,21 @@
         GridLayout:
             cols:3
             rows:1
+            size_hint_y:None
+            height:50
             padding:75,0,0,0
-            spacing:10
-            # имя пациента
+           # spacing:10
+        # имя пациента
             MyField
                 id: pet_name_input
                 hint_text: 'Имя пациента'
                 on_text: root.set_pet_name(self.text)
+
                 pos_hint: {"center_x": .30}
 
 
             Label:
                 id:click_label
-                text:"Вид"
             Spinner:
                 id:spinner_id
                 text:"Вид"

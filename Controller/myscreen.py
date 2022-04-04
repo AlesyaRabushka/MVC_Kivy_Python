@@ -3,8 +3,8 @@
 
 #from View.myscreen import MainScreen, AddPopup, SearchPopup
 from kivy.properties import StringProperty
-from MVC_Kivy_Python.Model.myscreen import Model
-from MVC_Kivy_Python.View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
+from Model.myscreen import Model
+from View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
 
 
 class Controller:

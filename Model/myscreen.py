@@ -12,10 +12,10 @@ import xml.sax as sax
 
 from os import path
 
-from MVC_Kivy_Python.Model.sax_parser import PetElement
-from MVC_Kivy_Python.View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
+from Model.sax_parser import PetElement
+from View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
 
-from MVC_Kivy_Python.View.myscreen import WarningPopup
+from View.myscreen import WarningPopup
 
 
 class Model:
