@@ -23,6 +23,13 @@
 <TooltipButton@ToolTip+Button>
     tooltip_bg_color: [192/256,110/256,240/256,1]
 
+<DropDownItem@MDDropDownItem>:
+    Button:
+        text: 'first'
+        size_hint_y: None
+        height: 40
+        on_release: root.select('item1')
+
 
 
 <AddPopup@Popup>
@@ -30,7 +37,7 @@
     title: 'Регистрация'
     separator_color: (192/256,110/256,240/256,1)
     size_hint:None,None
-    size:(400,500)
+    size:(400,600)
 #    background_color:'CC99FF'
 #    background_normal:''
 
@@ -79,13 +86,24 @@
 #                center_y:self.parent.center_y
 #                size:"5sp","5sp"
                 size: (5,5)
-
+        GridLayout:
+            cols:2
+            rows:1
+            padding:75,0,0,0
         # имя пациента
-        MyField
-            id: pet_name_input
-            hint_text: 'Имя пациента'
-            on_text: root.set_pet_name(self.text)
-            pos_hint: {"center_x": .46}
+            MyField
+                id: pet_name_input
+                hint_text: 'Имя пациента'
+                on_text: root.set_pet_name(self.text)
+#                pos_hint: {"center_x": .46}
+        #вид пациента
+#            DropDownItem:
+#                id:drop_item
+##                pos_hint:{"center_x":.70}
+#                text:'Вид'
+#                on_release:root.set_item("item1")
+
+
         GridLayout:
             cols:2
             padding:75,0,0,0

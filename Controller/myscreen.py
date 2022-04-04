@@ -4,7 +4,7 @@
 #from View.myscreen import MainScreen, AddPopup, SearchPopup
 from kivy.properties import StringProperty
 from MVC_Kivy_Python.Model.myscreen import Model
-from MVC_Kivy_Python.View.myscreen import MainScreen, AddPopup, SearchPopup, HandlerPopup
+from MVC_Kivy_Python.View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
 
 
 class Controller:
@@ -15,10 +15,12 @@ class Controller:
 
         self.model = Model(controller = self)
         self._pets_list = self.model.return_pets_list()
+        
         # view screens
         self.main_view = MainScreen(controller=self, model=self.model)
-        self.view = AddPopup(controller=self, model=self.model)
+        self.add_view = AddPopup(controller=self, model=self.model)
         self.search_view = SearchPopup(controller=self, model=self.model)
+        self.delete_view = DeletePopup(controller = self, model = self.model)
 
         # pet info
         self.pet_name = ''
@@ -36,6 +38,7 @@ class Controller:
 
         # amount of the input fields
         self.all_is_ready_to_be_a_patient_info = 5
+
 
 
 
@@ -266,10 +269,10 @@ class Controller:
     def record_patient_info(self):
         correct_check = self.set_all_pet_info()
         if correct_check == True:
-            self.view.start_handler_info()
+            self.add_view.start_handler_info()
             self.model.record_patient_info()
         elif correct_check == False:
-            self.view.dialogs(False)
+            self.add_view.dialogs(False)
 
 
         # IS USED ONLY IN PURPOSE OF MAKING INCORRECT RECORDS
@@ -278,7 +281,7 @@ class Controller:
         # self.model.last_appointment_date = self.last_appointment_date
         # self.model.vet_name = self.vet_name
         # self.model.disease = self.disease
-        # self.view.start_handler_info()
+        # self.add_view.start_handler_info()
         # self.model.record_patient_info()
         # self.pet_name = ''
         # self.birth_date = ''
@@ -290,10 +293,10 @@ class Controller:
     def record_handler_info(self):
         correct_check = self.set_all_handler_info()
         if correct_check == True:
-            self.view.dialogs(True)
+            self.add_view.dialogs(True)
             self.model.record_handler_info()
         elif correct_check == False:
-            self.view.dialogs(False)
+            self.add_view.dialogs(False)
 
         # IS USED ONLY IN PURPOSE OF MAKING INCORRECT RECORDS
         # self.model.handler_name = self.handler_name
@@ -353,5 +356,5 @@ class Controller:
     # DO NOT TOUCH
     # returns the main  screen
     def get_screen(self):
-        return self.model.main_view
+        return self.main_view
         #return self.main_view
