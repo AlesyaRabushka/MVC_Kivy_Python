@@ -514,10 +514,8 @@ class EmailLetterPopup(Popup):
         self.mail = ''
         self.find_pet_handler_info()
 
-    def open_note(self, arg1, arg2, **kwargs):
-        #os.system("C:\\Windows\\HxOutlook.exe")
-        os.startfile("C:\\Windows\\notebook.exe")
-        os.system("C:\\Windows\\notebook.exe")
+    def open_note(self):
+        os.popen(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
 
     # set contact pet handler info
     def find_pet_handler_info(self):
