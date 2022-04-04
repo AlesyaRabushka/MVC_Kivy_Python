@@ -42,6 +42,10 @@ class AddPopup(Popup, Widget):
         return self.model
     def return_controller(self):
         return self.controller
+    def get_values(self):
+        values = ['Кот', 'Собака', 'Питон','Хорёк', 'Морская свинка']
+        print(self.ids.click_label.text)
+        return values
 
     @property
     def ready(self):
@@ -54,9 +58,11 @@ class AddPopup(Popup, Widget):
     def set_pet_name(self, name):
         self.controller.set_pet_name(name)
 
-    def spinner_clicked(self, value):
-        self.ids.click_label.text = f'You Selected:{value}'
 
+    def set_pet_type(self, value):
+        #self.ids.click_label.text = f'You Selected:{value}'
+        self.ids.spinner_id.text = f'{value}'
+        self.controller.set_pet_type(value)
 
     def set_birth_date(self, birth):
         self.controller.set_birth(birth)
