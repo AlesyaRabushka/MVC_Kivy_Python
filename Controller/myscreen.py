@@ -3,8 +3,8 @@
 
 #from View.myscreen import MainScreen, AddPopup, SearchPopup
 from kivy.properties import StringProperty
-from MVC_Kivy_Python.Model.myscreen import Model
-from MVC_Kivy_Python.View.myscreen import MainScreen, AddPopup, SearchPopup
+from Model.myscreen import Model
+from View.myscreen import MainScreen, AddPopup, SearchPopup, HandlerPopup
 
 
 class Controller:
@@ -22,6 +22,7 @@ class Controller:
 
         # pet info
         self.pet_name = ''
+        self.pet_type = ''
         self.birth_date = ''
         self.last_appointment_date = ''
         self.vet_name = ''
@@ -41,6 +42,8 @@ class Controller:
     # set pet info
     def set_pet_name(self, name):
         self.pet_name = str(name)
+    def set_pet_type(self, type):
+        self.pet_type = 'кот'
     def set_birth(self, birth):
         self.birth_date = birth
     def set_last_appointment_date(self, app):
@@ -55,6 +58,8 @@ class Controller:
         self.ready_ = 0
         if self.is_string(self.pet_name) and not self.is_empty(self.pet_name):
             self.ready_ += 1
+        if self.is_string(self.pet_type) and not self.is_empty(self.pet_type):
+            self.ready_ += 1
         if self.is_correct_date(self.birth_date) and not self.is_empty(self.birth_date):
             self.ready_ += 1
         if self.is_correct_date(self.last_appointment_date) and not self.is_empty(self.last_appointment_date):
@@ -67,16 +72,18 @@ class Controller:
         # if all input fields are ready
         if self.all_is_ready_to_be_a_patient_info == self.ready_:
             self.model.pet_name = self.pet_name
+            #self.model.pet_type = self.pet_type
+            self.model.pet_type = 'кот'
             self.model.birth = self.birth_date
             self.model.last_appointment_date = self.last_appointment_date
             self.model.vet_name = self.vet_name
             self.model.disease = self.disease
 
-            self.pet_name = ''
-            self.birth_date = ''
-            self.last_appointment_date = ''
-            self.vet_name = ''
-            self.disease = ''
+            # self.pet_name = ''
+            # self.birth_date = ''
+            # self.last_appointment_date = ''
+            # self.vet_name = ''
+            # self.disease = ''
 
             return True
 
@@ -119,12 +126,10 @@ class Controller:
             self.model.mail = self.mail
             self.model.address = self.address
 
-            self.handler_name = ''
-            self.phone_number = ''
-            self.mail = ''
-            self.address = ''
-
-
+            # self.handler_name = ''
+            # self.phone_number = ''
+            # self.mail = ''
+            # self.address = ''
             return True
 
         # if even one field is empty

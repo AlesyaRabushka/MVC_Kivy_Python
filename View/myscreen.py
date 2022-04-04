@@ -52,6 +52,9 @@ class AddPopup(Popup, Widget):
     def set_pet_name(self, name):
         self.controller.set_pet_name(name)
 
+    def spinner_clicked(self, value):
+        self.ids.click_label.text = f'You Selected:{value}'
+
     def set_birth_date(self, birth):
         self.controller.set_birth(birth)
 
@@ -645,7 +648,6 @@ class TooltipButton(Button, MDTooltip):
 class MainScreen(MDScreen):
     """"
     The first (main) window of the program
-
     """
 
 
