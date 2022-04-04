@@ -43,7 +43,7 @@ class AddPopup(Popup, Widget):
     def return_controller(self):
         return self.controller
     def get_values(self):
-        values = ['Кот', 'Собака', 'Питон','Хорёк', 'Морская свинка']
+        values = ['Кот', 'Собака', 'Питон','Хорёк', 'Енот','Морская\n свинка']
         print(self.ids.click_label.text)
         return values
 
@@ -123,7 +123,7 @@ class AddPopup(Popup, Widget):
 
     # is called when the pet info registration has been successfully done
     def start_handler_info(self):
-        Factory.HandlerPopup(self.return_controller(), self.return_model(), add_popup = self).open()
+        Factory.HandlerPopup(controller = self.return_controller(), model = self.return_model(), add_popup = self).open()
 
     # is called when the pet information is successfully added
     def show_dialog(self):
@@ -690,7 +690,7 @@ class MainScreen(MDScreen):
                                  use_pagination=True,
                                  check = True,
                                  column_data=[
-                                     ("Имя питомца", dp(30)),
+                                     ("Имя питомца", dp(40)),
                                      ("Вид животного", dp(30)),
                                      ("Дата рождения", dp(30)),
                                      ("Дата последнего приема", dp(30)),
