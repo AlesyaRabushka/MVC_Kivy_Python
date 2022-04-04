@@ -690,7 +690,7 @@ class MainScreen(MDScreen):
                                  use_pagination=True,
                                  check = True,
                                  column_data=[
-                                     ("Имя питомца", dp(35)),
+                                     ("Имя питомца", dp(40)),
                                      ("Вид животного", dp(30)),
                                      ("Дата рождения", dp(30)),
                                      ("Дата последнего приема", dp(30)),
