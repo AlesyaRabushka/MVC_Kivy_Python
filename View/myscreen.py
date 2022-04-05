@@ -336,9 +336,13 @@ class DeletePopup(Popup, Widget):
         self.disease = ''
         self.letter = None
 
-        self.check_option = 0
+        self.first = ''
+        self.second=''
+
+        self._check_option = 0
 
         self.options = []
+        self.deleted_items_mail = []
 
     # setters for deleted items
     def set_delete_pet_name(self, pet_name):
@@ -409,28 +413,38 @@ class DeletePopup(Popup, Widget):
         else:
             self.options.clear()
 
-        # calls out of .kv to define the search options
+    @property
+    def check_option(self):
+        return self._check_option
+    @check_option.setter
+    def check_option(self, option):
+        self._check_option = option
 
+    # calls out of .kv to define the search options
     def delete(self):
         if len(self.options) == 0:
             self.empty_dialog()
         elif self.options[0] == 'disease' and self.disease != '':
-            self.check_option = 3
+            self._check_option = 3
+            self.first = self.disease
             self.delete_disease_phrase()
-            self.letter = EmailLetterPopup(model=self.model, option=3, arg1=self.disease, arg2='')
+            #self.letter = EmailLetterPopup(model=self.model, option=3, arg1=self.disease, arg2='', deleted_items=self.deleted_items).open()
 
         elif self.options[0] == 'pet_name' and self.options[
             1] == 'birth_date' and self.pet_name != '' and self.birth_date != '':
-            self.check_option = 1
+            self._check_option = 1
+            self.first = self.pet_name
+            self.second = self.birth_date
             self.delete_pet_name_birth_date()
-            self.letter = EmailLetterPopup(model=self.model, option=2, arg1=self.pet_name, arg2=self.birth_date)
+            #self.letter = EmailLetterPopup(model=self.model, option=2, arg1=self.pet_name, arg2=self.birth_date, deleted_items=self.deleted_items).open()
 
         elif self.options[0] == 'vet_name' and self.options[
             1] == 'last_appointment_date' and self.vet_name != '' and self.last_appointment_date != '':
-            self.check_option = 2
+            self._check_option = 2
+            self.first = self.vet_name
+            self.second = self.last_appointment_date
             self.delete_last_appointment_date_vet_name()
-            self.letter = EmailLetterPopup(model=self.model, option=1, arg1=self.vet_name,
-                                           arg2=self.last_appointment_date)
+            #self.letter = EmailLetterPopup(model=self.model, option=1, arg1=self.vet_name,arg2=self.last_appointment_date, deleted_items=self.deleted_items).open()
 
         else:
             self.empty_input_dialog()
@@ -490,12 +504,13 @@ class DeletePopup(Popup, Widget):
         )
         self.dialog.open()
 
-        # is called to close the dialog
+    def set_deleted_items_mail(self, deleted_items_mail):
+        self.deleted_items_mail = deleted_items_mail
 
+    # is called to close the dialog
     def closed(self, text):
-        # print(text)
         self.dialog.dismiss()
-        self.letter = EmailLetterPopup(model = self.model, option=1, arg1=self.vet_name, arg2=self.last_appointment_date).open()
+        self.letter = EmailLetterPopup(model = self.model, option=1, arg1=self.first, arg2=self.second, deleted_items_mail=self.deleted_items_mail).open()
 
 
         #self.letter = Factory.EmailLetterPopup().open()
@@ -508,7 +523,7 @@ class DeletePopup(Popup, Widget):
 
 
 class EmailLetterPopup(Popup):
-    def __init__(self, model, option, arg1, arg2, **kwargs):
+    def __init__(self, model, option, arg1, arg2, deleted_items_mail, **kwargs):
         super().__init__(**kwargs)
         self.all_pet_info = []
         self.option = option
@@ -516,21 +531,27 @@ class EmailLetterPopup(Popup):
         self.all_pet_info = self.model.return_all_info_list()
         self.first_point = arg1
         self.second_point = arg2
+        self.deleted_items_mail = deleted_items_mail
+        if len(self.deleted_items_mail) == 1:
+            self.ids.deleted_item_mail.text = deleted_items_mail[0]
 
         self.handler_name = ''
         self.mail = ''
-        self.find_pet_handler_info()
+        #self.find_pet_handler_info(deleted_items)
 
     def open_mail(self):
+        print('mail letter ',self.deleted_items_mail)
         # open default browser
         webbrowser.open_new('https://e.mail.ru/drafts/')
         # open certain browser
-        webbrowser.get("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe %s").open_new('https://e.mail.ru/inbox/')
+        #webbrowser.get("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe %s").open_new('https://e.mail.ru/inbox/')
 
 
     # set contact pet handler info
-    def find_pet_handler_info(self):
-        for item in self.all_pet_info:
+    def find_pet_handler_info(self, deleted_items):
+        print(deleted_items)
+        for item in deleted_items:
+            print(item)
             if self.option == 1:
                 if item['pet_name'].lower() == self.first_point.lower() and item['birth_date'] == self.second_point:
                     self.handler_name = item['handler_name']
@@ -540,9 +561,14 @@ class EmailLetterPopup(Popup):
                     self.handler_name = item['handler_name']
                     self.mail = item['mail']
             elif self.option == 3:
-                if item['disease'].lower() == self.first_point.lower():
+                print('point ', self.first_point)
+                print(item['disease'])
+                if (item['disease'].lower()).find(self.first_point.lower()) != -1:
                     self.handler_name = item['handler_name']
                     self.mail = item['mail']
+                    print('item ', self.mail)
+        print(self.mail)
+        self.ids.mail_to_death.text = self.mail
 
 
 class DropDownItem(MDDropDownItem):
