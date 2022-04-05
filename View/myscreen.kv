@@ -922,7 +922,7 @@
         orientation: "vertical"
         adaptive_size: True
         Label:
-            text: "[color=c06ef0]Contact:[/color]"
+            text: "[color=c06ef0]   Contacts:[/color]"
             markup: True
             font_size: 20
             size_hint_y:None
@@ -1089,25 +1089,14 @@
                 text: 'Запись пациента'
                 background_color:'#c06ef0'
                 background_normal:''
-                #on_release: root.search_name_birth('alesya', '2002-22-10')
-                #on_press: root.choose_date()
-                #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
                 on_release: Factory.AddPopup(root.return_controller(), root.return_model()).open()
-                #on_release: root.clear()
-                #on_release: root.show_dialog()
             Button:
                 text: 'Поиск пациента'
                 background_color:'#c06ef0'
                 background_normal:''
-                #on_release: root.search_name_birth('alesya', '2002-22-10')
-                #on_press: root.choose_date()
-                #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
                 on_release: Factory.SearchPopup(root.return_controller(), root.return_model()).open()
             Button:
                 text: 'Удаление пациента'
                 background_color:'#c06ef0'
                 background_normal:''
-                #on_release: root.search_name_birth('alesya', '2002-22-10')
-                #on_press: root.choose_date()
-                #on_press: root.delete_vet_name_last_appointment_date('alesya', '2022-03-17')
                 on_release: Factory.DeletePopup(root.return_controller(), root.return_model()).open()
