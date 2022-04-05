@@ -4,7 +4,7 @@
 #from View.myscreen import MainScreen, AddPopup, SearchPopup
 from kivy.properties import StringProperty
 from Model.myscreen import Model
-from View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup
+from View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup, FoundPopup
 
 
 class Controller:
@@ -21,7 +21,7 @@ class Controller:
         self.add_view = AddPopup(controller=self, model=self.model)
         self.search_view = SearchPopup(controller=self, model=self.model)
         self.delete_view = DeletePopup(controller = self, model = self.model)
-
+        self.found_view =FoundPopup(controller = self, model = self.model)
         # pet info
         self.pet_name = ''
         self.pet_type = ''

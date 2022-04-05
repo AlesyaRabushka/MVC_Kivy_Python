@@ -35,7 +35,7 @@ class Model:
         self._pets_list = []
         self._handlers_list = []
         self._all_info_list = []
-
+        self._found_list = []
         # reading info from the file with the start of the program
         self.bad_files_count = 0
         self.bad_line_name = ''
@@ -59,7 +59,8 @@ class Model:
 
 
 
-
+    def return_found_list(self):
+        return self._found_list
     def return_pets_list(self):
         return self._pets_list
     def return_all_info_list(self):
@@ -364,31 +365,62 @@ class Model:
     # search for particular records by the given pet name and birth date
     def search_name_birth(self, pet_name, birth_date):
         amount_of_found_items = 0
+        self._found_list = []
         for item in self._pets_list:
+            info_list = []
             if item['pet_name'].lower() == pet_name.lower() and item['birth_date'] == birth_date:
                 amount_of_found_items += 1
+                info_list.append(item['pet_name'])
+                info_list.append(item['pet_type'])
+                info_list.append(item['birth_date'])
+                info_list.append(item['last_appointment_date'])
+                info_list.append(item['vet_name'])
+                info_list.append(item['disease'])
+                self._found_list.append(info_list)
+        #self.return_searched_info(self._found_list)
         self.return_searched_amount(amount_of_found_items)
 
     # search for particular records by the given vet name and last appointment date
     def search_last_appointment_vet_name(self, last_appointment_date, vet_name):
         amount_of_found_items = 0
+        self._found_list = []
         for item in self._pets_list:
+            info_list = []
             if item['vet_name'].lower() == vet_name.lower() and item['last_appointment_date'] == last_appointment_date:
                 amount_of_found_items += 1
+                info_list.append(item['pet_name'])
+                info_list.append(item['pet_type'])
+                info_list.append(item['birth_date'])
+                info_list.append(item['last_appointment_date'])
+                info_list.append(item['vet_name'])
+                info_list.append(item['disease'])
+                self._found_list.append(info_list)
+        #self.return_searched_info(self._found_list)
         self.controller.search_view.return_searched_amount(amount_of_found_items)
 
     # search for particular records by the given disease phrase
     def search_disease_phrase(self, world):
         amount_of_found_items = 0
+        info_list = []
+        self._found_list = []
         for item in self._pets_list:
             if (item['disease'].lower()).find(world.lower()) != -1:
                 amount_of_found_items += 1
+                info_list.append(item['pet_name'])
+                info_list.append(item['pet_type'])
+                info_list.append(item['birth_date'])
+                info_list.append(item['last_appointment_date'])
+                info_list.append(item['vet_name'])
+                info_list.append(item['disease'])
+                self._found_list.append(info_list)
+        #self.return_searched_info(self._found_list)
         self.return_searched_amount(amount_of_found_items)
 
     # returns the amount of found pet records
+    def return_searched_info(self,found):
+        return self._found_list
     def return_searched_amount(self, count):
         self.controller.search_view.return_searched_amount(count)
-
 
 
     # delete particular records by the given parameters of pet name and birth date

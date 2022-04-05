@@ -311,7 +311,7 @@ class SearchPopup(Popup, Widget):
     # is called to close the dialog
     def closed_yes(self, text):
         self.dialog.dismiss()
-        o = FoundPopup()
+        o = FoundPopup(controller = self, model = self.model)
         o.open()
 
     def closed(self, text):
@@ -576,18 +576,22 @@ class DropDownItem(MDDropDownItem):
 
 # popup window with found by search info
 class FoundPopup(Popup, Widget):
-    def __init__(self, **kwargs):
+    def __init__(self,controller,model, **kwargs):
+        self.model=model
+        #self._found_list
         super().__init__(**kwargs)
         self.table = MDDataTable(pos_hint={'center_y': 0.58, 'center_x': 0.5},
                                  use_pagination=True,
                                  column_data=[
-                                     ("Имя питомца", dp(30)),
+                                     ("Имя питомца", dp(40)),
+                                     ("Вид животного", dp(30)),
                                      ("Дата рождения", dp(30)),
                                      ("Дата последнего приема", dp(30)),
                                      ("ФИО ветеринара", dp(30)),
-                                     ("Диагноз", dp(30))], size_hint=(1, 0.7))
+                                     ("Диагноз", dp(30))], size_hint=(1, 0.7),row_data=self.add_info())
         self.add_widget(self.table)
-
+    def add_info(self):
+        return self.model._found_list
 
 # popup window about pet handler information that is appeared after AddPopup window
 class HandlerPopup(Popup):
