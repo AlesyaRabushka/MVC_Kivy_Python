@@ -34,7 +34,7 @@ It contains model, controller and view classes
     + *HelperPopup* - has no methods, just shows the **Vet Clinic** contact info
     
 ## Interface
-The whole interface of the App is placed in *[myscreen.kv](https://github.com/AlesyaRabushka/MVC_Kivy_Python/blob/main/View/myscreen.kv)* and is written in special [Kivy Language](https://kivy.org/doc/stable/guide/lang.html)
+The whole interface of the App is placed in *[myscreen.kv](https://github.com/AlesyaRabushka/MVC_Kivy_Python/blob/main/View/myscreen.kv)* file and is written in special [Kivy Language](https://kivy.org/doc/stable/guide/lang.html)
 
 
 ## XML Parsing
@@ -53,5 +53,5 @@ file = open('pet.xml', 'w')
 # line 345
 parser.parse('pet.xml')
 ````
-First two lines are parts of [Minimal DOM implementation](https://docs.python.org/3/library/xml.dom.minidom.html) parsing.
+First two lines are parts of [Minimal DOM implementation](https://docs.python.org/3/library/xml.dom.minidom.html) parsing
 The third one - [SAX Parser](https://docs.python.org/3/library/xml.sax.handler.html)
