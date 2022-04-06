@@ -63,7 +63,7 @@ The third one - [SAX Parser](https://docs.python.org/3/library/xml.sax.handler.h
 
 To use this App it is required to install **kivy** and **kivymd** libraries
 
-You can do it in a way provided by PyCharm (File -> Settings -> Project: your_project_name -> Python Interpreter)
+You can do it in a way provided by [PyCharm](https://www.jetbrains.com/pycharm/) (File -> Settings -> Project: your_project_name -> Python Interpreter)
 or on your own using Terminal
 ````
 pip install "kivy[base] @https://github.com/kivy/kivy/archive/master.zip"    
