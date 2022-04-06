@@ -45,11 +45,9 @@ class AddPopup(Popup, Widget):
         return self.controller
     def get_values(self):
         values = ['Кот', 'Собака', 'Питон','Хорёк', 'Енот','Морская\n свинка']
-        print(self.ids.click_label.text)
         return values
     def ambulas(self):
         values = ['Рабушка А.А.', 'Склема Е.Д.', 'Смелов А.А.']
-        print(self.ids.click_label_too.text)
         return values
 
     @property
@@ -165,9 +163,6 @@ class AddPopup(Popup, Widget):
     def no_closed(self, text):
         self.dialog.dismiss()
 
-    def clear_all(self):
-        self.ids.pet_name_input.text ='мм '
-        self.ids.birth_date_input.text = ' '
 
 
 # popup window to search info
@@ -207,6 +202,9 @@ class SearchPopup(Popup, Widget):
     def set_search_disease_phrase(self, phrase):
         self.disease = phrase
 
+    def ambulas(self):
+        values = ['Рабушка А.А.', 'Склема Е.Д.', 'Смелов А.А.']
+        return values
 
     # set last appointment date by calendar widget
     def choose_search_last_appointment_date(self):
@@ -374,6 +372,10 @@ class DeletePopup(Popup, Widget):
     def set_delete_disease_phrase(self, phrase):
         self.disease = phrase
 
+    def ambulas(self):
+        values = ['Рабушка А.А.', 'Склема Е.Д.', 'Смелов А.А.']
+        return values
+
     # set last appointment date by calendar widget
     def choose_delete_last_appointment_date(self):
         date_dialog = MDDatePicker(min_year=2000, max_year=2022)
@@ -465,13 +467,22 @@ class DeletePopup(Popup, Widget):
 
     # is called to show how many records have been found
     def show_dialog(self, count):
-        self.dialog = MDDialog(
-            title='Delete',
-            text=f'Deleted records: {count}',
-            buttons=[
-                MDFlatButton(text='Ok', on_release=self.closed)
-            ]
-        )
+        if count == 1:
+            self.dialog = MDDialog(
+                title='Delete',
+                text=f'Deleted records: {count}',
+                buttons=[
+                    MDFlatButton(text='Ok', on_release=self.closed)
+                ]
+            )
+        else:
+            self.dialog = MDDialog(
+                title='Delete',
+                text=f'Deleted records: {count}',
+                buttons=[
+                    MDFlatButton(text='Ok', on_release=self.closed_empty)
+                ]
+            )
         self.dialog.open()
 
     # is called when the search option has not been configured
@@ -560,29 +571,6 @@ class EmailLetterPopup(Popup):
         #webbrowser.get("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe %s").open_new('https://e.mail.ru/inbox/')
 
 
-    # set contact pet handler info
-    # def find_pet_handler_info(self, deleted_items):
-    #     print(deleted_items)
-    #     for item in deleted_items:
-    #         print(item)
-    #         if self.option == 1:
-    #             if item['pet_name'].lower() == self.first_point.lower() and item['birth_date'] == self.second_point:
-    #                 self.handler_name = item['handler_name']
-    #                 self.mail = item['mail']
-    #         elif self.option == 2:
-    #             if item['vet_name'].lower() == self.first_point.lower() and item['last_appointment_date'] == self.second_point:
-    #                 self.handler_name = item['handler_name']
-    #                 self.mail = item['mail']
-    #         elif self.option == 3:
-    #             print('point ', self.first_point)
-    #             print(item['disease'])
-    #             if (item['disease'].lower()).find(self.first_point.lower()) != -1:
-    #                 self.handler_name = item['handler_name']
-    #                 self.mail = item['mail']
-    #                 print('item ', self.mail)
-    #     print(self.mail)
-    #     self.ids.mail_to_death.text = self.mail
-
 
 class DropDownItem(MDDropDownItem):
     pass
@@ -645,9 +633,7 @@ class FoundPopup(Popup, Widget):
 
     # is called in add_into_main_table() to upload a new pet list into main screen table
     def add_table_data(self, list):
-        print(list)
         table_pets_list = []
-        print(list)
         for item in list:
             pet_list = []
             pet_list.append(item[0])
@@ -802,7 +788,6 @@ class MainScreen(MDScreen):
         # is shown ONLY if they exist
 
         self.bad_files_count = str(self.model.return_bad_files_count())
-        print(self.bad_files_count)
 
         self.bad_line_name = '<' +  self.model.return_bad_line_name() + '>'
         self.bad_line_count = str(self.model.return_bad_line_count())
