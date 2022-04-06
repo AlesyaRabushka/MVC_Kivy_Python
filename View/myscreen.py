@@ -797,7 +797,9 @@ class MainScreen(MDScreen):
 
         # the warning window about broken records in xml file
         # is shown ONLY if they exist
-        self.bad_files_count =str(self.model.return_bad_files_count())
+
+        self.bad_files_count = str(self.model.return_bad_files_count())
+        print(self.bad_files_count)
 
         self.bad_line_name = '<' +  self.model.return_bad_line_name() + '>'
         self.bad_line_count = str(self.model.return_bad_line_count())
