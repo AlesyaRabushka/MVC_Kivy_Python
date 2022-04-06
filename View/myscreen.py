@@ -554,35 +554,34 @@ class EmailLetterPopup(Popup):
         #self.find_pet_handler_info(deleted_items)
 
     def open_mail(self):
-        print('mail letter ',self.deleted_items_mail)
-        # open default browser
+        # opens default browser
         webbrowser.open_new('https://e.mail.ru/drafts/')
-        # open certain browser
+        # opens certain browser
         #webbrowser.get("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe %s").open_new('https://e.mail.ru/inbox/')
 
 
     # set contact pet handler info
-    def find_pet_handler_info(self, deleted_items):
-        print(deleted_items)
-        for item in deleted_items:
-            print(item)
-            if self.option == 1:
-                if item['pet_name'].lower() == self.first_point.lower() and item['birth_date'] == self.second_point:
-                    self.handler_name = item['handler_name']
-                    self.mail = item['mail']
-            elif self.option == 2:
-                if item['vet_name'].lower() == self.first_point.lower() and item['last_appointment_date'] == self.second_point:
-                    self.handler_name = item['handler_name']
-                    self.mail = item['mail']
-            elif self.option == 3:
-                print('point ', self.first_point)
-                print(item['disease'])
-                if (item['disease'].lower()).find(self.first_point.lower()) != -1:
-                    self.handler_name = item['handler_name']
-                    self.mail = item['mail']
-                    print('item ', self.mail)
-        print(self.mail)
-        self.ids.mail_to_death.text = self.mail
+    # def find_pet_handler_info(self, deleted_items):
+    #     print(deleted_items)
+    #     for item in deleted_items:
+    #         print(item)
+    #         if self.option == 1:
+    #             if item['pet_name'].lower() == self.first_point.lower() and item['birth_date'] == self.second_point:
+    #                 self.handler_name = item['handler_name']
+    #                 self.mail = item['mail']
+    #         elif self.option == 2:
+    #             if item['vet_name'].lower() == self.first_point.lower() and item['last_appointment_date'] == self.second_point:
+    #                 self.handler_name = item['handler_name']
+    #                 self.mail = item['mail']
+    #         elif self.option == 3:
+    #             print('point ', self.first_point)
+    #             print(item['disease'])
+    #             if (item['disease'].lower()).find(self.first_point.lower()) != -1:
+    #                 self.handler_name = item['handler_name']
+    #                 self.mail = item['mail']
+    #                 print('item ', self.mail)
+    #     print(self.mail)
+    #     self.ids.mail_to_death.text = self.mail
 
 
 class DropDownItem(MDDropDownItem):
