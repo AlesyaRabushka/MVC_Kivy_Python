@@ -114,7 +114,9 @@
                 helper_text: 'YYYY-MM-DD'
                 helper_text_mode: 'on_focus'
                 max_text_length: 10
-                on_text: root.set_birth_date(self.text)
+                on_focus: root.set_birth_date(self.text)
+                #on_text: root.set_birth_date(self.text)
+                #on_text: root.choose_birth_date()
 
             #Button:
             TooltipButton:
@@ -543,13 +545,17 @@
 
 
 
-<FoundPopup@Popup>
-    title: 'Удаление'
-    auto_dismiss:False
+<FoundPopup>
+    title: 'Результаты поиска'
+    #auto_dismiss:False
     separator_color: (192/256,110/256,240/256,1)
-    background_color:'#a910e6'
-    size:(700,900)
+#    background_color:'#a910e6'
+    background_color: (1,1,1)
     size_hint:None,None
+    size:(750,500)
+
+
+
 
 
 

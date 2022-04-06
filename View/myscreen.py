@@ -13,6 +13,7 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.dropdownitem import MDDropDownItem
 
 from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
 from kivy.factory import Factory
 from kivy.uix.widget import Widget
@@ -266,13 +267,22 @@ class SearchPopup(Popup, Widget):
 
     # is called to show how many records have been found
     def show_dialog(self, count):
-        self.dialog = MDDialog(
-            title='Search',
-            text=f'Found records: {count}',
-            buttons=[
-                MDFlatButton(text='Ok', on_release=self.closed_yes)
-            ]
-        )
+        if count == 0:
+            self.dialog = MDDialog(
+                title='Search',
+                text='No records have been found',
+                buttons=[
+                    MDFlatButton(text='Ok', on_release=self.closed)
+                ]
+            )
+        else:
+            self.dialog = MDDialog(
+                title='Search',
+                text=f'Found records: {count}',
+                buttons=[
+                    MDFlatButton(text='Ok', on_release=self.closed_yes)
+                ]
+            )
         self.dialog.open()
 
 
@@ -577,21 +587,75 @@ class DropDownItem(MDDropDownItem):
 # popup window with found by search info
 class FoundPopup(Popup, Widget):
     def __init__(self,controller,model, **kwargs):
-        self.model=model
-        #self._found_list
         super().__init__(**kwargs)
-        self.table = MDDataTable(pos_hint={'center_y': 0.58, 'center_x': 0.5},
+        self.model=model
+        self.found_list = self.model.return_found_list()
+        #self._found_list
+
+        self.table = MDDataTable(
                                  use_pagination=True,
+                                 #check = True,
                                  column_data=[
                                      ("Имя питомца", dp(40)),
                                      ("Вид животного", dp(30)),
                                      ("Дата рождения", dp(30)),
                                      ("Дата последнего приема", dp(30)),
                                      ("ФИО ветеринара", dp(30)),
-                                     ("Диагноз", dp(30))], size_hint=(1, 0.7),row_data=self.add_info())
+                                     ("Диагноз", dp(30))], size_hint=(1, 0.95),row_data=self.add_info())
+        #self.table.bind(on_check_press=self.check_info)
         self.add_widget(self.table)
+
     def add_info(self):
         return self.model._found_list
+
+    def return_all_info_list(self):
+        return self.model.return_all_info_list()
+
+    # popup window with more detailed pet info
+    # is appeared when you click on CHECK in the main screen table
+    def check_info(self, instance, pet_info):
+        InformationPopup(pet_info, main=self).open()
+
+    # is called from InformationPopup when it is dismissed
+    def close_pet_info_window(self):
+        self.remove_widget(self.table)
+        #print(self.model._found_list)
+        #self.add_into_table()
+
+    # new table is appeared after adding a new pet element
+    def add_into_table(self):
+        self.remove_widget(self.table)
+        self.table = MDDataTable(pos_hint={'center_y': 0.58, 'center_x': 0.5},
+                                 use_pagination=True,
+                                 check=True,
+                                 column_data=[
+                                     ("Имя питомца", dp(30)),
+                                     ("Вид животного", dp(30)),
+                                     ("Дата рождения", dp(30)),
+                                     ("Дата последнего приема", dp(30)),
+                                     ("ФИО ветеринара", dp(30)),
+                                     ("Диагноз", dp(30))], size_hint=(1, 0.7),
+                                 row_data=self.add_table_data(self.found_list))
+
+        self.table.bind(on_check_press=self.check_info)
+        self.add_widget(self.table)
+
+    # is called in add_into_main_table() to upload a new pet list into main screen table
+    def add_table_data(self, list):
+        print(list)
+        table_pets_list = []
+        print(list)
+        for item in list:
+            pet_list = []
+            pet_list.append(item[0])
+            pet_list.append(item[1])
+            pet_list.append(item[2])
+            pet_list.append(item[3])
+            pet_list.append(item[4])
+            pet_list.append(item[5])
+            table_pets_list.append(pet_list)
+
+        return table_pets_list
 
 # popup window about pet handler information that is appeared after AddPopup window
 class HandlerPopup(Popup):

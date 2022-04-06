@@ -6,7 +6,7 @@
 # method). For this, observers must be descendants of an abstract class,
 # inheriting which, the `model_is_changed` method must be overridden.
 
-import datetime
+from datetime import datetime
 import xml.dom.minidom as md
 import xml.sax as sax
 
@@ -24,8 +24,9 @@ class Model:
     def __init__(self, controller):
         self._pet_name = ''
         self._pet_type = ''
-        self._birth = ''
-        self._last_appointment_date = ''
+        #self._birth = ''
+        self._birth = datetime(2022, 4, 4)
+        self._last_appointment_date = datetime(2022, 4, 4)
         self._vet_name =''
         self._disease=''
         self.val = ''
@@ -75,10 +76,10 @@ class Model:
         return self._pet_type
     @property
     def birth(self):
-        return self._birth
+        return self._birth.strftime('%Y-%m-%d')
     @property
     def last_appointment_date(self):
-        return self._last_appointment_date
+        return self._last_appointment_date.strftime('%Y-%m-%d')
     @property
     def vet_name(self):
         return self._vet_name
@@ -141,8 +142,8 @@ class Model:
         # set all info
         self._patients['pet_name'] = self._pet_name
         self._patients['pet_type'] = self._pet_type
-        self._patients['birth_date'] = self._birth
-        self._patients['last_appointment_date'] = self._last_appointment_date
+        self._patients['birth_date'] = self._birth.strftime('%Y-%m-%d')
+        self._patients['last_appointment_date'] = self._last_appointment_date.strftime('%Y-%m-%d')
         self._patients['vet_name'] = self._vet_name
         self._patients['disease'] = self._disease
         self._patients['handler_name'] = self._handler_name
@@ -153,8 +154,8 @@ class Model:
         # set only pet info
         self.pet['pet_name'] = self._pet_name
         self.pet['pet_type'] = self._pet_type
-        self.pet['birth_date'] = self._birth
-        self.pet['last_appointment_date'] = self._last_appointment_date
+        self.pet['birth_date'] = self._birth.strftime('%Y-%m-%d')
+        self.pet['last_appointment_date'] = self._last_appointment_date.strftime('%Y-%m-%d')
         self.pet['vet_name'] = self._vet_name
         self.pet['disease'] = self._disease
 
@@ -174,9 +175,9 @@ class Model:
 
         self._pet_name=''
         self._pet_type = ''
-        self._birth=''
+        self._birth=datetime(2022,4,4)
         self._vet_name=''
-        self._last_appointment_date=''
+        self._last_appointment_date=datetime(2022,4,4)
         self._disease=''
         self._handler_name = ''
         self._phone_number = ''
@@ -426,14 +427,23 @@ class Model:
     # delete particular records by the given parameters of pet name and birth date
     def delete_pet_name_birth_date(self, pet_name, birth_date):
         amount_of_deleted_items = 0
+        new_pets_list = []
+        new_all_info_list = []
         for item in self._pets_list:
             if item['pet_name'].lower() == pet_name.lower() and item['birth_date'] == birth_date:
                 amount_of_deleted_items += 1
-                self._pets_list.remove(item)
-                # looking for this item in the main list
-                for bigger_item in self._all_info_list:
-                    if bigger_item['pet_name'].lower() == pet_name.lower() and bigger_item['birth_date'] == birth_date:
-                        self._all_info_list.remove(bigger_item)
+            else:
+                new_pets_list.append(item)
+
+        # looking for this item in the main list
+        for bigger_item in self._all_info_list:
+            if bigger_item['pet_name'].lower() == pet_name.lower() and bigger_item['birth_date'] == birth_date:
+                self._all_info_list.remove(bigger_item)
+            else:
+                new_all_info_list.append(bigger_item)
+
+        self._pets_list = new_pets_list
+        self._all_info_list = new_all_info_list
 
 
         self.upload_patient_info()
@@ -443,14 +453,23 @@ class Model:
     # delete particular records by given parameters of vet name and last appointment date
     def delete_last_appointment_date_vet_name(self, last_appointment_date, vet_name):
         amount_of_deleted_items = 0
+        new_pets_list = []
+        new_all_info_list = []
         for item in self._pets_list:
             if item['vet_name'].lower() == vet_name.lower() and item['last_appointment_date'] == last_appointment_date:
                 amount_of_deleted_items += 1
-                self._pets_list.remove(item)
-                # looking for this item in the main list
-                for bigger_item in self._all_info_list:
-                    if bigger_item['vet_name'].lower() == vet_name.lower() and bigger_item['last_appointment_date'] == last_appointment_date:
-                        self._all_info_list.remove(bigger_item)
+            else:
+                new_pets_list.append(item)
+
+        # looking for this item in the main list
+        for bigger_item in self._all_info_list:
+            if bigger_item['vet_name'].lower() == vet_name.lower() and bigger_item['last_appointment_date'] == last_appointment_date:
+                self._all_info_list.remove(bigger_item)
+            else:
+                new_all_info_list.append(bigger_item)
+
+        self._pets_list = new_pets_list
+        self._all_info_list = new_all_info_list
 
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)
@@ -460,17 +479,26 @@ class Model:
     def delete_disease_phrase(self, phrase):
         amount_of_deleted_items = 0
         self.deleted_items_mail=[]
+
+        new_pets_list = []
+        new_all_info_list = []
         for item in self._pets_list:
             if (item['disease'].lower()).find(phrase.lower()) != -1:
                 amount_of_deleted_items += 1
-                self._pets_list.remove(item)
-                # looking for this item in the main list
-                for bigger_item in self._all_info_list:
-                    if (bigger_item['disease'].lower()).find(phrase.lower()) != -1:
-                        self.deleted_items_mail.append(bigger_item['mail'])
-                        self._all_info_list.remove(bigger_item)
             else:
-                pass
+                new_pets_list.append(item)
+        # looking for this item in the main list
+        for bigger_item in self._all_info_list:
+            if (bigger_item['disease'].lower()).find(phrase.lower()) != -1:
+                self.deleted_items_mail.append(bigger_item['mail'])
+            else:
+                new_all_info_list.append(bigger_item)
+
+
+        self._pets_list = new_pets_list
+        self._all_info_list = new_all_info_list
+
+
 
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)

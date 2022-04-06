@@ -1,8 +1,8 @@
 # отслеживает все события, которые происходят на экране
 # вызывает методы модели и представления
 
-#from View.myscreen import MainScreen, AddPopup, SearchPopup
-from kivy.properties import StringProperty
+from datetime import datetime
+
 from Model.myscreen import Model
 from View.myscreen import MainScreen, AddPopup, SearchPopup, DeletePopup, FoundPopup
 
@@ -25,8 +25,9 @@ class Controller:
         # pet info
         self.pet_name = ''
         self.pet_type = ''
-        self.birth_date = ''
-        self.last_appointment_date = ''
+        #self.birth_date = ''
+        self.birth_date = datetime(2022, 4, 4)
+        self.last_appointment_date = datetime(2022, 4, 4)
         self.vet_name = ''
         self.disease = ''
 
@@ -47,10 +48,18 @@ class Controller:
         self.pet_name = str(name)
     def set_pet_type(self, type):
         self.pet_type = type
+    # def set_birth(self, birth):
+    #     self.birth_date = birth
     def set_birth(self, birth):
-        self.birth_date = birth
+        if len(birth) != 10:
+            pass
+        else:
+            self.birth_date = datetime.strptime(birth, '%Y-%m-%d')
     def set_last_appointment_date(self, app):
-        self.last_appointment_date = app
+        if len(app) != 10:
+            pass
+        else:
+            self.last_appointment_date = datetime.strptime(app, '%Y-%m-%d')
     def set_vet_name(self, name: str):
         self.vet_name = name
     def set_disease(self, disease):
@@ -63,9 +72,9 @@ class Controller:
             self.ready_ += 1
         if self.is_string(self.pet_type) and not self.is_empty(self.pet_type):
             self.ready_ += 1
-        if self.is_correct_date(self.birth_date) and not self.is_empty(self.birth_date):
+        if self.is_correct_date(self.birth_date.strftime('%Y-%m-%d')) and not self.is_empty(self.birth_date.strftime('%Y-%m-%d')):
             self.ready_ += 1
-        if self.is_correct_date(self.last_appointment_date) and not self.is_empty(self.last_appointment_date):
+        if self.is_correct_date(self.last_appointment_date.strftime('%Y-%m-%d')) and not self.is_empty(self.last_appointment_date.strftime('%Y-%m-%d')):
             self.ready_ += 1
         if self.is_string(self.vet_name) and not self.is_empty(self.vet_name):
             self.ready_ += 1
