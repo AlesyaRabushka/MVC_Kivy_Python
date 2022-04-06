@@ -807,7 +807,7 @@ class MainScreen(MDScreen):
 
 
     def return_all_info_list(self):
-        return self._all_info_list
+        return self.model.return_all_info_list()
 
     # popup window with more detailed pet info
     # is appeared when you click on CHECK in the main screen table
