@@ -192,38 +192,49 @@ class PetElement(xml.sax.ContentHandler):
             else:
                 self.count_pet = 0
                 self.count_handler = 0
-                self.bad_files_count += 1
+
 
                 if self.close_pet_name == False:
                     self.bad_line_name = 'pet_name'
                     self.bad_line_count = self.pet_name_line_count
+                    self.bad_files_count += 1
                 elif self.close_pet_type == False:
                     self.bad_line_name = 'pet_type'
                     self.bad_line_count = self.pet_type_line_count
+                    self.bad_files_count += 1
                 elif self.close_birth_date == False:
                     self.bad_line_name = 'birth_date'
                     self.bad_line_count = self.birth_date_line_count
+                    self.bad_files_count += 1
                 elif self.close_last_appointment_date == False:
                     self.bad_line_name = 'last_appointment_date'
                     self.bad_line_count = self.last_appointment_date_line_count
+                    self.bad_files_count += 1
                 elif self.close_vet_name == False:
                     self.bad_line_name = 'vet_name'
                     self.bad_line_count = self.vet_name_line_count
+                    self.bad_files_count += 1
                 elif self.close_disease == False:
                     self.bad_line_name = 'disease'
                     self.bad_line_count = self.disease_line_count
+                    self.bad_files_count += 1
                 elif self.close_handler_name == False:
                     self.bad_line_name = 'handler_name'
                     self.bad_line_count = self.handler_name_line_count
+                    self.bad_files_count += 1
                 elif self.close_phone_number == False:
                     self.bad_line_name = 'phone_number'
                     self.bad_line_count = self.phone_number_line_count
+                    self.bad_files_count += 1
                 elif self.close_mail == False:
                     self.bad_line_name = 'mail'
                     self.bad_line_count = self.mail_line_count
+                    self.bad_files_count += 1
                 elif self.close_handler_address == False:
                     self.bad_line_name = 'handler_address'
                     self.bad_line_count = self.handler_address_line_count
+                    self.bad_files_count += 1
+
 
 
 
