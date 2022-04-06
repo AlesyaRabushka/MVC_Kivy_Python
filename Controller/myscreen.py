@@ -241,7 +241,7 @@ class Controller:
             return False
         elif count != 4:
             return False
-        elif len(full_number[0]) == 3 and len(full_number[1]) == 2 and len(full_number[2]) == 3 and len(full_number[3]) == 2 and len(full_number[4]) == 2:
+        elif full_number[0] == '375' and len(full_number[1]) == 2 and len(full_number[2]) == 3 and len(full_number[3]) == 2 and len(full_number[4]) == 2:
             return True
 
     # returns True if correct False if it is not

@@ -459,6 +459,7 @@ class Model:
     # delete the particular records by the given disease phrase
     def delete_disease_phrase(self, phrase):
         amount_of_deleted_items = 0
+        self.deleted_items_mail=[]
         for item in self._pets_list:
             if (item['disease'].lower()).find(phrase.lower()) != -1:
                 amount_of_deleted_items += 1
@@ -466,12 +467,14 @@ class Model:
                 # looking for this item in the main list
                 for bigger_item in self._all_info_list:
                     if (bigger_item['disease'].lower()).find(phrase.lower()) != -1:
+                        self.deleted_items_mail.append(bigger_item['mail'])
                         self._all_info_list.remove(bigger_item)
             else:
                 pass
 
         self.upload_patient_info()
         self.return_deleted_amount(amount_of_deleted_items)
+        self.controller.delete_view.set_deleted_items_mail(self.deleted_items_mail)
         self.delete_from_main_table(self._pets_list)
 
     # delete the particular pet element from main screen data table
