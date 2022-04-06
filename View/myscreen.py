@@ -47,6 +47,10 @@ class AddPopup(Popup, Widget):
         values = ['Кот', 'Собака', 'Питон','Хорёк', 'Енот','Морская\n свинка']
         print(self.ids.click_label.text)
         return values
+    def ambulas(self):
+        values = ['Рабушка А.А.', 'Склема Е.Д.', 'Смелов А.А.']
+        print(self.ids.click_label_too.text)
+        return values
 
     @property
     def ready(self):

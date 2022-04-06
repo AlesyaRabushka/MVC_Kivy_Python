@@ -160,13 +160,25 @@
         GridLayout:
             cols: 1
             padding: 75,0,0,0
+            size_hint_y:None
             # имя врача
-            MyField:
-                hint_text: 'ФИО врача'
-                id: vet_name_input
-                on_text: root.set_vet_name(self.text)
-                multiline: False
-                pos_hint: {"center_x": .5,"center_y":.5}
+#            MyField:
+#                hint_text: 'ФИО врача'
+#                id: vet_name_input
+#                on_text: root.set_vet_name(self.text)
+#                multiline: False
+#                pos_hint: {"center_x": .5,"center_y":.5}
+            Label:
+                id:click_label_too
+            Spinner:
+                id:vet_id
+                text:"Выберите врача"
+                values: root.ambulas()
+                size_hint:None,None
+                size:(200,30)
+                on_text:root.set_vet_name(vet_id.text)
+                background_color:"c06ef0"
+                background_normal:''
 
             # название болезни
             MyField:
