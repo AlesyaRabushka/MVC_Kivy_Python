@@ -402,9 +402,9 @@ class Model:
     # search for particular records by the given disease phrase
     def search_disease_phrase(self, world):
         amount_of_found_items = 0
-        info_list = []
         self._found_list = []
         for item in self._pets_list:
+            info_list = []
             if (item['disease'].lower()).find(world.lower()) != -1:
                 amount_of_found_items += 1
                 info_list.append(item['pet_name'])
