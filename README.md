@@ -36,6 +36,8 @@ It contains model, controller and view classes
 ## Interface
 The whole interface of the App is placed in *[myscreen.kv](https://github.com/AlesyaRabushka/MVC_Kivy_Python/blob/main/View/myscreen.kv)* file and is written in special [Kivy Language](https://kivy.org/doc/stable/guide/lang.html)
 
+<img src="https://github.com/AlesyaRabushka/MVC_Kivy_Python/blob/main/src/MainScreen.png">
+
 
 ## XML Parsing
 
