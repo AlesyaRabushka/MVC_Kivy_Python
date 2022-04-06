@@ -20,7 +20,7 @@ It contains model, controller and view classes
     + *AddPopup* - adds new pet records
     + *SearchPopup* - searches for particular records by the given parameters
     + *DeletePopup* - deletes particular records by the given parameters
-    + *EmailLetterPopup* - is called from DeletePopup and provides a choice of sending an email to pet owner (opens *default browser* on [mail.ru](https://e.mail.ru/drafts/) page)
+    + *EmailLetterPopup* - is called from DeletePopup and provides a choice of sending an email to pet owner (opens *default browser* on [mail.ru](https://e.mail.ru/drafts/) page), *but only if one record has been found* 
   ````
   import webbrowser
       def open_mail(self):
@@ -58,3 +58,14 @@ parser.parse('pet.xml')
 ````
 First two lines are parts of [Minimal DOM implementation](https://docs.python.org/3/library/xml.dom.minidom.html) parsing
 The third one - [SAX Parser](https://docs.python.org/3/library/xml.sax.handler.html)
+
+## How to use
+
+To use this App it is required to install **kivy** and **kivymd** libraries
+
+You can do it in a way provided by PyCharm (File -> Settings -> Project: your_project_name -> Python Interpreter)
+or on your own using Terminal
+````
+pip install "kivy[base] @https://github.com/kivy/kivy/archive/master.zip"    
+pip install https://github.com/kivymd/KivyMD/archive/master.zip
+````
