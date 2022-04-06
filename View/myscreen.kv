@@ -799,7 +799,7 @@
 
         GridLayout:
             cols:1
-            padding:80,0,0,0
+            padding:140,0,0,0
             size_hint_y: None
             height:50
 #            canvas.before:
@@ -824,18 +824,18 @@
     auto_dismiss:False
     separator_color: (192/256,110/256,240/256,1)
     background_color:'#a910e6'
+    size:(350,350)
     size_hint:None,None
-    size:(350,450)
     pos_hint: {"center_x": .5,"center_y":.5}
 
     BoxLayout:
         # background color
-#        canvas.before:
-#            Color:
-#                rgb: (1,1,1)
-#            Rectangle:
-#                pos: self.pos
-#                size: self.size
+        canvas.before:
+            Color:
+                rgb: (1,1,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
 
 
 
@@ -843,29 +843,53 @@
         adaptive_size: True
 
         Label:
-            text: 'Something went wrong'
+            text: 'SOMETHING WENT WRONG'
+            color:"#FF0000"
         GridLayout:
             cols:2
+            rows:1
+            padding:70,0,0,0
+            spacing:140
+            size_hint_x: None
             Label:
                 text: 'Amount:'
+                color:"#FF0000"
             Label:
                 id: files_count
+                color:"#66B2FF"
         GridLayout:
             cols:2
+            padding:70,0,0,0
+            spacing:140
+            size_hint_x: None
             Label:
-                text: 'Name:'
-            Label:
-                id: line_name
-        GridLayout:
-            cols:2
-            Label:
-                text: 'Count:'
+                text: ' Line:'
+                color:"#FF0000"
             Label:
                 id: line_count
-
-        Button:
-            text: 'do you want to fix them?'
-            on_press: root.dismiss()
+                color:"#66B2FF"
+        GridLayout:
+            cols:2
+            rows:1
+            padding:70,0,0,0
+            spacing:140
+            size_hint_x: None
+            Label:
+                text: 'Tag name:'
+                color:"#FF0000"
+            Label:
+                id: line_name
+                color:"#66B2FF"
+        GridLayout:
+            cols: 1
+            rows:1
+            padding:120,0,10,0
+            MDFillRoundFlatButton:
+                text: 'SKIP'
+                text_color: 0, 0, 0, 1
+                line_color: 0, 0, 0, 1
+                pos_hint: {"center_x": .5,"center_y":.5}
+                on_press: root.dismiss()
 
 
 
@@ -880,7 +904,7 @@
     title:'Электронное письмо'
     separator_color: (192/256,110/256,240/256,1)
     background_color:'#a910e6'
-    size:(500,600)
+    size:(400,300)
     size_hint:None,None
 
     BoxLayout:
@@ -892,20 +916,39 @@
                 pos: self.pos
                 size: self.size
         Label:
-            text: 'mail'
-            color: 'c06ef0'
-        Label:
-            id: deleted_item_mail
-            color: 'c06ef0'
-
-
-        Button:
-            text: 'Вернуться в главное меню'
-            on_release: root.open_mail()
-            on_press: root.dismiss()
-            text_color: 0, 0, 0, 1
-            line_color: 1, 0, 1, 1
+            text:'Хотите ли Вы отправить\n     письмо о выписке\n            владельцу?'
+            color:'#FF6666'
             pos_hint: {"center_x": .5,"center_y":.5}
+        GridLayout:
+            cols:2
+            rows:1
+            pos_hint_x: .1
+
+            Label:
+                text: 'еmail:'
+                color: 'c06ef0'
+            Label:
+                id: deleted_item_mail
+                color: 'c06ef0'
+
+        GridLayout:
+            cols: 2
+            rows:1
+            padding:80,0,10,0
+            spacing:20
+            MDFillRoundFlatButton:
+                text: 'ОТПРАВИТЬ'
+                on_release: root.open_mail()
+                on_press: root.dismiss()
+                text_color: 0, 0, 0, 1
+                line_color: 1, 0, 1, 1
+                pos_hint: {"center_x": .5,"center_y":.5}
+            MDFillRoundFlatButton:
+                text: 'ОТМЕНА'
+                on_press: root.dismiss()
+                text_color: 0, 0, 0, 1
+                line_color: 1, 0, 1, 1
+                pos_hint: {"center_x": .5,"center_y":.5}
 
 
 <HelperPopup@Popup>
